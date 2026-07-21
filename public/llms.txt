@@ -1,0 +1,18 @@
+# GSLHub
+
+> Generative Search Lab Hub is an independent applied research initiative based in Barcelona with international scope.
+
+## Main website
+- https://gslhub.com/
+
+## Research areas
+- Generative Search and Generative Engine Optimization (GEO)
+- Applied Artificial Intelligence
+- Automation and Digital Transformation
+- Open Software and Reproducible Research
+
+## Public repositories
+- https://github.com/gslhub
+
+## Contact
+- research@gslhub.com
