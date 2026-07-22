@@ -1,65 +1,71 @@
-import postgres from 'postgres';
+import { MongoClient } from 'mongodb';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-type HealthRow = {
-  database: string;
-  checkedAt: string;
+type MongoHealthError = Error & {
+  code?: number | string;
+  codeName?: string;
 };
 
-type PostgresError = Error & {
-  code?: string;
-};
+const connectionCandidates = [
+  ['DATABASE_URL', process.env.DATABASE_URL],
+  ['MONGODB_URI', process.env.MONGODB_URI],
+  ['MONGODB_URL', process.env.MONGODB_URL],
+  ['MONGO_URI', process.env.MONGO_URI],
+  ['MONGO_URL', process.env.MONGO_URL],
+] as const;
 
 export async function GET() {
-  const connectionString = process.env.DATABASE_URL;
+  const configuredConnection = connectionCandidates.find(([, value]) => Boolean(value));
 
-  if (!connectionString) {
+  if (!configuredConnection) {
     return Response.json(
       {
         status: 'error',
         database: 'not-configured',
+        expectedVariables: connectionCandidates.map(([name]) => name),
       },
       { status: 503 },
     );
   }
 
-  const sql = postgres(connectionString, {
-    connect_timeout: 20,
-    idle_timeout: 5,
-    max: 1,
-    prepare: false,
-    ssl: 'require',
+  const [source, connectionString] = configuredConnection;
+  const client = new MongoClient(connectionString as string, {
+    connectTimeoutMS: 15_000,
+    serverSelectionTimeoutMS: 15_000,
+    maxPoolSize: 1,
   });
 
   try {
-    const [result] = await sql<HealthRow[]>`
-      select
-        current_database() as database,
-        now()::text as "checkedAt"
-    `;
+    await client.connect();
+    const database = client.db();
+    await database.command({ ping: 1 });
 
     return Response.json({
       status: 'ok',
-      database: result?.database ?? 'connected',
-      checkedAt: result?.checkedAt ?? new Date().toISOString(),
+      database: database.databaseName || 'connected',
+      provider: 'mongodb',
+      source,
+      checkedAt: new Date().toISOString(),
     });
   } catch (error) {
-    const databaseError = error as PostgresError;
-    const errorCode = databaseError.code ?? 'UNKNOWN_DATABASE_ERROR';
+    const databaseError = error as MongoHealthError;
+    const errorCode = databaseError.codeName ?? databaseError.code ?? databaseError.name ?? 'MONGODB_CONNECTION_ERROR';
 
-    console.error('[database-health]', errorCode, databaseError.message);
+    console.error('[database-health]', String(errorCode));
 
     return Response.json(
       {
         status: 'error',
         database: 'unreachable',
-        reason: errorCode,
+        provider: 'mongodb',
+        source,
+        reason: String(errorCode),
       },
       { status: 503 },
     );
   } finally {
-    await sql.end({ timeout: 1 });
+    await client.close().catch(() => undefined);
   }
 }
