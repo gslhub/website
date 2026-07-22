@@ -26,6 +26,12 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  bin: [
+    {
+      key: 'bootstrap',
+      scriptPath: path.resolve(dirname, 'cms/scripts/bootstrap.ts'),
+    },
+  ],
   collections: [
     Users,
     ResearchAreas,
