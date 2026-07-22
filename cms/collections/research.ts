@@ -1,40 +1,58 @@
-import type { CollectionConfig, Field } from 'payload';
+import type { Access, CollectionConfig, Field } from 'payload';
 import { scientificStatusField } from '../fields/scientificStatus';
 
-const slugField: Field = {
+const authenticated: Access = ({ req }) => Boolean(req.user);
+
+const protectedAccess: NonNullable<CollectionConfig['access']> = {
+  create: authenticated,
+  read: authenticated,
+  update: authenticated,
+  delete: authenticated,
+};
+
+const createSlugField = (): Field => ({
   name: 'slug',
   type: 'text',
   required: true,
   unique: true,
   index: true,
-};
+});
 
-const localizedTitle: Field = {
+const createLocalizedTitle = (): Field => ({
   name: 'title',
   type: 'text',
   required: true,
   localized: true,
-};
+});
 
-const localizedSummary: Field = {
+const createLocalizedSummary = (): Field => ({
   name: 'summary',
   type: 'textarea',
   required: true,
   localized: true,
-};
+});
+
+const createScientificStatus = (): Field => ({ ...scientificStatusField });
 
 export const ResearchAreas: CollectionConfig = {
   slug: 'research-areas',
   admin: { useAsTitle: 'title', group: 'Research' },
-  fields: [localizedTitle, slugField, localizedSummary, { name: 'code', type: 'text', required: true }],
+  access: protectedAccess,
+  fields: [
+    createLocalizedTitle(),
+    createSlugField(),
+    createLocalizedSummary(),
+    { name: 'code', type: 'text', required: true },
+  ],
 };
 
 export const Researchers: CollectionConfig = {
   slug: 'researchers',
   admin: { useAsTitle: 'name', group: 'Research' },
+  access: protectedAccess,
   fields: [
     { name: 'name', type: 'text', required: true },
-    slugField,
+    createSlugField(),
     { name: 'role', type: 'text', required: true, localized: true },
     { name: 'biography', type: 'textarea', required: true, localized: true },
     { name: 'orcid', type: 'text' },
@@ -48,11 +66,12 @@ export const Researchers: CollectionConfig = {
 export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: { useAsTitle: 'title', group: 'Research' },
+  access: protectedAccess,
   fields: [
-    localizedTitle,
-    slugField,
-    localizedSummary,
-    scientificStatusField,
+    createLocalizedTitle(),
+    createSlugField(),
+    createLocalizedSummary(),
+    createScientificStatus(),
     { name: 'startDate', type: 'date' },
     { name: 'endDate', type: 'date' },
     { name: 'researchAreas', type: 'relationship', relationTo: 'research-areas', hasMany: true },
@@ -63,14 +82,25 @@ export const Projects: CollectionConfig = {
 export const Publications: CollectionConfig = {
   slug: 'publications',
   admin: { useAsTitle: 'title', group: 'Research' },
+  access: protectedAccess,
   versions: { drafts: true },
   fields: [
-    localizedTitle,
-    slugField,
+    createLocalizedTitle(),
+    createSlugField(),
     { name: 'abstract', type: 'textarea', required: true, localized: true },
-    { name: 'keywords', type: 'array', localized: true, fields: [{ name: 'keyword', type: 'text', required: true }] },
-    scientificStatusField,
-    { name: 'publicationType', type: 'select', required: true, options: ['article', 'preprint', 'technical-report', 'conference-paper', 'book-chapter'] },
+    {
+      name: 'keywords',
+      type: 'array',
+      localized: true,
+      fields: [{ name: 'keyword', type: 'text', required: true }],
+    },
+    createScientificStatus(),
+    {
+      name: 'publicationType',
+      type: 'select',
+      required: true,
+      options: ['article', 'preprint', 'technical-report', 'conference-paper', 'book-chapter'],
+    },
     { name: 'publicationDate', type: 'date' },
     { name: 'doi', type: 'text' },
     { name: 'bibtex', type: 'textarea' },
@@ -85,11 +115,12 @@ export const Publications: CollectionConfig = {
 export const Software: CollectionConfig = {
   slug: 'software',
   admin: { useAsTitle: 'title', group: 'Outputs' },
+  access: protectedAccess,
   fields: [
-    localizedTitle,
-    slugField,
-    localizedSummary,
-    scientificStatusField,
+    createLocalizedTitle(),
+    createSlugField(),
+    createLocalizedSummary(),
+    createScientificStatus(),
     { name: 'repositoryUrl', type: 'text' },
     { name: 'license', type: 'text' },
     { name: 'version', type: 'text' },
@@ -101,11 +132,12 @@ export const Software: CollectionConfig = {
 export const Datasets: CollectionConfig = {
   slug: 'datasets',
   admin: { useAsTitle: 'title', group: 'Outputs' },
+  access: protectedAccess,
   fields: [
-    localizedTitle,
-    slugField,
-    localizedSummary,
-    scientificStatusField,
+    createLocalizedTitle(),
+    createSlugField(),
+    createLocalizedSummary(),
+    createScientificStatus(),
     { name: 'doi', type: 'text' },
     { name: 'license', type: 'text' },
     { name: 'repositoryUrl', type: 'text' },
