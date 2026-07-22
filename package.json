@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "prebuild": "payload run cms/scripts/bootstrap.ts",
+    "prebuild": "payload bootstrap",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
