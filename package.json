@@ -1,6 +1,6 @@
 {
   "name": "gslhub-website",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "description": "Official research platform for GSLHub — Generative Search Lab Hub.",
   "engines": {
@@ -14,13 +14,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "3.75.0",
+    "@payloadcms/db-mongodb": "3.75.0",
     "@payloadcms/next": "3.75.0",
     "@payloadcms/richtext-lexical": "3.75.0",
     "graphql": "^16.11.0",
+    "mongodb": "6.21.0",
     "next": "16.2.10",
     "payload": "3.75.0",
-    "postgres": "3.4.9",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "sharp": "^0.34.4"
