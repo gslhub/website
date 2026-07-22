@@ -3,6 +3,8 @@ import { MongoClient } from 'mongodb';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+const MONGODB_DATABASE_NAME = 'gslhub';
+
 type MongoHealthError = Error & {
   code?: number | string;
   codeName?: string;
@@ -67,12 +69,12 @@ export async function GET() {
 
   try {
     await client.connect();
-    const database = client.db();
+    const database = client.db(MONGODB_DATABASE_NAME);
     await database.command({ ping: 1 });
 
     return Response.json({
       status: 'ok',
-      database: database.databaseName || 'connected',
+      database: database.databaseName,
       provider: 'mongodb',
       source,
       checkedAt: new Date().toISOString(),
