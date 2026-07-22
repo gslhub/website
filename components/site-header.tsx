@@ -10,14 +10,15 @@ const navigation = [
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-[var(--border)]">
-      <div className="mx-auto flex max-w-6xl flex-col gap-5 px-6 py-5 md:flex-row md:items-center md:justify-between md:px-10">
-        <Link href="/" className="group inline-flex flex-col" aria-label="GSLHub home">
+    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur">
+      <div className="mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-5 px-6 md:px-10">
+        <Link href="/" className="group inline-flex shrink-0 flex-col" aria-label="GSLHub home">
           <span className="text-lg font-semibold tracking-tight group-hover:text-[var(--brand)]">GSLHub</span>
-          <span className="text-sm text-[var(--muted)]">Generative Search Lab Hub</span>
+          <span className="text-xs text-[var(--muted)] sm:text-sm">Generative Search Lab Hub</span>
         </Link>
-        <nav aria-label="Primary navigation">
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium text-[var(--muted)]">
+
+        <nav aria-label="Primary navigation" className="hidden lg:block">
+          <ul className="flex items-center gap-6 text-sm font-medium text-[var(--muted)]">
             {navigation.map((item) => (
               <li key={item.href}>
                 <Link className="transition hover:text-[var(--foreground)]" href={item.href}>
@@ -27,6 +28,47 @@ export function SiteHeader() {
             ))}
           </ul>
         </nav>
+
+        <div className="flex items-center gap-3">
+          <a
+            href="https://github.com/gslhub"
+            className="button button-secondary hidden sm:inline-flex"
+            rel="noreferrer"
+            target="_blank"
+          >
+            GitHub ↗
+          </a>
+
+          <details className="relative lg:hidden">
+            <summary className="cursor-pointer list-none rounded-full border border-[var(--border)] px-4 py-2 text-sm font-semibold marker:content-none">
+              Menu
+            </summary>
+            <nav
+              aria-label="Mobile navigation"
+              className="absolute right-0 top-12 w-56 rounded-2xl border border-[var(--border)] bg-white p-3 shadow-xl"
+            >
+              <ul className="flex flex-col text-sm font-medium">
+                {navigation.map((item) => (
+                  <li key={item.href}>
+                    <Link className="block rounded-xl px-3 py-3 hover:bg-[var(--surface)]" href={item.href}>
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+                <li className="border-t border-[var(--border)] pt-2 sm:hidden">
+                  <a
+                    className="block rounded-xl px-3 py-3 hover:bg-[var(--surface)]"
+                    href="https://github.com/gslhub"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    GitHub ↗
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </details>
+        </div>
       </div>
     </header>
   );
