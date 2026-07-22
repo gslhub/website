@@ -1,5 +1,4 @@
-import type { SanitizedConfig } from 'payload';
-import payload from 'payload';
+import { getPayload, type SanitizedConfig } from 'payload';
 
 export const script = async (config: SanitizedConfig) => {
   if (process.env.CMS_BOOTSTRAP !== 'true') {
@@ -13,8 +12,9 @@ export const script = async (config: SanitizedConfig) => {
     process.env.NODE_ENV = 'development';
     process.env.PAYLOAD_FORCE_DRIZZLE_PUSH = 'true';
 
-    await payload.init({ config });
+    const payload = await getPayload({ config });
     payload.logger.info('GSLHub Payload schema bootstrap completed.');
+    await payload.destroy();
   } finally {
     if (previousNodeEnv) {
       process.env.NODE_ENV = previousNodeEnv;
@@ -28,6 +28,4 @@ export const script = async (config: SanitizedConfig) => {
       delete process.env.PAYLOAD_FORCE_DRIZZLE_PUSH;
     }
   }
-
-  process.exit(0);
 };
