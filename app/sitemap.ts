@@ -1,12 +1,12 @@
 import type { MetadataRoute } from 'next';
 
+const routes = ['', '/research', '/publications', '/software', '/datasets', '/people'];
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: 'https://gslhub.com',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-  ];
+  return routes.map((route) => ({
+    url: `https://gslhub.com${route}`,
+    lastModified: new Date(),
+    changeFrequency: route === '' ? 'weekly' : 'monthly',
+    priority: route === '' ? 1 : 0.8,
+  }));
 }
