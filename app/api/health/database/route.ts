@@ -16,6 +16,33 @@ const connectionCandidates = [
   ['MONGO_URL', process.env.MONGO_URL],
 ] as const;
 
+function classifyMongoError(error: MongoHealthError) {
+  const message = error.message.toLowerCase();
+
+  if (message.includes('authentication failed') || message.includes('bad auth')) {
+    return 'AUTHENTICATION_FAILED';
+  }
+
+  if (message.includes('querysrv') || message.includes('enotfound') || message.includes('dns')) {
+    return 'DNS_OR_SRV_LOOKUP_FAILED';
+  }
+
+  if (message.includes('tls') || message.includes('certificate') || message.includes('ssl')) {
+    return 'TLS_CONNECTION_FAILED';
+  }
+
+  if (
+    message.includes('timed out') ||
+    message.includes('server selection') ||
+    message.includes('econnrefused') ||
+    message.includes('etimedout')
+  ) {
+    return 'NETWORK_OR_IP_ACCESS_LIST';
+  }
+
+  return String(error.codeName ?? error.code ?? error.name ?? 'MONGODB_CONNECTION_ERROR');
+}
+
 export async function GET() {
   const configuredConnection = connectionCandidates.find(([, value]) => Boolean(value));
 
@@ -32,9 +59,10 @@ export async function GET() {
 
   const [source, connectionString] = configuredConnection;
   const client = new MongoClient(connectionString as string, {
-    connectTimeoutMS: 15_000,
-    serverSelectionTimeoutMS: 15_000,
+    connectTimeoutMS: 20_000,
+    serverSelectionTimeoutMS: 20_000,
     maxPoolSize: 1,
+    family: 4,
   });
 
   try {
@@ -51,9 +79,9 @@ export async function GET() {
     });
   } catch (error) {
     const databaseError = error as MongoHealthError;
-    const errorCode = databaseError.codeName ?? databaseError.code ?? databaseError.name ?? 'MONGODB_CONNECTION_ERROR';
+    const errorCode = classifyMongoError(databaseError);
 
-    console.error('[database-health]', String(errorCode));
+    console.error('[database-health]', errorCode);
 
     return Response.json(
       {
@@ -61,7 +89,7 @@ export async function GET() {
         database: 'unreachable',
         provider: 'mongodb',
         source,
-        reason: String(errorCode),
+        reason: errorCode,
       },
       { status: 503 },
     );
