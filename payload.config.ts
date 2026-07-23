@@ -12,7 +12,10 @@ import {
   Software,
 } from './cms/collections/research';
 
-const serverURL = process.env.NEXT_PUBLIC_SITE_URL || 'https://gslhub.com';
+const serverURL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://gslhub.com').replace(/\/+$/, '');
+const trustedOrigins = Array.from(
+  new Set([serverURL, 'https://gslhub.com', 'https://www.gslhub.com']),
+);
 
 export default buildConfig({
   admin: {
@@ -33,6 +36,8 @@ export default buildConfig({
     Datasets,
   ],
   cookiePrefix: 'gslhub',
+  cors: trustedOrigins,
+  csrf: trustedOrigins,
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
     connectOptions: {
