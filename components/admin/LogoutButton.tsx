@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { logoutAction } from './logoutAction';
+
 export default function LogoutButton() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -11,19 +13,10 @@ export default function LogoutButton() {
     setIsLoggingOut(true);
 
     try {
-      const response = await fetch('/api/users/logout?allSessions=true', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      await logoutAction();
 
-      if (!response.ok) {
-        throw new Error(`Logout failed with status ${response.status}`);
-      }
-
-      window.location.replace('/admin/login');
+      window.location.href = '/admin/login';
+      window.location.reload();
     } catch (error) {
       console.error('[admin-logout]', error);
       setIsLoggingOut(false);
