@@ -2,6 +2,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload';
 
+import { Software } from './cms/collections/Software';
 import { Users } from './cms/collections/Users';
 import {
   Datasets,
@@ -9,7 +10,6 @@ import {
   Publications,
   ResearchAreas,
   Researchers,
-  Software,
 } from './cms/collections/research';
 
 const serverURL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://gslhub.com').replace(/\/+$/, '');
