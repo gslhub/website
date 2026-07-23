@@ -1,123 +1,28 @@
-:root {
-  --gslhub-admin-accent: #6d28d9;
-  --gslhub-admin-accent-hover: #5b21b6;
-  --gslhub-admin-text: #f9fafb;
-  --gslhub-admin-muted: #d1d5db;
-  --gslhub-admin-surface: #111827;
-  --gslhub-admin-surface-soft: #1f2937;
-}
-
-/* This stylesheet is loaded only by the Payload route group. */
-.btn,
-button[type='submit'],
-input[type='submit'],
-a.btn {
-  color: #ffffff !important;
-  background-color: var(--gslhub-admin-accent) !important;
-  border-color: var(--gslhub-admin-accent) !important;
-  opacity: 1 !important;
-}
-
-.btn:hover,
-button[type='submit']:hover,
-input[type='submit']:hover,
-a.btn:hover {
-  color: #ffffff !important;
-  background-color: var(--gslhub-admin-accent-hover) !important;
-  border-color: var(--gslhub-admin-accent-hover) !important;
-}
-
-.btn--style-secondary,
-.btn--style-none,
-button[aria-label='Cancel'],
-button[aria-label='Columns'],
-button[aria-label='Filters'] {
-  color: #ffffff !important;
-  background-color: #374151 !important;
-  border-color: #6b7280 !important;
-}
-
-.btn--style-secondary:hover,
-.btn--style-none:hover,
-button[aria-label='Cancel']:hover,
-button[aria-label='Columns']:hover,
-button[aria-label='Filters']:hover {
-  color: #ffffff !important;
-  background-color: #4b5563 !important;
-}
-
-button:disabled,
-.btn:disabled,
-.btn--disabled,
-[aria-disabled='true'] {
-  color: #9ca3af !important;
-  background-color: #374151 !important;
-  border-color: #4b5563 !important;
-  opacity: 1 !important;
-}
-
-/* Links and navigation */
-a,
-.nav__link,
-.nav-group__toggle,
-.collection-list__link,
-.step-nav__home,
-.step-nav a {
-  color: #ffffff !important;
-}
-
-a:hover,
-.nav__link:hover,
-.collection-list__link:hover {
-  color: #c4b5fd !important;
-}
-
-/* Form controls */
-input,
-textarea,
-select,
-.react-select__control {
-  color: #ffffff !important;
-  background-color: #1f2937 !important;
-  border-color: #6b7280 !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #d1d5db !important;
-  opacity: 1 !important;
-}
-
-/* Empty state and list text */
-.list-controls,
-.list-controls *,
-.collection-list,
-.collection-list *,
-.table,
-.table *,
-.doc-controls,
-.doc-controls *,
-.field-label,
-.field-description,
-.form-submit,
-.gslhub-admin-logout {
-  text-shadow: none !important;
-}
+/* Keep Payload native theme styles. Only customize the GSLHub logout button. */
 
 .gslhub-admin-logout {
-  color: #ffffff !important;
-  background-color: #991b1b !important;
-  border: 1px solid #ef4444 !important;
-  border-radius: 4px;
-  padding: 0.5rem 0.75rem;
+  margin: 0 1rem 1rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  background-color: #b91c1c;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
   cursor: pointer;
 }
 
 .gslhub-admin-logout:hover {
-  background-color: #7f1d1d !important;
+  background-color: #991b1b;
+  border-color: #b91c1c;
 }
 
-:focus-visible {
-  outline: 3px solid #a78bfa !important;
-  outline-offset: 2px !important;
+.gslhub-admin-logout:focus-visible {
+  outline: 3px solid rgba(220, 38, 38, 0.35);
+  outline-offset: 2px;
+}
+
+.gslhub-admin-logout:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
