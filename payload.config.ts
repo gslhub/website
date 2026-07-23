@@ -4,6 +4,7 @@ import { buildConfig } from 'payload';
 
 import { Benchmarks } from './cms/collections/Benchmarks';
 import { Datasets } from './cms/collections/Datasets';
+import { Resources } from './cms/collections/Resources';
 import { Software } from './cms/collections/Software';
 import { Users } from './cms/collections/Users';
 import {
@@ -36,6 +37,7 @@ export default buildConfig({
     Publications,
     Software,
     Datasets,
+    Resources,
   ],
   cookiePrefix: 'gslhub',
   cors: trustedOrigins,
