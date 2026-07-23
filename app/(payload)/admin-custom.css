@@ -1,0 +1,69 @@
+:root {
+  --gslhub-admin-accent: #5b21b6;
+  --gslhub-admin-accent-hover: #4c1d95;
+  --gslhub-admin-text: #111827;
+  --gslhub-admin-surface: #ffffff;
+}
+
+/* Improve contrast in the Payload admin without changing the public website. */
+.payload .btn,
+.payload button[type='submit'],
+.payload input[type='submit'] {
+  color: #ffffff !important;
+  background: var(--gslhub-admin-accent) !important;
+  border-color: var(--gslhub-admin-accent) !important;
+}
+
+.payload .btn:hover,
+.payload button[type='submit']:hover,
+.payload input[type='submit']:hover {
+  color: #ffffff !important;
+  background: var(--gslhub-admin-accent-hover) !important;
+  border-color: var(--gslhub-admin-accent-hover) !important;
+}
+
+.payload .btn--style-secondary,
+.payload .btn--style-none,
+.payload button[aria-label='Cancel'] {
+  color: var(--gslhub-admin-text) !important;
+  background: var(--gslhub-admin-surface) !important;
+  border-color: #9ca3af !important;
+}
+
+.payload .btn--style-secondary:hover,
+.payload .btn--style-none:hover {
+  color: #111827 !important;
+  background: #f3f4f6 !important;
+}
+
+.payload button:disabled,
+.payload .btn:disabled,
+.payload .btn--disabled {
+  color: #6b7280 !important;
+  background: #e5e7eb !important;
+  border-color: #d1d5db !important;
+  opacity: 1 !important;
+}
+
+.payload a,
+.payload .nav__link {
+  text-underline-offset: 0.15em;
+}
+
+.payload input,
+.payload textarea,
+.payload select {
+  color: #111827 !important;
+  background: #ffffff !important;
+}
+
+.payload input::placeholder,
+.payload textarea::placeholder {
+  color: #6b7280 !important;
+  opacity: 1;
+}
+
+.payload :focus-visible {
+  outline: 3px solid #7c3aed !important;
+  outline-offset: 2px;
+}
