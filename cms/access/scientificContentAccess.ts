@@ -14,6 +14,18 @@ const hasRole = (user: unknown, allowedRoles: string[]) => {
 
 export const publicRead: Access = () => true;
 
+// Authenticated CMS users can preview every version. Public API consumers only
+// receive documents that have been published through Payload's draft workflow.
+export const publishedOrAuthenticatedRead: Access = ({ req }) => {
+  if (req.user) return true;
+
+  return {
+    _status: {
+      equals: 'published',
+    },
+  };
+};
+
 // All authenticated Payload users currently belong to one of the approved
 // scientific roles (admin, editor or researcher). Checking authentication
 // directly avoids false denials when the role is not hydrated in an access
