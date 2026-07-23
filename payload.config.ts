@@ -2,10 +2,10 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload';
 
+import { Datasets } from './cms/collections/Datasets';
 import { Software } from './cms/collections/Software';
 import { Users } from './cms/collections/Users';
 import {
-  Datasets,
   Projects,
   Publications,
   ResearchAreas,
