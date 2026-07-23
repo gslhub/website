@@ -32,6 +32,7 @@ export default buildConfig({
     Software,
     Datasets,
   ],
+  cookiePrefix: 'gslhub',
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
     connectOptions: {
