@@ -5,6 +5,7 @@ import {
   authenticatedResearchWrite,
   publicRead,
 } from '../access/scientificContentAccess';
+import { projectStatusField } from '../fields/projectStatus';
 import { scientificStatusField } from '../fields/scientificStatus';
 
 const slugField: Field = {
@@ -138,16 +139,92 @@ export const Researchers: CollectionConfig = {
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
-  admin: { useAsTitle: 'title', group: 'Research' },
+  access: {
+    create: authenticatedResearchWrite,
+    read: publicRead,
+    update: authenticatedResearchWrite,
+    delete: adminOnly,
+  },
+  admin: {
+    useAsTitle: 'title',
+    group: 'Research',
+    defaultColumns: ['title', 'projectCode', 'status', 'startDate', 'updatedAt'],
+  },
   fields: [
     localizedTitle,
     slugField,
     localizedSummary,
-    scientificStatusField,
-    { name: 'startDate', type: 'date' },
-    { name: 'endDate', type: 'date' },
-    { name: 'researchAreas', type: 'relationship', relationTo: 'research-areas', hasMany: true },
-    { name: 'researchers', type: 'relationship', relationTo: 'researchers', hasMany: true },
+    {
+      name: 'projectCode',
+      type: 'text',
+      required: true,
+      unique: true,
+      index: true,
+      admin: {
+        description: 'Stable internal identifier, for example GSL-GEO-BENCH-01.',
+      },
+    },
+    projectStatusField,
+    {
+      name: 'projectType',
+      type: 'select',
+      required: true,
+      defaultValue: 'research',
+      options: [
+        { label: 'Research', value: 'research' },
+        { label: 'Benchmark', value: 'benchmark' },
+        { label: 'Software development', value: 'software-development' },
+        { label: 'Dataset', value: 'dataset' },
+        { label: 'Doctoral research', value: 'doctoral-research' },
+        { label: 'Collaboration', value: 'collaboration' },
+      ],
+    },
+    {
+      name: 'objectives',
+      type: 'textarea',
+      required: true,
+      localized: true,
+    },
+    {
+      name: 'methodology',
+      type: 'textarea',
+      localized: true,
+    },
+    {
+      name: 'startDate',
+      type: 'date',
+      required: true,
+    },
+    {
+      name: 'endDate',
+      type: 'date',
+    },
+    {
+      name: 'repositoryUrl',
+      type: 'text',
+      admin: {
+        description: 'Public repository or project documentation URL.',
+      },
+    },
+    {
+      name: 'researchAreas',
+      type: 'relationship',
+      relationTo: 'research-areas',
+      hasMany: true,
+      required: true,
+    },
+    {
+      name: 'researchers',
+      type: 'relationship',
+      relationTo: 'researchers',
+      hasMany: true,
+      required: true,
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
 };
 
