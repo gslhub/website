@@ -1,10 +1,10 @@
 'use client';
 
-import { useAuth } from '@payloadcms/ui';
 import { useState } from 'react';
 
+import { logoutAction } from './logoutAction';
+
 export default function LogoutButton() {
-  const { logOut } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
@@ -13,30 +13,9 @@ export default function LogoutButton() {
     setIsLoggingOut(true);
 
     try {
-      await logOut();
+      await logoutAction();
 
-      const verification = await fetch(`/api/users/me?logoutCheck=${Date.now()}`, {
-        credentials: 'include',
-        cache: 'no-store',
-      });
-      const data = await verification.json();
-
-      if (data?.user) {
-        const fallback = await fetch('/api/users/logout?allSessions=true', {
-          method: 'POST',
-          credentials: 'include',
-          cache: 'no-store',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!fallback.ok) {
-          throw new Error(`Logout fallback failed with status ${fallback.status}`);
-        }
-      }
-
-      window.location.replace(`/admin/login?loggedOut=${Date.now()}`);
+      window.location.assign(`/admin/login?loggedOut=${Date.now()}`);
     } catch (error) {
       console.error('[admin-logout]', error);
       setIsLoggingOut(false);
