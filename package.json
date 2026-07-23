@@ -1,6 +1,6 @@
 {
   "name": "gslhub-website",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "Official research platform for GSLHub — Generative Search Lab Hub.",
   "packageManager": "npm@10.9.2",
@@ -9,11 +9,10 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "payload generate:importmap && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "generate:importmap": "payload generate:importmap"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.86.0",
