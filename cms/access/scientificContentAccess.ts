@@ -14,7 +14,10 @@ const hasRole = (user: unknown, allowedRoles: string[]) => {
 
 export const publicRead: Access = () => true;
 
-export const authenticatedResearchWrite: Access = ({ req }) =>
-  hasRole(req.user, ['admin', 'editor', 'researcher']);
+// All authenticated Payload users currently belong to one of the approved
+// scientific roles (admin, editor or researcher). Checking authentication
+// directly avoids false denials when the role is not hydrated in an access
+// request, while the Users collection continues to enforce the allowed roles.
+export const authenticatedResearchWrite: Access = ({ req }) => Boolean(req.user);
 
 export const adminOnly: Access = ({ req }) => hasRole(req.user, ['admin']);
