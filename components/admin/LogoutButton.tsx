@@ -1,8 +1,12 @@
 'use client';
 
+import { useAuth } from '@payloadcms/ui';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LogoutButton() {
+  const { logOut } = useAuth();
+  const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
@@ -11,31 +15,13 @@ export default function LogoutButton() {
     setIsLoggingOut(true);
 
     try {
-      const response = await fetch('/api/admin/logout', {
-        method: 'POST',
-        credentials: 'include',
-        cache: 'no-store',
-      });
-
-      if (!response.ok) {
-        throw new Error(`Logout failed with status ${response.status}`);
-      }
-
-      const verification = await fetch(`/api/users/me?logoutCheck=${Date.now()}`, {
-        credentials: 'include',
-        cache: 'no-store',
-      });
-      const data = await verification.json();
-
-      if (data?.user) {
-        throw new Error('Authentication cookie is still active after logout');
-      }
-
-      window.location.replace(`/admin/login?loggedOut=${Date.now()}`);
+      await logOut();
+      router.replace('/admin/login');
+      router.refresh();
     } catch (error) {
       console.error('[admin-logout]', error);
       setIsLoggingOut(false);
-      window.alert('No se pudo cerrar la sesión completamente. Recarga la página e inténtalo de nuevo.');
+      window.alert('No se pudo cerrar la sesión. Inténtalo de nuevo.');
     }
   };
 
