@@ -241,7 +241,6 @@ export const Publications: CollectionConfig = {
     useAsTitle: 'title',
     group: 'Research',
     defaultColumns: ['title', 'publicationType', 'status', 'publicationDate', '_status'],
-    defaultSort: '-publicationDate',
   },
   versions: {
     drafts: true,
