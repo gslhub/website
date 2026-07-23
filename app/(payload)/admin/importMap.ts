@@ -1,3 +1,7 @@
 import type { ImportMap } from 'payload';
 
-export const importMap: ImportMap = {};
+import LogoutButton from '../../../components/admin/LogoutButton';
+
+export const importMap: ImportMap = {
+  '/components/admin/LogoutButton': LogoutButton,
+};
