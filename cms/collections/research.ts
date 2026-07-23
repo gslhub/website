@@ -61,17 +61,78 @@ export const ResearchAreas: CollectionConfig = {
 
 export const Researchers: CollectionConfig = {
   slug: 'researchers',
-  admin: { useAsTitle: 'name', group: 'Research' },
+  access: {
+    create: authenticatedResearchWrite,
+    read: publicRead,
+    update: authenticatedResearchWrite,
+    delete: adminOnly,
+  },
+  admin: {
+    useAsTitle: 'name',
+    group: 'Research',
+    defaultColumns: ['name', 'role', 'orcid', 'updatedAt'],
+  },
   fields: [
-    { name: 'name', type: 'text', required: true },
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      index: true,
+    },
     slugField,
-    { name: 'role', type: 'text', required: true, localized: true },
-    { name: 'biography', type: 'textarea', required: true, localized: true },
-    { name: 'orcid', type: 'text' },
-    { name: 'googleScholarUrl', type: 'text' },
-    { name: 'githubUrl', type: 'text' },
-    { name: 'linkedinUrl', type: 'text' },
-    { name: 'researchAreas', type: 'relationship', relationTo: 'research-areas', hasMany: true },
+    {
+      name: 'role',
+      type: 'text',
+      required: true,
+      localized: true,
+      admin: {
+        description: 'Public research role or academic position.',
+      },
+    },
+    {
+      name: 'biography',
+      type: 'textarea',
+      required: true,
+      localized: true,
+    },
+    {
+      name: 'orcid',
+      type: 'text',
+      index: true,
+      admin: {
+        description: 'ORCID identifier in the format 0000-0000-0000-0000.',
+      },
+    },
+    {
+      name: 'googleScholarUrl',
+      type: 'text',
+      admin: {
+        description: 'Full Google Scholar profile URL.',
+      },
+    },
+    {
+      name: 'githubUrl',
+      type: 'text',
+      admin: {
+        description: 'Full GitHub profile URL.',
+      },
+    },
+    {
+      name: 'linkedinUrl',
+      type: 'text',
+      admin: {
+        description: 'Full LinkedIn profile URL.',
+      },
+    },
+    {
+      name: 'researchAreas',
+      type: 'relationship',
+      relationTo: 'research-areas',
+      hasMany: true,
+      admin: {
+        description: 'Research areas associated with this profile.',
+      },
+    },
   ],
 };
 
