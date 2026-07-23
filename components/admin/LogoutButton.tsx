@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 
-import { logoutAction } from './logoutAction';
-
 export default function LogoutButton() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -13,13 +11,34 @@ export default function LogoutButton() {
     setIsLoggingOut(true);
 
     try {
-      await logoutAction();
+      const response = await fetch('/api/admin/logout', {
+        method: 'POST',
+        credentials: 'include',
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-      window.location.assign(`/admin/login?loggedOut=${Date.now()}`);
+      if (!response.ok) {
+        throw new Error(`Logout failed with status ${response.status}`);
+      }
+
+      const verification = await fetch(`/api/users/me?logoutCheck=${Date.now()}`, {
+        credentials: 'include',
+        cache: 'no-store',
+      });
+      const data = await verification.json();
+
+      if (data?.user) {
+        throw new Error('Session is still active after logout cleanup');
+      }
+
+      window.location.replace(`/admin/login?loggedOut=${Date.now()}`);
     } catch (error) {
       console.error('[admin-logout]', error);
       setIsLoggingOut(false);
-      window.alert('No se pudo cerrar la sesión. Inténtalo de nuevo.');
+      window.alert('No se pudo cerrar la sesión completamente. Revisa la consola del navegador.');
     }
   };
 
