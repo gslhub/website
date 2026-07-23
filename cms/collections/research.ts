@@ -1,4 +1,10 @@
 import type { CollectionConfig, Field } from 'payload';
+
+import {
+  adminOnly,
+  authenticatedResearchWrite,
+  publicRead,
+} from '../access/scientificContentAccess';
 import { scientificStatusField } from '../fields/scientificStatus';
 
 const slugField: Field = {
@@ -25,8 +31,32 @@ const localizedSummary: Field = {
 
 export const ResearchAreas: CollectionConfig = {
   slug: 'research-areas',
-  admin: { useAsTitle: 'title', group: 'Research' },
-  fields: [localizedTitle, slugField, localizedSummary, { name: 'code', type: 'text', required: true }],
+  access: {
+    create: authenticatedResearchWrite,
+    read: publicRead,
+    update: authenticatedResearchWrite,
+    delete: adminOnly,
+  },
+  admin: {
+    useAsTitle: 'title',
+    group: 'Research',
+    defaultColumns: ['title', 'code', 'slug', 'updatedAt'],
+  },
+  fields: [
+    localizedTitle,
+    slugField,
+    localizedSummary,
+    {
+      name: 'code',
+      type: 'text',
+      required: true,
+      unique: true,
+      index: true,
+      admin: {
+        description: 'Stable short code, for example GEO, SEO or SMART-TOURISM.',
+      },
+    },
+  ],
 };
 
 export const Researchers: CollectionConfig = {
@@ -68,9 +98,19 @@ export const Publications: CollectionConfig = {
     localizedTitle,
     slugField,
     { name: 'abstract', type: 'textarea', required: true, localized: true },
-    { name: 'keywords', type: 'array', localized: true, fields: [{ name: 'keyword', type: 'text', required: true }] },
+    {
+      name: 'keywords',
+      type: 'array',
+      localized: true,
+      fields: [{ name: 'keyword', type: 'text', required: true }],
+    },
     scientificStatusField,
-    { name: 'publicationType', type: 'select', required: true, options: ['article', 'preprint', 'technical-report', 'conference-paper', 'book-chapter'] },
+    {
+      name: 'publicationType',
+      type: 'select',
+      required: true,
+      options: ['article', 'preprint', 'technical-report', 'conference-paper', 'book-chapter'],
+    },
     { name: 'publicationDate', type: 'date' },
     { name: 'doi', type: 'text' },
     { name: 'bibtex', type: 'textarea' },
