@@ -4,6 +4,7 @@ import {
   adminOnly,
   authenticatedResearchWrite,
   publicRead,
+  publishedOrAuthenticatedRead,
 } from '../access/scientificContentAccess';
 import { projectStatusField } from '../fields/projectStatus';
 import { scientificStatusField } from '../fields/scientificStatus';
@@ -230,33 +231,145 @@ export const Projects: CollectionConfig = {
 
 export const Publications: CollectionConfig = {
   slug: 'publications',
-  admin: { useAsTitle: 'title', group: 'Research' },
-  versions: { drafts: true },
+  access: {
+    create: authenticatedResearchWrite,
+    read: publishedOrAuthenticatedRead,
+    update: authenticatedResearchWrite,
+    delete: adminOnly,
+  },
+  admin: {
+    useAsTitle: 'title',
+    group: 'Research',
+    defaultColumns: ['title', 'publicationType', 'status', 'publicationDate', '_status'],
+    defaultSort: '-publicationDate',
+  },
+  versions: {
+    drafts: true,
+  },
   fields: [
     localizedTitle,
     slugField,
-    { name: 'abstract', type: 'textarea', required: true, localized: true },
+    {
+      name: 'abstract',
+      type: 'textarea',
+      required: true,
+      localized: true,
+    },
     {
       name: 'keywords',
       type: 'array',
       localized: true,
-      fields: [{ name: 'keyword', type: 'text', required: true }],
+      minRows: 1,
+      fields: [
+        {
+          name: 'keyword',
+          type: 'text',
+          required: true,
+        },
+      ],
     },
     scientificStatusField,
     {
       name: 'publicationType',
       type: 'select',
       required: true,
-      options: ['article', 'preprint', 'technical-report', 'conference-paper', 'book-chapter'],
+      defaultValue: 'technical-report',
+      options: [
+        { label: 'Journal article', value: 'article' },
+        { label: 'Preprint', value: 'preprint' },
+        { label: 'Technical report', value: 'technical-report' },
+        { label: 'Conference paper', value: 'conference-paper' },
+        { label: 'Book chapter', value: 'book-chapter' },
+        { label: 'Working paper', value: 'working-paper' },
+      ],
     },
-    { name: 'publicationDate', type: 'date' },
-    { name: 'doi', type: 'text' },
-    { name: 'bibtex', type: 'textarea' },
-    { name: 'authors', type: 'relationship', relationTo: 'researchers', hasMany: true, required: true },
-    { name: 'project', type: 'relationship', relationTo: 'projects' },
-    { name: 'researchAreas', type: 'relationship', relationTo: 'research-areas', hasMany: true },
-    { name: 'software', type: 'relationship', relationTo: 'software', hasMany: true },
-    { name: 'datasets', type: 'relationship', relationTo: 'datasets', hasMany: true },
+    {
+      name: 'publicationDate',
+      type: 'date',
+      index: true,
+    },
+    {
+      name: 'doi',
+      type: 'text',
+      index: true,
+      admin: {
+        description: 'DOI without the https://doi.org/ prefix.',
+      },
+    },
+    {
+      name: 'externalUrl',
+      type: 'text',
+      admin: {
+        description: 'Canonical public URL for the publication or repository record.',
+      },
+    },
+    {
+      name: 'venue',
+      type: 'text',
+      admin: {
+        description: 'Journal, conference, repository or publishing platform.',
+      },
+    },
+    {
+      name: 'volume',
+      type: 'text',
+    },
+    {
+      name: 'issue',
+      type: 'text',
+    },
+    {
+      name: 'pages',
+      type: 'text',
+    },
+    {
+      name: 'bibtex',
+      type: 'textarea',
+      admin: {
+        description: 'Optional BibTeX citation exported by the publication platform.',
+      },
+    },
+    {
+      name: 'authors',
+      type: 'relationship',
+      relationTo: 'researchers',
+      hasMany: true,
+      required: true,
+    },
+    {
+      name: 'project',
+      type: 'relationship',
+      relationTo: 'projects',
+    },
+    {
+      name: 'researchAreas',
+      type: 'relationship',
+      relationTo: 'research-areas',
+      hasMany: true,
+      required: true,
+    },
+    {
+      name: 'software',
+      type: 'relationship',
+      relationTo: 'software',
+      hasMany: true,
+    },
+    {
+      name: 'datasets',
+      type: 'relationship',
+      relationTo: 'datasets',
+      hasMany: true,
+    },
+    {
+      name: 'openAccess',
+      type: 'checkbox',
+      defaultValue: true,
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
 };
 
