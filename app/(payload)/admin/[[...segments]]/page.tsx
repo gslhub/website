@@ -7,6 +7,9 @@ import type { Metadata } from 'next';
 
 import { importMap } from '../importMap';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 type Args = {
   params: Promise<{ segments: string[] }>;
   searchParams: Promise<{ [key: string]: string | string[] }>;
