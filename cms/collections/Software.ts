@@ -91,11 +91,21 @@ export const Software: CollectionConfig = {
       index: true,
     },
     {
+      name: 'sourceAvailability',
+      type: 'select',
+      required: true,
+      defaultValue: 'planned-public',
+      options: [
+        { label: 'Private development', value: 'private' },
+        { label: 'Public release planned', value: 'planned-public' },
+        { label: 'Public repository available', value: 'public' },
+      ],
+    },
+    {
       name: 'repositoryUrl',
       type: 'text',
-      required: true,
       admin: {
-        description: 'Public source-code repository URL.',
+        description: 'Public source-code repository URL when available.',
       },
     },
     {
@@ -112,8 +122,9 @@ export const Software: CollectionConfig = {
     {
       name: 'license',
       type: 'text',
-      required: true,
-      defaultValue: 'MIT',
+      admin: {
+        description: 'Software license after it has been formally selected.',
+      },
     },
     {
       name: 'programmingLanguages',
@@ -164,7 +175,7 @@ export const Software: CollectionConfig = {
     {
       name: 'openSource',
       type: 'checkbox',
-      defaultValue: true,
+      defaultValue: false,
     },
     {
       name: 'featured',
