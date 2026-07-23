@@ -3,6 +3,7 @@
 
 import config from '@payload-config'
 import '@payloadcms/next/css'
+import './admin-custom.css'
 
 import {
   handleServerFunctions,
