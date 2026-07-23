@@ -17,6 +17,11 @@ const serverURL = process.env.NEXT_PUBLIC_SITE_URL || 'https://gslhub.com';
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      logout: {
+        Button: '/components/admin/LogoutButton',
+      },
+    },
   },
   collections: [
     Users,
