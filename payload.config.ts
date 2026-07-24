@@ -2,6 +2,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload';
 
+import { AISystems } from './cms/collections/AISystems';
 import { Benchmarks } from './cms/collections/Benchmarks';
 import { Datasets } from './cms/collections/Datasets';
 import { Experiments } from './cms/collections/Experiments';
@@ -54,6 +55,7 @@ export default buildConfig({
     Benchmarks,
     Experiments,
     Prompts,
+    AISystems,
     Publications,
     Software,
     Datasets,
