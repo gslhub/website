@@ -5,6 +5,7 @@ import { buildConfig } from 'payload';
 import { Benchmarks } from './cms/collections/Benchmarks';
 import { Datasets } from './cms/collections/Datasets';
 import { Experiments } from './cms/collections/Experiments';
+import { Prompts } from './cms/collections/Prompts';
 import { Resources } from './cms/collections/Resources';
 import { Software } from './cms/collections/Software';
 import { Users } from './cms/collections/Users';
@@ -52,6 +53,7 @@ export default buildConfig({
     Projects,
     Benchmarks,
     Experiments,
+    Prompts,
     Publications,
     Software,
     Datasets,
