@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* GSLHub global stylesheet. Keep this file imported only from app/layout.tsx. */
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
