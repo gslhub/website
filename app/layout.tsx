@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   },
   description:
     'Applied research in generative search, artificial intelligence, SEO/GEO, automation and digital transformation.',
+  icons: {
+    icon: [{ url: '/brand/gslhub-icon.svg', type: 'image/svg+xml' }],
+    shortcut: ['/brand/gslhub-icon.svg'],
+  },
   openGraph: {
     title: 'GSLHub — Generative Search Lab Hub',
     description:
