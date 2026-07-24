@@ -2,9 +2,11 @@ import Link from 'next/link';
 
 const navigation = [
   { href: '/research', label: 'Research' },
+  { href: '/benchmarks', label: 'Benchmarks' },
   { href: '/publications', label: 'Publications' },
   { href: '/software', label: 'Software' },
   { href: '/datasets', label: 'Datasets' },
+  { href: '/resources', label: 'Resources' },
   { href: '/people', label: 'People' },
 ];
 
@@ -17,8 +19,8 @@ export function SiteHeader() {
           <span className="text-xs text-[var(--muted)] sm:text-sm">Generative Search Lab Hub</span>
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden lg:block">
-          <ul className="flex items-center gap-6 text-sm font-medium text-[var(--muted)]">
+        <nav aria-label="Primary navigation" className="hidden xl:block">
+          <ul className="flex items-center gap-5 text-sm font-medium text-[var(--muted)]">
             {navigation.map((item) => (
               <li key={item.href}>
                 <Link className="transition hover:text-[var(--foreground)]" href={item.href}>
@@ -39,7 +41,7 @@ export function SiteHeader() {
             GitHub ↗
           </a>
 
-          <details className="relative lg:hidden">
+          <details className="relative xl:hidden">
             <summary className="cursor-pointer list-none rounded-full border border-[var(--border)] px-4 py-2 text-sm font-semibold marker:content-none">
               Menu
             </summary>
