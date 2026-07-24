@@ -10,11 +10,14 @@ export function SiteFooter() {
         </div>
         <div>
           <p className="font-semibold text-[var(--foreground)]">Explore</p>
-          <div className="mt-2 flex flex-col gap-2">
+          <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-2">
             <Link href="/research">Research</Link>
+            <Link href="/benchmarks">Benchmarks</Link>
             <Link href="/publications">Publications</Link>
             <Link href="/software">Software</Link>
             <Link href="/datasets">Datasets</Link>
+            <Link href="/resources">Resources</Link>
+            <Link href="/people">People</Link>
           </div>
         </div>
         <div>
