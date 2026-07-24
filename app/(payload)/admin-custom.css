@@ -1,4 +1,14 @@
-/* Keep Payload native theme styles. Only customize the GSLHub logout button. */
+/* Keep Payload native theme styles. Only customize GSLHub brand elements. */
+
+.gslhub-admin-brand-logo {
+  width: min(240px, 72vw);
+  color: var(--theme-text);
+}
+
+.gslhub-admin-brand-icon {
+  width: 42px;
+  height: 42px;
+}
 
 .gslhub-admin-logout {
   margin: 0 1rem 1rem;
