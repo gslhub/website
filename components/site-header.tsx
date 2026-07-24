@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { GSLHubLogo } from '@/components/brand/GSLHubLogo';
+
 const navigation = [
   { href: '/research', label: 'Research' },
   { href: '/benchmarks', label: 'Benchmarks' },
@@ -14,9 +16,12 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur">
       <div className="mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-5 px-6 md:px-10">
-        <Link href="/" className="group inline-flex shrink-0 flex-col" aria-label="GSLHub home">
-          <span className="text-lg font-semibold tracking-tight group-hover:text-[var(--brand)]">GSLHub</span>
-          <span className="text-xs text-[var(--muted)] sm:text-sm">Generative Search Lab Hub</span>
+        <Link
+          href="/"
+          className="group inline-flex w-[190px] shrink-0 text-[#0b132b] transition-opacity hover:opacity-80 sm:w-[220px]"
+          aria-label="GSLHub home"
+        >
+          <GSLHubLogo className="w-full" />
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden xl:block">
