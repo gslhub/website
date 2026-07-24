@@ -22,7 +22,23 @@ const trustedOrigins = Array.from(
 export default buildConfig({
   admin: {
     user: Users.slug,
+    meta: {
+      title: 'GSLHub Research CMS',
+      titleSuffix: '— GSLHub',
+      description: 'Scientific content and research operations for GSLHub.',
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          url: '/brand/gslhub-icon.svg',
+        },
+      ],
+    },
     components: {
+      graphics: {
+        Icon: '/components/admin/GSLHubAdminIcon',
+        Logo: '/components/admin/GSLHubAdminLogo',
+      },
       logout: {
         Button: '/components/admin/LogoutButton',
       },
