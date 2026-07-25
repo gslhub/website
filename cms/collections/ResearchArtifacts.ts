@@ -5,6 +5,7 @@ import {
   authenticatedResearchRead,
   authenticatedResearchWrite,
 } from '../access/scientificContentAccess';
+import { inheritResearchArtifactExecutionContext } from '../hooks/inheritResearchArtifactExecutionContext';
 import {
   captureResearchArtifactChecksum,
   persistResearchArtifactChecksum,
@@ -33,6 +34,7 @@ export const ResearchArtifacts: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [captureResearchArtifactChecksum],
+    beforeValidate: [inheritResearchArtifactExecutionContext],
     beforeChange: [persistResearchArtifactChecksum],
   },
   upload: {
@@ -124,28 +126,69 @@ export const ResearchArtifacts: CollectionConfig = {
       type: 'date',
     },
     {
-      name: 'project',
-      type: 'relationship',
-      relationTo: 'projects',
-      required: true,
-    },
-    {
-      name: 'benchmark',
-      type: 'relationship',
-      relationTo: 'benchmarks',
-    },
-    {
-      name: 'experiment',
-      type: 'relationship',
-      relationTo: 'experiments',
-      required: true,
-    },
-    {
       name: 'promptExecution',
       type: 'relationship',
       relationTo: 'prompt-executions',
       required: true,
       index: true,
+      admin: {
+        description:
+          'Select the execution first. The scientific context below is inherited and validated automatically.',
+      },
+    },
+    {
+      name: 'project',
+      type: 'relationship',
+      relationTo: 'projects',
+      admin: {
+        readOnly: true,
+        description: 'Inherited from the selected prompt execution.',
+      },
+    },
+    {
+      name: 'benchmark',
+      type: 'relationship',
+      relationTo: 'benchmarks',
+      admin: {
+        readOnly: true,
+        description: 'Inherited from the selected prompt execution when available.',
+      },
+    },
+    {
+      name: 'experiment',
+      type: 'relationship',
+      relationTo: 'experiments',
+      admin: {
+        readOnly: true,
+        description: 'Inherited from the selected prompt execution.',
+      },
+    },
+    {
+      name: 'prompt',
+      type: 'relationship',
+      relationTo: 'prompts',
+      admin: {
+        readOnly: true,
+        description: 'Inherited from the selected prompt execution.',
+      },
+    },
+    {
+      name: 'aiSystem',
+      type: 'relationship',
+      relationTo: 'ai-systems',
+      admin: {
+        readOnly: true,
+        description: 'Inherited from the selected prompt execution.',
+      },
+    },
+    {
+      name: 'collectedBy',
+      type: 'relationship',
+      relationTo: 'researchers',
+      admin: {
+        readOnly: true,
+        description: 'Inherited from the researcher who performed the prompt execution.',
+      },
     },
     {
       name: 'observation',
@@ -160,24 +203,6 @@ export const ResearchArtifacts: CollectionConfig = {
       admin: {
         description: 'Evidence records supported by this uploaded artifact.',
       },
-    },
-    {
-      name: 'prompt',
-      type: 'relationship',
-      relationTo: 'prompts',
-      required: true,
-    },
-    {
-      name: 'aiSystem',
-      type: 'relationship',
-      relationTo: 'ai-systems',
-      required: true,
-    },
-    {
-      name: 'collectedBy',
-      type: 'relationship',
-      relationTo: 'researchers',
-      required: true,
     },
     {
       name: 'sourceUrl',
