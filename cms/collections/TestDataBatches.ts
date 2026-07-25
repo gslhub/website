@@ -1,14 +1,23 @@
-import type { CollectionConfig } from 'payload';
+import type { CollectionBeforeValidateHook, CollectionConfig } from 'payload';
 
 import { adminOnly } from '../access/scientificContentAccess';
+import { generateTestDataBatchEndpoint } from '../endpoints/generateTestDataBatch';
 import {
   cleanupTestDataBatch,
-  generateTestDataBatch,
   prepareTestDataBatch,
 } from '../test-data/testDataBatchLifecycle';
 
 const showGeneratedFields = (data: Record<string, unknown>) =>
   typeof data?.batchCode === 'string' && data.batchCode.length > 0;
+
+const markTestDataBatchPending: CollectionBeforeValidateHook = ({ data, operation }) => {
+  if (operation !== 'create') return data;
+
+  return {
+    ...(data || {}),
+    status: 'pending',
+  };
+};
 
 export const TestDataBatches: CollectionConfig = {
   slug: 'test-data-batches',
@@ -34,11 +43,11 @@ export const TestDataBatches: CollectionConfig = {
       'createdAt',
     ],
     description:
-      'Administrator-only sample data. Creating a batch generates tracked test records; deleting the batch removes only the records owned by that batch.',
+      'Administrator-only sample data. Save a batch first, then generate or remove only the records owned by that batch.',
   },
+  endpoints: [generateTestDataBatchEndpoint],
   hooks: {
-    beforeValidate: [prepareTestDataBatch],
-    afterChange: [generateTestDataBatch],
+    beforeValidate: [prepareTestDataBatch, markTestDataBatchPending],
     beforeDelete: [cleanupTestDataBatch],
   },
   fields: [
@@ -83,11 +92,22 @@ export const TestDataBatches: CollectionConfig = {
       },
     },
     {
+      name: 'generationActions',
+      type: 'ui',
+      admin: {
+        condition: showGeneratedFields,
+        components: {
+          Field: '/components/admin/TestDataBatchActions',
+        },
+      },
+    },
+    {
       name: 'status',
       type: 'select',
-      defaultValue: 'generating',
+      defaultValue: 'pending',
       index: true,
       options: [
+        { label: 'Pending generation', value: 'pending' },
         { label: 'Generating', value: 'generating' },
         { label: 'Generated', value: 'generated' },
         { label: 'Failed', value: 'failed' },
