@@ -44,7 +44,7 @@ export const inheritResearchArtifactExecutionContext: CollectionBeforeValidateHo
     id: promptExecutionId,
     depth: 0,
     draft: true,
-    overrideAccess: false,
+    overrideAccess: true,
     req,
   })) as PromptExecutionContext;
 
