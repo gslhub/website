@@ -43,7 +43,7 @@ export const TestDataBatches: CollectionConfig = {
       name: 'label',
       type: 'text',
       required: true,
-      defaultValue: 'GSLHub pilot execution test data',
+      defaultValue: 'GSLHub research workflow test data',
       admin: {
         description: 'Human-readable name for this disposable sample-data batch.',
       },
@@ -66,13 +66,17 @@ export const TestDataBatches: CollectionConfig = {
       defaultValue: 'pilot-executions',
       options: [
         {
-          label: 'Pilot prompt executions — 5 draft records',
+          label: 'Pilot prompt executions — 5 planned draft records',
           value: 'pilot-executions',
+        },
+        {
+          label: 'Full research pipeline — 27 connected test records',
+          value: 'full-research-pipeline',
         },
       ],
       admin: {
         description:
-          'Choose the test-data scenario. More complete pipeline scenarios can be added without changing the cleanup model.',
+          'The full pipeline scenario creates completed executions, observations, uploaded artifacts, evidence, citations and validated metric results. All scientific records remain drafts or private.',
       },
     },
     {
@@ -130,10 +134,12 @@ export const TestDataBatches: CollectionConfig = {
           type: 'select',
           required: true,
           options: [
-            {
-              label: 'Prompt Executions',
-              value: 'prompt-executions',
-            },
+            { label: 'Prompt Executions', value: 'prompt-executions' },
+            { label: 'Observations', value: 'observations' },
+            { label: 'Research Artifacts', value: 'research-artifacts' },
+            { label: 'Evidence', value: 'evidence' },
+            { label: 'Citations', value: 'citations' },
+            { label: 'Metrics', value: 'metrics' },
           ],
         },
         {
