@@ -5,6 +5,10 @@ import {
   authenticatedResearchRead,
   authenticatedResearchWrite,
 } from '../access/scientificContentAccess';
+import {
+  captureResearchArtifactChecksum,
+  persistResearchArtifactChecksum,
+} from '../hooks/researchArtifactChecksum';
 
 export const ResearchArtifacts: CollectionConfig = {
   slug: 'research-artifacts',
@@ -26,6 +30,10 @@ export const ResearchArtifacts: CollectionConfig = {
     ],
     description:
       'Private uploaded files that preserve experimental evidence and research provenance.',
+  },
+  hooks: {
+    beforeOperation: [captureResearchArtifactChecksum],
+    beforeChange: [persistResearchArtifactChecksum],
   },
   upload: {
     staticDir: 'research-artifacts',
@@ -264,13 +272,18 @@ export const ResearchArtifacts: CollectionConfig = {
             { label: 'Other', value: 'other' },
             { label: 'Not calculated', value: 'none' },
           ],
+          admin: {
+            readOnly: true,
+            description: 'Calculated automatically from the uploaded file bytes.',
+          },
         },
         {
           name: 'checksum',
           type: 'text',
           admin: {
+            readOnly: true,
             description:
-              'Checksum of the uploaded file bytes. Automatic calculation will be added with the permanent storage adapter.',
+              'Automatic SHA-256 digest of the exact uploaded file. Replacing the file generates a new checksum and resets verification.',
           },
         },
         {
