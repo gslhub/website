@@ -5,6 +5,7 @@ import { GSLHubLogo } from '@/components/brand/GSLHubLogo';
 const navigation = [
   { href: '/research', label: 'Research' },
   { href: '/benchmarks', label: 'Benchmarks' },
+  { href: '/dashboard', label: 'Dashboard' },
   { href: '/publications', label: 'Publications' },
   { href: '/software', label: 'Software' },
   { href: '/datasets', label: 'Datasets' },
@@ -25,7 +26,7 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden xl:block">
-          <ul className="flex items-center gap-5 text-sm font-medium text-[var(--muted)]">
+          <ul className="flex items-center gap-4 text-sm font-medium text-[var(--muted)]">
             {navigation.map((item) => (
               <li key={item.href}>
                 <Link className="transition hover:text-[var(--foreground)]" href={item.href}>
