@@ -12,6 +12,7 @@ import { Metrics } from './cms/collections/Metrics';
 import { Observations } from './cms/collections/Observations';
 import { PromptExecutions } from './cms/collections/PromptExecutions';
 import { Prompts } from './cms/collections/Prompts';
+import { ResearchArtifacts } from './cms/collections/ResearchArtifacts';
 import { Resources } from './cms/collections/Resources';
 import { Software } from './cms/collections/Software';
 import { Users } from './cms/collections/Users';
@@ -63,6 +64,7 @@ export default buildConfig({
     AISystems,
     PromptExecutions,
     Observations,
+    ResearchArtifacts,
     Evidence,
     Citations,
     Metrics,
