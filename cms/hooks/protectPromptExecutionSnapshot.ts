@@ -1,4 +1,4 @@
-import type { CollectionBeforeValidateHook } from 'payload';
+import { APIError, type CollectionBeforeValidateHook } from 'payload';
 
 type ExecutionDocument = Record<string, unknown> & {
   lifecycleStatus?: unknown;
@@ -12,7 +12,6 @@ const getString = (value: unknown): string | null =>
 
 const normalizeComparableValue = (value: unknown): unknown => {
   if (value === undefined || value === null) return null;
-
   if (value instanceof Date) return value.toISOString();
 
   if (Array.isArray(value)) {
@@ -64,6 +63,10 @@ const terminalSnapshotFields = ['response', 'timing', 'usage'] as const;
 const terminalStatuses = new Set(['completed', 'failed', 'excluded']);
 const startedStatuses = new Set(['running', 'completed', 'failed', 'excluded']);
 
+const throwConflict = (message: string): never => {
+  throw new APIError(message, 409);
+};
+
 const changedProtectedFields = ({
   incoming,
   previous,
@@ -92,7 +95,7 @@ const validateLifecycleTransition = ({
     const allowed = new Set(['completed', 'failed', 'excluded']);
 
     if (!allowed.has(incomingStatus)) {
-      throw new Error(
+      throwConflict(
         `A running prompt execution cannot return to lifecycle status "${incomingStatus}". Complete, fail or exclude the execution instead.`,
       );
     }
@@ -106,7 +109,7 @@ const validateLifecycleTransition = ({
       incomingStatus === 'excluded';
 
     if (!mayExclude) {
-      throw new Error(
+      throwConflict(
         `A prompt execution sealed as "${previousStatus}" cannot change to lifecycle status "${incomingStatus}".`,
       );
     }
@@ -145,7 +148,7 @@ export const protectPromptExecutionSnapshot: CollectionBeforeValidateHook = ({
   });
 
   if (changedFields.length > 0) {
-    throw new Error(
+    throwConflict(
       `The scientific execution snapshot is sealed. Protected fields changed: ${changedFields.join(', ')}. Record corrections through review notes, exclusion metadata or a new execution instead of overwriting the captured run.`,
     );
   }
