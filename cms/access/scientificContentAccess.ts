@@ -14,6 +14,8 @@ const hasRole = (user: unknown, allowedRoles: string[]) => {
 
 export const publicRead: Access = () => true;
 
+export const authenticatedResearchRead: Access = ({ req }) => Boolean(req.user);
+
 // Authenticated CMS users can preview every version. Public API consumers only
 // receive documents that have been published through Payload's draft workflow.
 export const publishedOrAuthenticatedRead: Access = ({ req }) => {
