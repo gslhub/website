@@ -6,6 +6,7 @@ import { AISystems } from './cms/collections/AISystems';
 import { Benchmarks } from './cms/collections/Benchmarks';
 import { Datasets } from './cms/collections/Datasets';
 import { Experiments } from './cms/collections/Experiments';
+import { PromptExecutions } from './cms/collections/PromptExecutions';
 import { Prompts } from './cms/collections/Prompts';
 import { Resources } from './cms/collections/Resources';
 import { Software } from './cms/collections/Software';
@@ -56,6 +57,7 @@ export default buildConfig({
     Experiments,
     Prompts,
     AISystems,
+    PromptExecutions,
     Publications,
     Software,
     Datasets,
