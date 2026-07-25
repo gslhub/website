@@ -5,6 +5,7 @@ import {
   authenticatedResearchWrite,
   publishedOrAuthenticatedRead,
 } from '../access/scientificContentAccess';
+import { validatePromptExecutionLifecycle } from '../hooks/promptExecutionLifecycle';
 
 export const PromptExecutions: CollectionConfig = {
   slug: 'prompt-executions',
@@ -20,10 +21,14 @@ export const PromptExecutions: CollectionConfig = {
     defaultColumns: [
       'executionCode',
       'lifecycleStatus',
+      'scheduledFor',
       'executionDate',
       'repetitionNumber',
       '_status',
     ],
+  },
+  hooks: {
+    beforeValidate: [validatePromptExecutionLifecycle],
   },
   versions: {
     drafts: true,
@@ -56,12 +61,21 @@ export const PromptExecutions: CollectionConfig = {
       ],
     },
     {
-      name: 'executionDate',
+      name: 'scheduledFor',
       type: 'date',
-      required: true,
       index: true,
       admin: {
-        description: 'Exact date and time at which the prompt execution began.',
+        description:
+          'Optional planned date and time. This is scheduling metadata and must not be treated as the actual execution timestamp.',
+      },
+    },
+    {
+      name: 'executionDate',
+      type: 'date',
+      index: true,
+      admin: {
+        description:
+          'Actual date and time at which execution began. Required when the lifecycle reaches Running, Completed, Failed or Excluded.',
       },
     },
     {
@@ -220,7 +234,11 @@ export const PromptExecutions: CollectionConfig = {
         {
           name: 'newSessionConfirmed',
           type: 'checkbox',
-          defaultValue: true,
+          defaultValue: false,
+          admin: {
+            description:
+              'Confirm only after the execution has been performed in a new isolated conversation or session.',
+          },
         },
         {
           name: 'memoryEnabled',
@@ -242,8 +260,9 @@ export const PromptExecutions: CollectionConfig = {
           name: 'status',
           type: 'select',
           required: true,
-          defaultValue: 'success',
+          defaultValue: 'not-executed',
           options: [
+            { label: 'Not executed', value: 'not-executed' },
             { label: 'Success', value: 'success' },
             { label: 'Partial response', value: 'partial' },
             { label: 'Error', value: 'error' },
@@ -381,7 +400,7 @@ export const PromptExecutions: CollectionConfig = {
           type: 'textarea',
           admin: {
             description:
-              'Temporary evidence notes until the dedicated Evidence collection is available.',
+              'Execution-level notes about preserved evidence and linked research artifacts.',
           },
         },
       ],
