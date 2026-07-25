@@ -7,6 +7,9 @@ import {
   prepareTestDataBatch,
 } from '../test-data/testDataBatchLifecycle';
 
+const showGeneratedFields = (data: Record<string, unknown>) =>
+  typeof data?.batchCode === 'string' && data.batchCode.length > 0;
+
 export const TestDataBatches: CollectionConfig = {
   slug: 'test-data-batches',
   labels: {
@@ -51,11 +54,11 @@ export const TestDataBatches: CollectionConfig = {
     {
       name: 'batchCode',
       type: 'text',
-      required: true,
       unique: true,
       index: true,
       admin: {
         readOnly: true,
+        condition: showGeneratedFields,
         description: 'Automatically generated ownership code used for safe cleanup.',
       },
     },
@@ -82,7 +85,6 @@ export const TestDataBatches: CollectionConfig = {
     {
       name: 'status',
       type: 'select',
-      required: true,
       defaultValue: 'generating',
       index: true,
       options: [
@@ -92,15 +94,16 @@ export const TestDataBatches: CollectionConfig = {
       ],
       admin: {
         readOnly: true,
+        condition: showGeneratedFields,
       },
     },
     {
       name: 'createdBy',
       type: 'relationship',
       relationTo: 'users',
-      required: true,
       admin: {
         readOnly: true,
+        condition: showGeneratedFields,
       },
     },
     {
@@ -108,16 +111,17 @@ export const TestDataBatches: CollectionConfig = {
       type: 'date',
       admin: {
         readOnly: true,
+        condition: showGeneratedFields,
       },
     },
     {
       name: 'recordCount',
       type: 'number',
-      required: true,
       defaultValue: 0,
       min: 0,
       admin: {
         readOnly: true,
+        condition: showGeneratedFields,
       },
     },
     {
@@ -125,6 +129,7 @@ export const TestDataBatches: CollectionConfig = {
       type: 'array',
       admin: {
         readOnly: true,
+        condition: showGeneratedFields,
         description:
           'Exact records owned by this batch. Cleanup refuses to delete records whose codes no longer match the batch ownership prefix.',
       },
@@ -164,6 +169,7 @@ export const TestDataBatches: CollectionConfig = {
       type: 'textarea',
       admin: {
         readOnly: true,
+        condition: showGeneratedFields,
         description: 'Generation error retained for administrator diagnosis.',
       },
     },
