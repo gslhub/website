@@ -57,6 +57,24 @@ const normalizeScientificArtifactMimeType = (file: UploadFileValue) => {
   file.mimeType = normalizedMimeType;
 };
 
+const toBuffer = (value: unknown): Buffer | null => {
+  if (Buffer.isBuffer(value)) return value;
+
+  if (value instanceof ArrayBuffer) {
+    return Buffer.from(new Uint8Array(value));
+  }
+
+  if (ArrayBuffer.isView(value)) {
+    return Buffer.from(value.buffer, value.byteOffset, value.byteLength);
+  }
+
+  if (typeof value === 'string') {
+    return Buffer.from(value);
+  }
+
+  return null;
+};
+
 export const captureResearchArtifactChecksum: CollectionBeforeOperationHook = ({
   args,
   operation,
@@ -72,11 +90,9 @@ export const captureResearchArtifactChecksum: CollectionBeforeOperationHook = ({
 
   normalizeScientificArtifactMimeType(file);
 
-  if (!file.data) return args;
+  const fileBytes = toBuffer(file.data);
 
-  const fileBytes = Buffer.isBuffer(file.data)
-    ? file.data
-    : Buffer.from(file.data as ArrayBuffer | ArrayLike<number>);
+  if (!fileBytes) return args;
 
   req.context[CHECKSUM_CONTEXT_KEY] = createHash('sha256')
     .update(fileBytes)
