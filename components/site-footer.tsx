@@ -13,6 +13,7 @@ export function SiteFooter() {
           <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-2">
             <Link href="/research">Research</Link>
             <Link href="/benchmarks">Benchmarks</Link>
+            <Link href="/dashboard">Dashboard</Link>
             <Link href="/publications">Publications</Link>
             <Link href="/software">Software</Link>
             <Link href="/datasets">Datasets</Link>
