@@ -8,6 +8,7 @@ import { Citations } from './cms/collections/Citations';
 import { Datasets } from './cms/collections/Datasets';
 import { Evidence } from './cms/collections/Evidence';
 import { Experiments } from './cms/collections/Experiments';
+import { Metrics } from './cms/collections/Metrics';
 import { Observations } from './cms/collections/Observations';
 import { PromptExecutions } from './cms/collections/PromptExecutions';
 import { Prompts } from './cms/collections/Prompts';
@@ -64,6 +65,7 @@ export default buildConfig({
     Observations,
     Evidence,
     Citations,
+    Metrics,
     Publications,
     Software,
     Datasets,
