@@ -10,6 +10,9 @@
 # Production
 /build
 
+# Local research uploads
+/research-artifacts/
+
 # Local environment files
 .env
 .env.local
