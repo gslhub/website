@@ -6,7 +6,7 @@ import { AISystems } from './cms/collections/AISystems';
 import { Benchmarks } from './cms/collections/Benchmarks';
 import { Citations } from './cms/collections/Citations';
 import { Datasets } from './cms/collections/Datasets';
-import { Evidence } from './cms/collections/Evidence';
+import { Evidence } from './cms/collections/EvidenceWithExecutionContext';
 import { Experiments } from './cms/collections/Experiments';
 import { Metrics } from './cms/collections/Metrics';
 import { Observations } from './cms/collections/Observations';
