@@ -4,6 +4,7 @@ import { buildConfig } from 'payload';
 
 import { AISystems } from './cms/collections/AISystems';
 import { Benchmarks } from './cms/collections/Benchmarks';
+import { Citations } from './cms/collections/Citations';
 import { Datasets } from './cms/collections/Datasets';
 import { Evidence } from './cms/collections/Evidence';
 import { Experiments } from './cms/collections/Experiments';
@@ -62,6 +63,7 @@ export default buildConfig({
     PromptExecutions,
     Observations,
     Evidence,
+    Citations,
     Publications,
     Software,
     Datasets,
