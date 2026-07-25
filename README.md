@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>Open scientific infrastructure for Generative Search, Artificial Intelligence, GEO, benchmarks, datasets and reproducible research.</strong>
+  <strong>Scientific infrastructure for Generative Search, Artificial Intelligence, GEO, benchmarks, evidence, metrics and reproducible research.</strong>
 </p>
 
 <p align="center">
@@ -13,16 +13,18 @@
   ·
   <a href="https://gslhub.com/benchmarks">Benchmarks</a>
   ·
+  <a href="https://gslhub.com/dashboard">Scientific Dashboard</a>
+  ·
   <a href="https://gslhub.com/publications">Publications</a>
   ·
   <a href="https://github.com/gslhub">GitHub organization</a>
 </p>
 
 <p align="center">
-  <img alt="Status" src="https://img.shields.io/badge/status-active%20development-2563EB" />
+  <img alt="Status" src="https://img.shields.io/badge/status-pilot%20preparation-2563EB" />
+  <img alt="Version" src="https://img.shields.io/badge/platform-0.3.3-7C3AED" />
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.2.10-0B132B" />
   <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.86.0-0B132B" />
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-2563EB" />
   <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-Atlas-47A248" />
   <img alt="Languages" src="https://img.shields.io/badge/content-English%20%7C%20Espa%C3%B1ol-7C3AED" />
 </p>
@@ -33,11 +35,11 @@
 
 **GSLHub — Generative Search Lab Hub** is an independent scientific platform for studying how generative artificial intelligence systems discover, retrieve, interpret, cite, summarize and recommend digital information.
 
-The platform connects research management, benchmark design, scientific software, datasets, methodological resources and publications inside one versioned and reproducible infrastructure.
+The platform connects scientific project management, benchmark design, controlled experiments, versioned prompts, AI-system documentation, prompt executions, observations, evidence, citations, metrics, datasets, software, resources and publications inside one traceable infrastructure.
 
 GSLHub is based in Barcelona and is being developed with an international research scope.
 
-> Current stage: the scientific content infrastructure and public catalogue are operational. The next development phase is the research execution engine.
+> **Current stage — 25 July 2026:** the infrastructure, scientific CMS, public catalogues, operational research data model, analysis data model and public scientific dashboard are working. The first pilot protocol and its core scientific objects are prepared. The next milestone is the first complete execution round with preserved evidence, coded observations, extracted citations and validated metrics.
 
 ## Mission
 
@@ -52,22 +54,23 @@ GSLHub develops transparent, reproducible and practice-led research in:
 - process automation;
 - open science and research software.
 
-Its mission is to transform real-world questions about AI-mediated search into documented methods, measurable experiments, reusable datasets, open tools and citable research outputs.
+Its mission is to transform real-world questions about AI-mediated search into documented methods, measurable experiments, reusable datasets, research software and citable scientific outputs.
 
 ## Vision
 
-GSLHub aims to become an independent international reference for research on visibility, retrieval, citation and authority in generative search systems.
+GSLHub aims to become an independent international reference for research on visibility, retrieval, citation, recommendation and authority in generative search systems.
 
-The long-term platform will support the full scientific lifecycle:
+The platform is designed to support the full scientific lifecycle:
 
-1. defining research areas and projects;
-2. designing benchmarks and experiments;
-3. versioning prompts and AI systems;
-4. executing controlled observations;
-5. recording evidence and citations;
-6. calculating transparent metrics;
-7. releasing datasets and research software;
-8. publishing reusable and citable scientific outputs.
+1. define research areas and projects;
+2. design benchmarks and experiments;
+3. version prompts and document AI systems;
+4. execute controlled research runs;
+5. preserve responses and supporting evidence;
+6. code observations and source-level citations;
+7. calculate transparent metrics;
+8. release datasets, software and methodological resources;
+9. publish reusable and citable scientific outputs.
 
 ## Research domains
 
@@ -77,9 +80,9 @@ The long-term platform will support the full scientific lifecycle:
 | **Generative Engine Optimization (GEO)** | Technical, semantic and authority-related factors associated with visibility and citation in generative systems. |
 | **Artificial Intelligence** | Language models, agents, retrieval systems and applied AI workflows. |
 | **Information Retrieval** | Source discovery, ranking, selection, grounding and answer construction. |
-| **Digital Transformation** | The organizational adoption and measurable impact of digital systems. |
+| **Digital Transformation** | Organizational adoption and measurable impact of digital systems. |
 | **Automation** | Process redesign, system integration and intelligent workflow orchestration. |
-| **Open Science** | Reproducible methods, FAIR data, open software, transparent versioning and citable outputs. |
+| **Open Science** | Reproducible methods, FAIR data, transparent versioning and citable research outputs. |
 
 ## Scientific architecture
 
@@ -88,132 +91,341 @@ flowchart TD
     A[Research Areas] --> B[Projects]
     B --> C[Benchmarks]
     C --> D[Experiments]
+
     D --> E[Prompt Library]
-    E --> F[AI Systems]
-    F --> G[Prompt Executions]
+    D --> F[AI Systems]
+    E --> G[Prompt Executions]
+    F --> G
+
     G --> H[Observations]
-    H --> I[Evidence]
+    G --> I[Evidence]
+    H --> I
     H --> J[Citations]
-    H --> K[Metrics]
-    I --> L[Datasets]
-    J --> L
-    K --> L
+
+    G --> K[Metrics]
+    H --> K
+    I --> K
+    J --> K
+
+    K --> L[Datasets]
     L --> M[Software]
     L --> N[Resources]
     M --> O[Publications]
     N --> O
+
+    C --> P[Scientific Dashboard]
+    D --> P
+    G --> P
+    H --> P
+    J --> P
+    K --> P
 ```
 
-The architecture is designed to preserve traceability between a research question, its protocol, the systems evaluated, every recorded observation, the resulting metrics and the final publication.
+The architecture preserves traceability from the research question and protocol to the evaluated system, exact prompt, individual execution, preserved evidence, coded observation, source citation, calculated metric and released output.
 
-## Platform modules
+## Current platform status
 
-### Operational modules
+### Scientific CMS collections
 
-| Module | Purpose | Status |
+The production Payload configuration currently registers **17 collections**, including authentication and 16 connected scientific domains.
+
+| Collection | Purpose | Current capability |
 | --- | --- | --- |
+| Users | Authentication and role management. | ✅ Operational |
 | Research Areas | Scientific domains and thematic classification. | ✅ Operational |
 | Researchers | Researcher profiles, roles and scholarly identifiers. | ✅ Operational |
-| Projects | Research programmes, objectives, methodology and lifecycle. | ✅ Operational |
-| Benchmarks | Reproducible evaluation frameworks, systems and metrics. | ✅ Operational |
-| Publications | Articles, preprints, reports and citation metadata. | ✅ Operational |
-| Software | Research software, repositories, versions and releases. | ✅ Operational |
-| Datasets | Methodology, formats, availability, DOI and release metadata. | ✅ Operational |
+| Projects | Objectives, methodology, lifecycle and research relationships. | ✅ Operational |
+| Benchmarks | Evaluation frameworks, systems, protocols and core metrics. | ✅ Operational |
+| Experiments | Research questions, hypotheses, variables and sampling design. | ✅ Operational |
+| Prompts | Exact prompt wording, versions, constraints and validation metadata. | ✅ Operational |
+| AI Systems | Providers, products, access modes, capabilities and observed versions. | ✅ Operational |
+| Prompt Executions | Individual runs, environment snapshots, responses and quality control. | ✅ Data model operational |
+| Observations | Structured scientific coding of response, citation and visibility outcomes. | ✅ Data model operational |
+| Evidence | Evidence metadata, integrity, checksums and chain of custody. | ✅ Metadata model operational |
+| Citations | Source-level citation extraction, normalization and verification. | ✅ Data model operational |
+| Metrics | Versioned metric results, formulas, samples and reproducibility metadata. | ✅ Data model operational |
+| Publications | Articles, reports, preprints and citation metadata. | ✅ Operational |
+| Software | Research software, source availability, versions and releases. | ✅ Operational |
+| Datasets | Data methodology, formats, availability and release metadata. | ✅ Operational |
 | Resources | Protocols, guides, templates and methodological materials. | ✅ Operational |
-| EN/ES localization | Localized scientific content with fallback support. | ✅ Operational |
-| Draft and publish workflow | Private preparation and controlled public release. | ✅ Operational |
-| Role-based access | Administrator, editor and researcher permissions. | ✅ Operational |
-| Public REST API | Access-controlled scientific collection endpoints. | ✅ Operational |
-| Public catalogue | CMS-connected research, people and output pages. | ✅ Operational |
 
-### Research engine roadmap
+### Cross-platform capabilities
 
-| Module | Purpose | Status |
-| --- | --- | --- |
-| Experiments | Experimental design, variables, hypotheses and protocol versions. | 🚧 Next phase |
-| Prompt Library | Versioned prompts, languages, intents, topics and benchmark relations. | ⏳ Planned |
-| AI Systems | Providers, products, models, access modes and observed versions. | ⏳ Planned |
-| Prompt Executions | Individual controlled executions and runtime metadata. | ⏳ Planned |
-| Observations | Structured outcomes extracted from each execution. | ⏳ Planned |
-| Metrics Engine | Versioned metric definitions, formulas and interpretations. | ⏳ Planned |
-| Citation Engine | Source, domain, URL, position and citation-level analysis. | ⏳ Planned |
-| Evidence Repository | Screenshots, HTML, JSON, files and validation evidence. | ⏳ Planned |
-| Scientific Dashboard | Experiment monitoring, comparisons and benchmark results. | ⏳ Planned |
-
-## Current public catalogue
-
-| Page | Data source |
+| Capability | Status |
 | --- | --- |
-| [`/research`](https://gslhub.com/research) | Research Areas and Projects |
-| [`/benchmarks`](https://gslhub.com/benchmarks) | Benchmarks |
-| [`/publications`](https://gslhub.com/publications) | Publications |
-| [`/software`](https://gslhub.com/software) | Software |
-| [`/datasets`](https://gslhub.com/datasets) | Datasets |
-| [`/resources`](https://gslhub.com/resources) | Resources |
-| [`/people`](https://gslhub.com/people) | Researchers |
+| English and Spanish localized scientific fields | ✅ Operational |
+| Draft and publish workflow | ✅ Operational |
+| Authenticated draft access and anonymous published-only access | ✅ Operational |
+| Administrator, editor and researcher roles | ✅ Operational |
+| Custom GSLHub Payload branding | ✅ Operational |
+| MongoDB Atlas persistence | ✅ Operational |
+| Public REST API | ✅ Operational |
+| Public scientific catalogues | ✅ Operational |
+| Public scientific dashboard | ✅ Operational |
+| Automated prompt execution | ⏳ Not implemented |
+| Binary evidence storage and upload workflow | ⏳ Not implemented |
+| Automated metric calculation | ⏳ Not implemented |
+| Dataset and release export pipeline | ⏳ Not implemented |
 
-Draft records remain private. Public pages and anonymous API requests only expose records that have completed the Payload publication workflow.
+## Current scientific assets
+
+The first connected GSLHub research chain has been prepared in the production CMS.
+
+| Scientific object | Current record |
+| --- | --- |
+| Research area | Generative Search and GEO |
+| Researcher | Eduardo José Yauri Luna |
+| Project | GSLHub Generative Search Visibility Benchmark |
+| Benchmark | GSLHub Generative Search Visibility Benchmark |
+| Experiment | Pilot Validation of the GSLHub Generative Search Visibility Protocol |
+| Prompt | Factors Influencing Source Selection in Generative Search |
+| AI system | ChatGPT Search — authenticated web configuration |
+| Publication | A Reproducible Protocol for Measuring Visibility in Generative Search Systems |
+| Software | GSLHub Generative Search Benchmark Toolkit |
+| Dataset | GSLHub Generative Search Visibility Benchmark Dataset |
+| Resource | GSLHub Generative Search Visibility Benchmark Research Protocol |
+
+Editorial and operational records remain drafts until their protocol, evidence, coding and quality-control requirements are complete. This is why the public dashboard can correctly display zero operational research records while the initial project and catalogue records already exist.
+
+## Public website
+
+| Page | Data source | Status |
+| --- | --- | --- |
+| [`/research`](https://gslhub.com/research) | Research Areas and Projects | ✅ Live |
+| [`/benchmarks`](https://gslhub.com/benchmarks) | Benchmarks | ✅ Live |
+| [`/dashboard`](https://gslhub.com/dashboard) | Published operational records and validated metrics | ✅ Live |
+| [`/publications`](https://gslhub.com/publications) | Publications | ✅ Live |
+| [`/software`](https://gslhub.com/software) | Software | ✅ Live |
+| [`/datasets`](https://gslhub.com/datasets) | Datasets | ✅ Live |
+| [`/resources`](https://gslhub.com/resources) | Resources | ✅ Live |
+| [`/people`](https://gslhub.com/people) | Researchers | ✅ Live |
+
+The homepage, navigation, footer, sitemap, robots metadata, JSON-LD foundations, favicon and GSLHub brand system are also operational.
+
+## Scientific dashboard
+
+The public dashboard currently provides:
+
+- published-record counters across the operational research pipeline;
+- visibility into benchmarks, experiments, prompts, systems, executions, observations, evidence, citations and metrics;
+- the latest validated and published metric results;
+- metric code, version, category, direction, result, calculation date and sample size;
+- a safe empty state before the first validated pilot release.
+
+The dashboard intentionally excludes drafts and unvalidated calculations.
+
+### Dashboard improvements planned
+
+- benchmark and experiment filters;
+- system, prompt, language and date comparisons;
+- progress indicators for planned and completed repetitions;
+- time-series and distribution charts;
+- citation-domain rankings;
+- drill-down pages for metrics, executions and sources;
+- CSV, JSON and JSONL exports;
+- a separate authenticated operations dashboard for internal workflow monitoring.
+
+## Gap analysis
+
+The platform now has a strong scientific information architecture. The remaining work is primarily **operationalization, automation, integrity enforcement and formal release governance**.
+
+### Priority 0 — required before the first real pilot release
+
+1. **Evidence file storage**
+   - Add a Payload media or research-artifact collection.
+   - Connect S3-compatible object storage or another versioned private archive.
+   - Preserve screenshots, HTML, JSON and response exports as actual files rather than URL metadata only.
+   - Calculate checksums from the stored bytes.
+
+2. **Immutable research snapshots**
+   - Freeze prompt snapshots after an execution starts.
+   - Freeze completed response text, system metadata and execution timestamps.
+   - Prevent silent edits to validated observations, citations and metric formulas.
+   - Require a new version or correction record for material changes.
+
+3. **Relationship and consistency hooks**
+   - Auto-copy project, benchmark, experiment, prompt and AI-system relationships from the execution record.
+   - Reject incompatible relationships across collections.
+   - Validate the same prompt version and system condition throughout a controlled round.
+
+4. **Composite uniqueness rules**
+   - Prevent duplicate combinations of experiment, prompt, AI system and repetition number.
+   - Reserve execution, observation, evidence, citation and metric codes safely.
+   - Define a deterministic naming convention for exported artifacts.
+
+5. **Protocol and codebook freeze**
+   - Finalize inclusion and exclusion criteria.
+   - Finalize the source-type taxonomy and citation-coding guide.
+   - Freeze metric definitions for AIR, CR, MCP and RCR version `0.1.0`.
+   - Define how partial responses, refusals, inaccessible sources and missing citations are handled.
+
+6. **Backup and recovery verification**
+   - Verify MongoDB backup and restore procedures.
+   - Define evidence-archive backup retention.
+   - Document recovery steps before collecting irreplaceable experimental evidence.
+
+### Priority 1 — required for a reproducible operational platform
+
+1. **Execution runner**
+   - Create a controlled execution service or adapter layer.
+   - Support manual, assisted and API-based runs without mixing their conditions.
+   - Record timestamps, model labels, interface state and provider request identifiers automatically when available.
+
+2. **Automated metrics engine**
+   - Implement versioned scripts for AIR, CR, MCP and RCR.
+   - Produce deterministic inputs, outputs, logs and checksums.
+   - Store metric results only after the analytical sample and missing-data policy are explicit.
+
+3. **Export pipeline**
+   - Generate versioned CSV, JSON and JSONL packages.
+   - Include a data dictionary, README, schema version, checksums and provenance metadata.
+   - Produce release-ready archives for Zenodo or another public repository.
+
+4. **Automated tests**
+   - Add unit tests for formulas, normalization and access rules.
+   - Add integration tests for Payload relationships and draft visibility.
+   - Add end-to-end tests for CMS login, publication workflow and public pages.
+   - Keep lint, type-check and build checks in CI.
+
+5. **Observability and operational controls**
+   - Add structured application logs and error monitoring.
+   - Monitor MongoDB connectivity, API errors and failed deployments.
+   - Add uptime checks and deployment notifications.
+
+### Priority 2 — scaling, discovery and open-science maturity
+
+- Public detail pages for projects, benchmarks, experiments, datasets, software, publications and resources.
+- Full public language switching and localized routes.
+- ORCID synchronization and verified researcher identifiers.
+- `CITATION.cff`, repository license, contribution policy, code of conduct and security policy.
+- Zenodo integration and DOI release workflow.
+- Schema.org metadata for `ScholarlyArticle`, `Dataset`, `SoftwareSourceCode` and research projects.
+- Machine-readable provenance and dataset citation metadata.
+- Public methodology changelog and release notes.
+- Multi-researcher review and inter-rater reliability measurement.
+
+## Architecture decisions before scaling
+
+The current schema is suitable for the first pilot. Before running large comparative studies, the following design decisions should be reviewed:
+
+### Metric definitions versus metric results
+
+The `metrics` collection currently stores both definition metadata and calculated results. At scale, separating **Metric Definitions** from **Metric Results** would avoid repeating formulas, directions and missing-data policies across every result.
+
+### Prompt families and immutable prompt versions
+
+Payload versions preserve editorial history, but scientific referencing may benefit from separate immutable prompt-version records. A future model could use:
+
+```text
+Prompt Family → Prompt Version → Prompt Execution
+```
+
+### Execution rounds and batches
+
+A dedicated `Execution Rounds` collection would group systems, prompts, repetitions, dates and protocol versions more reliably than a free-text run label.
+
+### Source and domain normalization
+
+Citations currently preserve source fields directly. A normalized `Sources` or `Domains` catalogue could later support deduplication, authority analysis, publisher grouping and longitudinal citation histories.
+
+### Rolling AI-system versions
+
+Execution snapshots already preserve visible system metadata. A future `AI System Snapshots` entity could additionally document observed product changes across benchmark rounds.
+
+## Immediate next milestone
+
+The next milestone is the first end-to-end pilot round for:
+
+```text
+Experiment: GSL-EXP-GEO-001
+Prompt: GSL-PROMPT-GEO-001 v0.1.0
+AI System: GSL-AISYS-001
+Planned repetitions: 5
+```
+
+Recommended sequence:
+
+1. freeze the prompt, protocol, coding guide and metric definitions;
+2. implement evidence-file storage and integrity checks;
+3. create five planned execution records;
+4. execute the exact prompt in five isolated sessions;
+5. preserve complete responses and interface evidence;
+6. create one coded observation for each valid execution;
+7. extract and verify each citation;
+8. calculate AIR, CR, MCP and RCR;
+9. perform scientific review and document exclusions;
+10. publish a versioned pilot dataset, protocol resource and technical report only after validation.
+
+## Development roadmap
+
+| Phase | Scope | Status |
+| --- | --- | --- |
+| **1. Infrastructure** | Domain, hosting, deployment, Next.js, Payload and MongoDB. | ✅ Complete |
+| **2. Scientific CMS** | Core collections, relationships, localization, access and drafts. | ✅ Complete |
+| **3. Public website** | CMS-connected catalogues, navigation, SEO and branding. | ✅ Complete |
+| **4. Research data model** | Experiments, prompts, AI systems and prompt executions. | ✅ Complete |
+| **5. Analysis data model** | Observations, evidence, citations and metrics. | ✅ Complete |
+| **6. Scientific dashboard** | Published counters and validated metric presentation. | ✅ Initial version complete |
+| **7. Pilot operationalization** | Evidence storage, integrity rules and first five executions. | 🚧 Next milestone |
+| **8. Automation** | Execution adapters, metric scripts, exports and monitoring. | ⏳ Planned |
+| **9. Publication pipeline** | Dataset, software, protocol and report releases. | ⏳ Planned |
+| **10. Open-science integration** | ORCID, Zenodo, DOI and citation metadata. | ⏳ Planned |
+| **11. Comparative scaling** | Multiple systems, languages, prompts and longitudinal rounds. | ⏳ Planned |
 
 ## Technology stack
 
 ### Application
 
-- **Next.js 16** — App Router, server components and public routes.
-- **React 19** — component-based user interface.
-- **TypeScript 5** — strict application and CMS typing.
-- **Tailwind CSS 4** — public design system and responsive layouts.
+- **Next.js 16.2.10** — App Router, server components and public routes.
+- **React 19.2.7** — component-based user interface.
+- **TypeScript 5.9** — application and CMS typing.
+- **Tailwind CSS 4.3.3** — public design system and responsive layouts.
 
 ### Scientific CMS
 
-- **Payload CMS 3.86** — collections, authentication, localization, access control, versions and drafts.
+- **Payload CMS 3.86.0** — collections, authentication, localization, access control, versions and drafts.
 - **Lexical** — structured rich-text editing.
 - **Custom Payload branding** — GSLHub logo, icon, favicon and logout workflow.
 
 ### Data
 
 - **MongoDB Atlas** — primary database.
-- **Payload MongoDB adapter** — persistence layer and document relationships.
+- **Payload MongoDB adapter** — persistence and document relationships.
 
 ### Infrastructure
 
-- **GitHub** — source control and project organization.
-- **Hostinger Cloud** — production hosting and automatic deployment from the `main` branch.
+- **GitHub** — source control, CI and project organization.
+- **GitHub Actions** — lint, type-check and production-build verification.
+- **Hostinger Cloud** — production hosting and automatic deployment from `main`.
 - **gslhub.com** — production domain.
-
-### Planned open-science integrations
-
-- ORCID;
-- Zenodo;
-- DOI registration;
-- Google Scholar;
-- `CITATION.cff`;
-- release archives and checksums;
-- machine-readable dataset and software citations.
 
 ## Repository structure
 
 ```text
 .
 ├── app/
-│   ├── (site)/                 Public GSLHub website
-│   ├── (payload)/              Payload admin and API integration
-│   ├── api/                    Application endpoints
-│   ├── globals.css             Public design system
-│   └── layout.tsx              Root metadata and global layout
+│   ├── (site)/                    Public GSLHub website and dashboard
+│   ├── (payload)/                 Payload admin and API integration
+│   ├── api/                       Application endpoints
+│   ├── globals.css                Public design system
+│   ├── sitemap.ts                 Public route sitemap
+│   └── layout.tsx                 Root metadata and global layout
 ├── cms/
-│   ├── access/                 Scientific access-control helpers
-│   ├── collections/            Payload scientific collections
-│   └── fields/                 Reusable lifecycle and status fields
+│   ├── access/                    Scientific access-control helpers
+│   ├── collections/               Payload scientific collections
+│   └── fields/                    Reusable fields when applicable
 ├── components/
-│   ├── admin/                  Payload admin custom components
-│   ├── brand/                  Reusable logo and icon components
-│   └── ...                     Shared public interface components
+│   ├── admin/                     Payload admin custom components
+│   ├── brand/                     Reusable logo and icon components
+│   └── ...                        Shared public interface components
 ├── public/
-│   └── brand/                  Vector logo and icon assets
-├── payload.config.ts           Payload configuration and collection registry
-├── package.json                Scripts and dependency versions
-├── tsconfig.json               TypeScript configuration
-└── README.md                   Project overview and development roadmap
+│   └── brand/                     Vector logo and icon assets
+├── .github/workflows/ci.yml       Lint, type-check and build workflow
+├── .env.example                   Environment-variable template
+├── payload.config.ts              Payload configuration and collection registry
+├── package.json                   Scripts, platform version and dependencies
+├── tsconfig.json                  TypeScript configuration
+└── README.md                      Project status and scientific roadmap
 ```
 
 ## Data and access model
@@ -222,64 +434,14 @@ GSLHub separates editorial lifecycle from public scientific availability.
 
 - Authenticated researchers and editors can create and update scientific records.
 - Administrators control destructive actions and user management.
-- Draft documents are available inside the authenticated CMS.
+- Draft documents remain available inside the authenticated CMS.
 - Anonymous API and website requests only receive published records.
 - Localized fields support English and Spanish with English fallback.
 - Scientific entities are connected through explicit Payload relationships.
+- Custom CORS and CSRF origins trust the production GSLHub domains.
+- The GSLHub authentication cookie uses a dedicated prefix.
 
-## Local development
-
-### Requirements
-
-- Node.js `>=20.9.0`
-- npm `10.9.2` or compatible
-- a MongoDB database or MongoDB Atlas cluster
-
-### Installation
-
-```bash
-git clone https://github.com/gslhub/website.git
-cd website
-npm install
-```
-
-Create a local environment file:
-
-```bash
-cp .env.example .env.local
-```
-
-Required variables:
-
-```env
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-PAYLOAD_SECRET=replace-with-a-long-random-secret
-DATABASE_URL=mongodb://127.0.0.1:27017/gslhub
-```
-
-For MongoDB Atlas, use the connection string provided by the cluster and keep credentials outside version control.
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-Open:
-
-- Website: `http://localhost:3000`
-- Payload admin: `http://localhost:3000/admin`
-- REST API example: `http://localhost:3000/api/research-areas`
-
-### Quality checks
-
-```bash
-npm run lint
-npm run typecheck
-npm run build
-```
-
-## API examples
+## REST API
 
 Published scientific records are available through Payload REST endpoints:
 
@@ -288,6 +450,14 @@ GET /api/research-areas
 GET /api/researchers
 GET /api/projects
 GET /api/benchmarks
+GET /api/experiments
+GET /api/prompts
+GET /api/ai-systems
+GET /api/prompt-executions
+GET /api/observations
+GET /api/evidence
+GET /api/citations
+GET /api/metrics
 GET /api/publications
 GET /api/software
 GET /api/datasets
@@ -303,13 +473,71 @@ GET /api/publications?locale=es
 
 The public API intentionally excludes draft content for anonymous requests.
 
-## Scientific principles
+## Local development
 
-GSLHub is being designed around the following principles:
+### Requirements
+
+- Node.js `>=20.9.0`
+- npm `10.9.2` or compatible
+- MongoDB or a MongoDB Atlas cluster
+
+### Installation
+
+```bash
+git clone https://github.com/gslhub/website.git
+cd website
+npm install
+cp .env.example .env.local
+```
+
+Required variables:
+
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+PAYLOAD_SECRET=replace-with-a-long-random-secret
+DATABASE_URL=mongodb+srv://<username>:<url-encoded-password>@<cluster-hostname>/?retryWrites=true&w=majority&appName=GSLHub
+```
+
+The application selects the `gslhub` database in `payload.config.ts`.
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open:
+
+- Website: `http://localhost:3000`
+- Payload admin: `http://localhost:3000/admin`
+- Scientific dashboard: `http://localhost:3000/dashboard`
+- REST API example: `http://localhost:3000/api/research-areas`
+
+### Quality checks
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
+
+The repository currently has CI for these three checks. Automated unit, integration and end-to-end tests are still pending.
+
+## Deployment notes
+
+- Production deploys automatically from the `main` branch to Hostinger Cloud.
+- The production build command remains `next build`.
+- Do not add `payload generate:importmap` to the Hostinger build without retesting the Node.js ESM behaviour.
+- Payload admin custom components use the committed import map.
+- `app/globals.css` must be imported only from the root application layout.
+- Avoid overlapping rapid deployments. Allow each Hostinger deployment to finish before pushing another production change, especially when CSS assets or route manifests change.
+- Do not apply dependency updates or `npm audit fix --force` without reviewing Payload, Next.js and React compatibility together.
+
+## Scientific principles
 
 ### Reproducibility
 
-Research protocols, prompts, systems, metrics and datasets should be sufficiently documented to support independent replication.
+Protocols, prompts, systems, metrics, evidence and datasets should be sufficiently documented to support independent replication.
 
 ### Transparency
 
@@ -317,7 +545,7 @@ Methodological decisions, exclusions, limitations and version changes should rem
 
 ### Versioning
 
-Prompts, protocols, datasets, software and metrics should use explicit versions instead of silently changing historical research objects.
+Prompts, protocols, datasets, software, AI-system conditions and metrics should use explicit versions instead of silently changing historical research objects.
 
 ### FAIR data
 
@@ -325,75 +553,38 @@ Released datasets should be findable, accessible, interoperable and reusable whe
 
 ### Research integrity
 
-The platform must distinguish planned work, work in progress, validated results and formally released scientific outputs.
+The platform distinguishes planned work, work in progress, captured evidence, validated results and formally released scientific outputs.
 
 ### Responsible openness
 
-Open access is a goal, but personal, confidential, restricted or non-redistributable information must not be exposed.
+Open access is a goal, but personal, confidential, restricted, copyrighted or non-redistributable information must not be exposed.
 
 ### Human review
 
 Automated collection and analysis must remain subject to documented validation and human scientific oversight.
 
-## Development roadmap
+## Open-science and governance roadmap
 
-| Phase | Scope | Status |
-| --- | --- | --- |
-| **1. Infrastructure** | Domain, hosting, deployment, Next.js, Payload and MongoDB. | ✅ Complete |
-| **2. Scientific CMS** | Collections, relationships, localization, access and drafts. | ✅ Complete |
-| **3. Public website** | CMS-connected catalogues, navigation, SEO and branding. | ✅ Complete |
-| **4. Research platform** | Experiments, prompts, AI systems and executions. | 🚧 In progress |
-| **5. Analysis engine** | Observations, citations, evidence and metrics. | ⏳ Planned |
-| **6. Scientific dashboard** | Monitoring, comparison, quality control and exports. | ⏳ Planned |
-| **7. Publication pipeline** | Dataset, software and publication release workflows. | ⏳ Planned |
-| **8. Open-science integration** | ORCID, Zenodo, DOI and citation metadata. | ⏳ Planned |
+Planned repository and release assets include:
 
-### Immediate next milestone
+- `CITATION.cff`;
+- repository license;
+- `CONTRIBUTING.md`;
+- code of conduct;
+- security policy;
+- data-management plan;
+- research ethics and responsible-AI statement;
+- authorship and contributor taxonomy;
+- Zenodo release workflow;
+- DOI metadata;
+- machine-readable dataset and software citations;
+- release archives and checksums.
 
-The next module is **Experiments**, which will become the central entity connecting research questions, hypotheses, benchmark protocols, researchers, prompt sets, AI systems, execution rounds and resulting datasets.
-
-## Branding
-
-The GSLHub visual identity represents:
-
-- a knowledge network;
-- generative discovery;
-- search and source tracing;
-- open scientific collaboration.
-
-Primary assets:
-
-```text
-public/brand/gslhub-logo.svg
-public/brand/gslhub-icon.svg
-```
-
-Brand palette:
-
-| Token | Value |
-| --- | --- |
-| Deep Navy | `#0B132B` |
-| Electric Blue | `#2563FF` |
-| White | `#FFFFFF` |
-
-## Contributing
-
-The contribution model will be formalized before opening external development workflows.
-
-Planned contribution documentation includes:
-
-- code and documentation standards;
-- scientific metadata requirements;
-- research-integrity expectations;
-- issue and pull-request templates;
-- dataset and software release checklists;
-- authorship, attribution and citation rules.
-
-Until those policies are published, coordinate contributions through the GSLHub organization or the research contact below.
+The repository is currently private and no repository-wide license has been formalized. Repository access alone must not be interpreted as permission to copy, modify or redistribute the code.
 
 ## Citation
 
-A repository-level `CITATION.cff` and Zenodo release workflow will be added when the first formal software or research release is prepared.
+A repository-level `CITATION.cff` and Zenodo workflow will be added before the first formal software or research release.
 
 Until then, cite the public platform as:
 
@@ -403,15 +594,10 @@ GSLHub — Generative Search Lab Hub. Independent scientific platform for genera
 
 Do not assign a DOI, publication date or scholarly release status to draft records that have not completed the formal publication workflow.
 
-## License
-
-A repository-wide license file has not yet been formalized. Do not assume permission to copy, modify or redistribute the code solely from repository access.
-
-Individual publications, datasets, software releases and resources may later use different licenses appropriate to their content. Each released scientific object will state its own access and reuse conditions.
-
 ## Contact
 
 - Website: [gslhub.com](https://gslhub.com)
+- Dashboard: [gslhub.com/dashboard](https://gslhub.com/dashboard)
 - GitHub: [github.com/gslhub](https://github.com/gslhub)
 - Research email: [research@gslhub.com](mailto:research@gslhub.com)
 - Founder and researcher: [Eduardo José Yauri Luna](https://www.linkedin.com/in/eduardoyauriluna/)
@@ -419,9 +605,9 @@ Individual publications, datasets, software releases and resources may later use
 ---
 
 <p align="center">
-  <strong>Research · Software · Datasets · Benchmarks · Open Science</strong>
+  <strong>Research · Benchmarks · Evidence · Metrics · Software · Datasets · Open Science</strong>
 </p>
 
 <p align="center">
-  Last updated: 24 July 2026
+  Last updated: 25 July 2026
 </p>
