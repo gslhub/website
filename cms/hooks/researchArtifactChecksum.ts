@@ -13,10 +13,48 @@ type ResearchArtifactData = Record<string, unknown> & {
   integrity?: IntegrityValue | null;
 };
 
+type UploadFileValue = {
+  data?: unknown;
+  name?: unknown;
+  mimetype?: unknown;
+  mimeType?: unknown;
+};
+
 const asIntegrityValue = (value: unknown): IntegrityValue => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
 
   return value as IntegrityValue;
+};
+
+const getString = (value: unknown): string | null =>
+  typeof value === 'string' && value.trim().length > 0 ? value.trim() : null;
+
+const normalizeScientificArtifactMimeType = (file: UploadFileValue) => {
+  const filename = getString(file.name)?.toLowerCase();
+
+  if (!filename) return;
+
+  const extensionMimeTypes: Array<[string, string]> = [
+    ['.jsonld', 'application/ld+json'],
+    ['.json', 'application/json'],
+    ['.html', 'text/html'],
+    ['.htm', 'text/html'],
+    ['.csv', 'text/csv'],
+    ['.txt', 'text/plain'],
+  ];
+
+  const matched = extensionMimeTypes.find(([extension]) => filename.endsWith(extension));
+
+  if (!matched) return;
+
+  const normalizedMimeType = matched[1];
+
+  // Payload's upload object has historically exposed `mimetype`, while some
+  // upload hooks and generated document fields use `mimeType`. Set both so
+  // validation receives the exact allow-listed value without charset suffixes
+  // or the generic application/octet-stream fallback used by some hosts.
+  file.mimetype = normalizedMimeType;
+  file.mimeType = normalizedMimeType;
 };
 
 export const captureResearchArtifactChecksum: CollectionBeforeOperationHook = ({
@@ -24,13 +62,21 @@ export const captureResearchArtifactChecksum: CollectionBeforeOperationHook = ({
   operation,
   req,
 }) => {
-  if ((operation !== 'create' && operation !== 'update') || !req.file?.data) {
+  if (operation !== 'create' && operation !== 'update') {
     return args;
   }
 
-  const fileBytes = Buffer.isBuffer(req.file.data)
-    ? req.file.data
-    : Buffer.from(req.file.data);
+  const file = req.file as UploadFileValue | undefined;
+
+  if (!file) return args;
+
+  normalizeScientificArtifactMimeType(file);
+
+  if (!file.data) return args;
+
+  const fileBytes = Buffer.isBuffer(file.data)
+    ? file.data
+    : Buffer.from(file.data as ArrayBuffer | ArrayLike<number>);
 
   req.context[CHECKSUM_CONTEXT_KEY] = createHash('sha256')
     .update(fileBytes)
