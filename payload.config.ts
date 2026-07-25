@@ -15,6 +15,7 @@ import { Prompts } from './cms/collections/Prompts';
 import { ResearchArtifacts } from './cms/collections/ResearchArtifacts';
 import { Resources } from './cms/collections/Resources';
 import { Software } from './cms/collections/Software';
+import { TestDataBatches } from './cms/collections/TestDataBatches';
 import { Users } from './cms/collections/Users';
 import {
   Projects,
@@ -55,6 +56,7 @@ export default buildConfig({
   },
   collections: [
     Users,
+    TestDataBatches,
     ResearchAreas,
     Researchers,
     Projects,
