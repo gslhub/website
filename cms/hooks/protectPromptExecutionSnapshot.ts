@@ -128,7 +128,7 @@ export const protectPromptExecutionSnapshot: CollectionBeforeValidateHook = ({
 
   validateLifecycleTransition({ incomingStatus, previousStatus });
 
-  const protectedFields = [...alwaysImmutableFields];
+  const protectedFields: string[] = [...alwaysImmutableFields];
 
   if (startedStatuses.has(previousStatus)) {
     protectedFields.push(...startedSnapshotFields);
