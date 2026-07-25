@@ -5,6 +5,7 @@ import {
   authenticatedResearchWrite,
   publishedOrAuthenticatedRead,
 } from '../access/scientificContentAccess';
+import { protectPromptExecutionSnapshot } from '../hooks/protectPromptExecutionSnapshot';
 import { validatePromptExecutionLifecycle } from '../hooks/promptExecutionLifecycle';
 
 export const PromptExecutions: CollectionConfig = {
@@ -28,7 +29,10 @@ export const PromptExecutions: CollectionConfig = {
     ],
   },
   hooks: {
-    beforeValidate: [validatePromptExecutionLifecycle],
+    beforeValidate: [
+      validatePromptExecutionLifecycle,
+      protectPromptExecutionSnapshot,
+    ],
   },
   versions: {
     drafts: true,
