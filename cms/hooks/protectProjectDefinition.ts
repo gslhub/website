@@ -68,7 +68,10 @@ const frozenProjectFields = [
   'researchAreas',
 ] as const;
 
+const closedProjectFields = ['endDate'] as const;
+
 const frozenStatuses = new Set(['active', 'paused', 'completed', 'archived']);
+const closedStatuses = new Set(['completed', 'archived']);
 
 const allowedTransitions: Record<string, Set<string>> = {
   planned: new Set(['active', 'archived']),
@@ -156,6 +159,10 @@ export const protectProjectDefinition: CollectionBeforeValidateHook = ({
     protectedFields.push(...frozenProjectFields);
   }
 
+  if (closedStatuses.has(previousStatus)) {
+    protectedFields.push(...closedProjectFields);
+  }
+
   const changedFields = protectedFields.filter(
     (field) =>
       hasOwn(incoming, field) &&
@@ -164,7 +171,7 @@ export const protectProjectDefinition: CollectionBeforeValidateHook = ({
 
   if (changedFields.length > 0) {
     throwConflict(
-      `The active project definition is frozen. Protected fields changed: ${changedFields.join(', ')}. Create a new project version instead of overwriting objectives, methodology, scope or start conditions already used by scientific work.`,
+      `The active project definition is frozen. Protected fields changed: ${changedFields.join(', ')}. Create a new project version instead of overwriting objectives, methodology, scope or lifecycle dates already used by scientific work.`,
     );
   }
 
