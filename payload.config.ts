@@ -11,7 +11,7 @@ import { Experiments } from './cms/collections/Experiments';
 import { Metrics } from './cms/collections/MetricsWithIntegrity';
 import { Observations } from './cms/collections/ObservationsWithIntegrity';
 import { PromptExecutions } from './cms/collections/PromptExecutionsWithUniqueness';
-import { Prompts } from './cms/collections/Prompts';
+import { Prompts } from './cms/collections/PromptsWithIntegrity';
 import { ResearchArtifacts } from './cms/collections/ResearchArtifacts';
 import { Resources } from './cms/collections/Resources';
 import { Software } from './cms/collections/Software';
