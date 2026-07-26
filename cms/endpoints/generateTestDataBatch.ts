@@ -1,5 +1,6 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
+import { generatePilotMetricDefinitionRecords } from '../test-data/pilotMetricDefinitionBatch';
 import { generateTestDataBatch } from '../test-data/testDataBatchLifecycle';
 
 type AdminUser = {
@@ -9,6 +10,7 @@ type AdminUser = {
 type BatchDocument = {
   id: string | number;
   status?: unknown;
+  scenario?: unknown;
   errorMessage?: unknown;
   recordCount?: unknown;
 };
@@ -73,11 +75,36 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         },
       });
 
-      await generateTestDataBatch({
-        doc: batch,
-        operation: 'create',
-        req,
-      } as Parameters<typeof generateTestDataBatch>[0]);
+      if (getString(batch.scenario) === 'pilot-metric-definitions') {
+        const records = await generatePilotMetricDefinitionRecords({
+          payload: req.payload,
+          req,
+        });
+
+        await req.payload.update({
+          collection: 'test-data-batches',
+          id,
+          overrideAccess: true,
+          req,
+          data: {
+            status: 'generated',
+            generatedAt: new Date().toISOString(),
+            recordCount: records.length,
+            records,
+            errorMessage: null,
+          },
+        });
+
+        req.payload.logger.info(
+          `Pilot metric-definition batch generated ${records.length} reviewable records.`,
+        );
+      } else {
+        await generateTestDataBatch({
+          doc: batch,
+          operation: 'create',
+          req,
+        } as Parameters<typeof generateTestDataBatch>[0]);
+      }
 
       const result = (await req.payload.findByID({
         collection: 'test-data-batches',
