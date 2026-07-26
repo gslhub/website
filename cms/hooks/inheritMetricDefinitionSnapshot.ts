@@ -174,13 +174,13 @@ export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = asy
   }
 
   if (definitionID === null) {
-    throwConflict(
+    throw new APIError(
       'Every metric result must reference a versioned Metric Definition before it can be calculated or reviewed.',
       400,
     );
   }
 
-  const resolvedDefinitionID: string | number = definitionID;
+  const resolvedDefinitionID = definitionID;
   const previousDefinitionID = getRelationshipID(previous.metricDefinition);
   const previousStatus = getString(previous.lifecycleStatus) || 'planned';
 
