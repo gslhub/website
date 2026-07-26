@@ -22,6 +22,14 @@ type ScientificContext = Record<string, unknown> & {
   aiSystem?: RelationshipValue;
 };
 
+type RequiredScientificContext = {
+  project: string | number;
+  benchmark: string | number | null;
+  experiment: string | number;
+  prompt: string | number;
+  aiSystem: string | number;
+};
+
 const getRelationshipId = (value: RelationshipValue): string | number | null => {
   if (typeof value === 'string' || typeof value === 'number') return value;
 
@@ -52,6 +60,19 @@ const throwContextConflict = (message: string): never => {
   throw new APIError(message, 409);
 };
 
+const requireRelationship = (
+  value: string | number | null,
+  fieldLabel: string,
+): string | number => {
+  if (value === null) {
+    throwContextConflict(
+      `The selected prompt execution is missing its required ${fieldLabel} relationship and cannot receive citation records.`,
+    );
+  }
+
+  return value;
+};
+
 const validateRelatedContext = ({
   record,
   expectedExecution,
@@ -60,13 +81,7 @@ const validateRelatedContext = ({
 }: {
   record: ScientificContext;
   expectedExecution: string | number;
-  expectedContext: {
-    project: string | number;
-    benchmark: string | number | null;
-    experiment: string | number;
-    prompt: string | number;
-    aiSystem: string | number;
-  };
+  expectedContext: RequiredScientificContext;
   label: string;
 }) => {
   const recordExecution = getRelationshipId(record.promptExecution);
@@ -125,24 +140,18 @@ export const inheritCitationExecutionContext: CollectionBeforeValidateHook = asy
     req,
   })) as ScientificContext;
 
-  const project = getRelationshipId(execution.project);
-  const benchmark = getRelationshipId(execution.benchmark);
-  const experiment = getRelationshipId(execution.experiment);
-  const prompt = getRelationshipId(execution.prompt);
-  const aiSystem = getRelationshipId(execution.aiSystem);
-
-  if (!project || !experiment || !prompt || !aiSystem) {
-    throwContextConflict(
-      'The selected prompt execution is missing required scientific context and cannot receive citation records.',
-    );
-  }
-
-  const expectedContext = {
-    project,
-    benchmark,
-    experiment,
-    prompt,
-    aiSystem,
+  const expectedContext: RequiredScientificContext = {
+    project: requireRelationship(getRelationshipId(execution.project), 'project'),
+    benchmark: getRelationshipId(execution.benchmark),
+    experiment: requireRelationship(
+      getRelationshipId(execution.experiment),
+      'experiment',
+    ),
+    prompt: requireRelationship(getRelationshipId(execution.prompt), 'prompt'),
+    aiSystem: requireRelationship(
+      getRelationshipId(execution.aiSystem),
+      'AI system',
+    ),
   };
 
   const observationId = getRelationshipId(
@@ -194,10 +203,10 @@ export const inheritCitationExecutionContext: CollectionBeforeValidateHook = asy
     promptExecution: promptExecutionId,
     observation: observationId || null,
     evidence: evidenceIds,
-    project,
-    benchmark: benchmark || null,
-    experiment,
-    prompt,
-    aiSystem,
+    project: expectedContext.project,
+    benchmark: expectedContext.benchmark || null,
+    experiment: expectedContext.experiment,
+    prompt: expectedContext.prompt,
+    aiSystem: expectedContext.aiSystem,
   };
 };
