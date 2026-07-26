@@ -180,13 +180,14 @@ export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = asy
     );
   }
 
+  const resolvedDefinitionID: string | number = definitionID;
   const previousDefinitionID = getRelationshipID(previous.metricDefinition);
   const previousStatus = getString(previous.lifecycleStatus) || 'planned';
 
   if (
     operation === 'update' &&
     previousDefinitionID !== null &&
-    !sameRelationship(definitionID, previousDefinitionID) &&
+    !sameRelationship(resolvedDefinitionID, previousDefinitionID) &&
     sealedMetricResultStatuses.has(previousStatus)
   ) {
     throwConflict(
@@ -196,7 +197,7 @@ export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = asy
 
   const definition = (await req.payload.findByID({
     collection: 'metric-definitions',
-    id: definitionID,
+    id: resolvedDefinitionID,
     depth: 0,
     draft: true,
     overrideAccess: true,
