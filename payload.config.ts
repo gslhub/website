@@ -2,7 +2,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload';
 
-import { AISystems } from './cms/collections/AISystems';
+import { AISystems } from './cms/collections/AISystemsWithIntegrity';
 import { Benchmarks } from './cms/collections/BenchmarksWithIntegrity';
 import { Citations } from './cms/collections/CitationsWithIntegrity';
 import { Datasets } from './cms/collections/Datasets';
