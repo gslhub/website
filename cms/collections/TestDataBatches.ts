@@ -90,10 +90,14 @@ export const TestDataBatches: CollectionConfig = {
           label: 'Pilot metric definitions — AIR, CR, MCP and RCR drafts',
           value: 'pilot-metric-definitions',
         },
+        {
+          label: 'Metric definition linkage — 4 calculated test results',
+          value: 'pilot-metric-results',
+        },
       ],
       admin: {
         description:
-          'The metric-definition scenario creates four bilingual v0.1.0 records connected to the real pilot context. They remain Under review and Draft. Deleting the batch removes only definitions that have not been promoted beyond that state.',
+          'Metric Definitions creates the four bilingual v0.1.0 methodology records. Metric Definition Linkage creates four disposable calculated results that inherit their code, version, category, direction, unit, precision and formula from those definitions.',
       },
     },
     {
