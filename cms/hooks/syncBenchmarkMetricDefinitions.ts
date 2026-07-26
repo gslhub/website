@@ -100,6 +100,38 @@ const updateBenchmarkRegistry = async ({
   });
 };
 
+export const ensureBenchmarkMetricDefinition = async ({
+  benchmarkID,
+  definitionID,
+  req,
+}: {
+  benchmarkID: string | number;
+  definitionID: string | number;
+  req: PayloadRequest;
+}) =>
+  updateBenchmarkRegistry({
+    benchmarkID,
+    definitionID,
+    mode: 'add',
+    req,
+  });
+
+export const removeBenchmarkMetricDefinition = async ({
+  benchmarkID,
+  definitionID,
+  req,
+}: {
+  benchmarkID: string | number;
+  definitionID: string | number;
+  req: PayloadRequest;
+}) =>
+  updateBenchmarkRegistry({
+    benchmarkID,
+    definitionID,
+    mode: 'remove',
+    req,
+  });
+
 export const syncBenchmarkMetricDefinitionsAfterChange: CollectionAfterChangeHook = async ({
   doc,
   previousDoc,
@@ -118,19 +150,17 @@ export const syncBenchmarkMetricDefinitionsAfterChange: CollectionAfterChangeHoo
   );
 
   for (const benchmarkID of addedBenchmarkIDs) {
-    await updateBenchmarkRegistry({
+    await ensureBenchmarkMetricDefinition({
       benchmarkID,
       definitionID: current.id,
-      mode: 'add',
       req,
     });
   }
 
   for (const benchmarkID of removedBenchmarkIDs) {
-    await updateBenchmarkRegistry({
+    await removeBenchmarkMetricDefinition({
       benchmarkID,
       definitionID: current.id,
-      mode: 'remove',
       req,
     });
   }
@@ -154,10 +184,9 @@ export const detachMetricDefinitionBeforeDelete: CollectionBeforeDeleteHook = as
   const benchmarkIDs = getRelationshipIDs(definition.benchmarks);
 
   for (const benchmarkID of benchmarkIDs) {
-    await updateBenchmarkRegistry({
+    await removeBenchmarkMetricDefinition({
       benchmarkID,
       definitionID: definition.id,
-      mode: 'remove',
       req,
     });
   }
