@@ -12,6 +12,7 @@ import { Metrics } from './cms/collections/MetricsWithIntegrity';
 import { Observations } from './cms/collections/ObservationsWithIntegrity';
 import { PromptExecutions } from './cms/collections/PromptExecutionsWithUniqueness';
 import { Prompts } from './cms/collections/PromptsWithIntegrity';
+import { Publications } from './cms/collections/PublicationsWithIntegrity';
 import { ResearchArtifacts } from './cms/collections/ResearchArtifacts';
 import { Resources } from './cms/collections/ResourcesWithIntegrity';
 import { Software } from './cms/collections/SoftwareWithIntegrity';
@@ -19,7 +20,6 @@ import { TestDataBatches } from './cms/collections/TestDataBatches';
 import { Users } from './cms/collections/Users';
 import {
   Projects,
-  Publications,
   ResearchAreas,
   Researchers,
 } from './cms/collections/research';
