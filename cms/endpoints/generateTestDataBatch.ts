@@ -1,5 +1,6 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
+import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
 import { generatePilotMetricDefinitionRecords } from '../test-data/pilotMetricDefinitionBatch';
 import { generatePilotMetricResultRecords } from '../test-data/pilotMetricResultBatch';
 import { generateTestDataBatch } from '../test-data/testDataBatchLifecycle';
@@ -66,7 +67,10 @@ export const generateTestDataBatchEndpoint: Endpoint = {
     const id = getRouteID(req);
 
     if (!id) {
-      return Response.json({ error: 'A valid test-data batch ID is required.' }, { status: 400 });
+      return Response.json(
+        { error: 'A valid test-data batch ID is required.' },
+        { status: 400 },
+      );
     }
 
     try {
@@ -81,7 +85,8 @@ export const generateTestDataBatchEndpoint: Endpoint = {
       if (batch.status === 'generated') {
         return Response.json(
           {
-            error: 'This test-data batch has already been generated. Delete it before creating another batch.',
+            error:
+              'This test-data batch has already been generated. Delete it before creating another batch.',
           },
           { status: 409 },
         );
@@ -130,6 +135,16 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         req.payload.logger.info(
           `Definition-linked metric-result batch generated ${records.length} calculated test records.`,
         );
+      } else if (scenario === 'benchmark-metric-registry-sync') {
+        const records = await synchronizePilotBenchmarkMetricRegistry({
+          payload: req.payload,
+          req,
+        });
+
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `Benchmark metric registry synchronized ${records.length} versioned definitions.`,
+        );
       } else {
         await generateTestDataBatch({
           doc: batch,
@@ -149,7 +164,8 @@ export const generateTestDataBatchEndpoint: Endpoint = {
       if (result.status === 'failed') {
         return Response.json(
           {
-            error: getString(result.errorMessage) || 'Test-data generation failed.',
+            error:
+              getString(result.errorMessage) || 'Test-data generation failed.',
             status: result.status,
           },
           { status: 422 },
@@ -177,7 +193,9 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         })
         .catch(() => undefined);
 
-      req.payload.logger.error(`Explicit test-data generation failed for batch ${id}: ${message}`);
+      req.payload.logger.error(
+        `Explicit test-data generation failed for batch ${id}: ${message}`,
+      );
 
       return Response.json({ error: message }, { status: 500 });
     }
