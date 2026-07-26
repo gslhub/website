@@ -13,7 +13,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "seed:pilot-executions": "payload run scripts/seed-pilot-executions.ts"
+    "seed:pilot-executions": "payload run scripts/seed-pilot-executions.ts",
+    "seed:pilot-metric-definitions": "payload run scripts/seed-pilot-metric-definitions.ts"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.86.0",
