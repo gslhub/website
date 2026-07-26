@@ -5,7 +5,7 @@ import { buildConfig } from 'payload';
 import { AISystems } from './cms/collections/AISystemsWithIntegrity';
 import { Benchmarks } from './cms/collections/BenchmarksWithIntegrity';
 import { Citations } from './cms/collections/CitationsWithIntegrity';
-import { Datasets } from './cms/collections/Datasets';
+import { Datasets } from './cms/collections/DatasetsWithIntegrity';
 import { Evidence } from './cms/collections/EvidenceWithExecutionContext';
 import { Experiments } from './cms/collections/ExperimentsWithIntegrity';
 import { Metrics } from './cms/collections/MetricsWithIntegrity';
