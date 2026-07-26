@@ -70,7 +70,7 @@ const requireRelationship = (
     );
   }
 
-  return value;
+  return value as string | number;
 };
 
 const validateRelatedContext = ({
