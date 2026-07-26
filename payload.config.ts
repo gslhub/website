@@ -10,6 +10,7 @@ import { Evidence } from './cms/collections/EvidenceWithExecutionContext';
 import { Experiments } from './cms/collections/ExperimentsWithIntegrity';
 import { Metrics } from './cms/collections/MetricsWithIntegrity';
 import { Observations } from './cms/collections/ObservationsWithIntegrity';
+import { Projects } from './cms/collections/ProjectsWithIntegrity';
 import { PromptExecutions } from './cms/collections/PromptExecutionsWithUniqueness';
 import { Prompts } from './cms/collections/PromptsWithIntegrity';
 import { Publications } from './cms/collections/PublicationsWithIntegrity';
@@ -18,11 +19,7 @@ import { Resources } from './cms/collections/ResourcesWithIntegrity';
 import { Software } from './cms/collections/SoftwareWithIntegrity';
 import { TestDataBatches } from './cms/collections/TestDataBatches';
 import { Users } from './cms/collections/Users';
-import {
-  Projects,
-  ResearchAreas,
-  Researchers,
-} from './cms/collections/research';
+import { ResearchAreas, Researchers } from './cms/collections/research';
 
 const serverURL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://gslhub.com').replace(/\/+$/, '');
 const trustedOrigins = Array.from(
