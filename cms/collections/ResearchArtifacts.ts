@@ -10,6 +10,13 @@ import {
   captureResearchArtifactChecksum,
   persistResearchArtifactChecksum,
 } from '../hooks/researchArtifactChecksum';
+import { createScientificRecordCodeValidator } from '../hooks/validateScientificRecordCode';
+
+const validateArtifactCode = createScientificRecordCodeValidator({
+  field: 'artifactCode',
+  token: 'ART',
+  label: 'Research artifact',
+});
 
 export const ResearchArtifacts: CollectionConfig = {
   slug: 'research-artifacts',
@@ -34,7 +41,10 @@ export const ResearchArtifacts: CollectionConfig = {
   },
   hooks: {
     beforeOperation: [captureResearchArtifactChecksum],
-    beforeValidate: [inheritResearchArtifactExecutionContext],
+    beforeValidate: [
+      validateArtifactCode,
+      inheritResearchArtifactExecutionContext,
+    ],
     beforeChange: [persistResearchArtifactChecksum],
   },
   upload: {
@@ -79,18 +89,16 @@ export const ResearchArtifacts: CollectionConfig = {
       name: 'artifactType',
       type: 'select',
       required: true,
-      defaultValue: 'screenshot',
-      index: true,
+      defaultValue: 'response-export',
       options: [
         { label: 'Screenshot', value: 'screenshot' },
         { label: 'Response export', value: 'response-export' },
         { label: 'HTML snapshot', value: 'html-snapshot' },
-        { label: 'Citation capture', value: 'citation-capture' },
+        { label: 'JSON export', value: 'json-export' },
+        { label: 'CSV export', value: 'csv-export' },
+        { label: 'PDF document', value: 'pdf' },
+        { label: 'System or execution log', value: 'log' },
         { label: 'Source page capture', value: 'source-page-capture' },
-        { label: 'Metadata export', value: 'metadata-export' },
-        { label: 'Execution log', value: 'execution-log' },
-        { label: 'Structured data export', value: 'structured-export' },
-        { label: 'Protocol attachment', value: 'protocol-attachment' },
         { label: 'Other', value: 'other' },
       ],
     },
@@ -99,50 +107,32 @@ export const ResearchArtifacts: CollectionConfig = {
       type: 'date',
       required: true,
       index: true,
-      defaultValue: () => new Date().toISOString(),
-      admin: {
-        description: 'Exact date and time when the source evidence was captured or exported.',
-      },
     },
     {
       name: 'accessLevel',
       type: 'select',
       required: true,
       defaultValue: 'restricted',
-      index: true,
       options: [
         { label: 'Restricted research access', value: 'restricted' },
-        { label: 'Internal', value: 'internal' },
+        { label: 'Internal research access', value: 'internal' },
         { label: 'Embargoed', value: 'embargoed' },
-        { label: 'Release candidate', value: 'release-candidate' },
+        { label: 'Public', value: 'public' },
       ],
-      admin: {
-        description:
-          'Artifacts remain authenticated-only. Public release should occur through a reviewed dataset or publication package.',
-      },
-    },
-    {
-      name: 'embargoUntil',
-      type: 'date',
     },
     {
       name: 'promptExecution',
       type: 'relationship',
       relationTo: 'prompt-executions',
       required: true,
-      index: true,
-      admin: {
-        description:
-          'Select the execution first. The scientific context below is inherited and validated automatically.',
-      },
     },
     {
       name: 'project',
       type: 'relationship',
       relationTo: 'projects',
+      required: true,
       admin: {
         readOnly: true,
-        description: 'Inherited from the selected prompt execution.',
       },
     },
     {
@@ -151,78 +141,55 @@ export const ResearchArtifacts: CollectionConfig = {
       relationTo: 'benchmarks',
       admin: {
         readOnly: true,
-        description: 'Inherited from the selected prompt execution when available.',
       },
     },
     {
       name: 'experiment',
       type: 'relationship',
       relationTo: 'experiments',
+      required: true,
       admin: {
         readOnly: true,
-        description: 'Inherited from the selected prompt execution.',
       },
     },
     {
       name: 'prompt',
       type: 'relationship',
       relationTo: 'prompts',
+      required: true,
       admin: {
         readOnly: true,
-        description: 'Inherited from the selected prompt execution.',
       },
     },
     {
       name: 'aiSystem',
       type: 'relationship',
       relationTo: 'ai-systems',
+      required: true,
       admin: {
         readOnly: true,
-        description: 'Inherited from the selected prompt execution.',
       },
     },
     {
       name: 'collectedBy',
       type: 'relationship',
       relationTo: 'researchers',
+      required: true,
       admin: {
         readOnly: true,
-        description: 'Inherited from the researcher who performed the prompt execution.',
-      },
-    },
-    {
-      name: 'observation',
-      type: 'relationship',
-      relationTo: 'observations',
-    },
-    {
-      name: 'evidenceRecords',
-      type: 'relationship',
-      relationTo: 'evidence',
-      hasMany: true,
-      admin: {
-        description: 'Evidence records supported by this uploaded artifact.',
-      },
-    },
-    {
-      name: 'sourceUrl',
-      type: 'text',
-      admin: {
-        description: 'Original interface or source URL represented by the artifact, when applicable.',
       },
     },
     {
       name: 'captureMethod',
       type: 'select',
       required: true,
-      defaultValue: 'manual-screenshot',
+      defaultValue: 'manual',
       options: [
-        { label: 'Manual screenshot', value: 'manual-screenshot' },
+        { label: 'Manual upload', value: 'manual' },
         { label: 'Browser export', value: 'browser-export' },
-        { label: 'API export', value: 'api-export' },
-        { label: 'Copy and preserve', value: 'copy-preserve' },
+        { label: 'API response', value: 'api' },
         { label: 'Automated capture', value: 'automated' },
-        { label: 'Manual upload', value: 'manual-upload' },
+        { label: 'Imported from archive', value: 'imported' },
         { label: 'Other', value: 'other' },
       ],
     },
@@ -241,45 +208,33 @@ export const ResearchArtifacts: CollectionConfig = {
         {
           name: 'deviceType',
           type: 'select',
-          defaultValue: 'desktop',
           options: [
             { label: 'Desktop', value: 'desktop' },
-            { label: 'Laptop', value: 'laptop' },
-            { label: 'Tablet', value: 'tablet' },
             { label: 'Mobile', value: 'mobile' },
-            { label: 'Server or automated environment', value: 'server' },
+            { label: 'Tablet', value: 'tablet' },
+            { label: 'Server', value: 'server' },
             { label: 'Other', value: 'other' },
           ],
         },
         {
-          name: 'viewportWidth',
-          type: 'number',
-          min: 0,
-        },
-        {
-          name: 'viewportHeight',
-          type: 'number',
-          min: 0,
+          name: 'viewport',
+          type: 'text',
         },
         {
           name: 'locale',
           type: 'text',
-          defaultValue: 'en-US',
         },
         {
           name: 'timezone',
           type: 'text',
-          defaultValue: 'Europe/Madrid',
         },
         {
           name: 'location',
           type: 'text',
-          defaultValue: 'Barcelona, Spain',
         },
         {
           name: 'interfaceState',
           type: 'textarea',
-          localized: true,
         },
       ],
     },
@@ -291,35 +246,27 @@ export const ResearchArtifacts: CollectionConfig = {
           name: 'checksumAlgorithm',
           type: 'select',
           defaultValue: 'sha256',
-          options: [
-            { label: 'SHA-256', value: 'sha256' },
-            { label: 'SHA-512', value: 'sha512' },
-            { label: 'Other', value: 'other' },
-            { label: 'Not calculated', value: 'none' },
-          ],
           admin: {
             readOnly: true,
-            description: 'Calculated automatically from the uploaded file bytes.',
           },
+          options: [
+            { label: 'SHA-256', value: 'sha256' },
+          ],
         },
         {
           name: 'checksum',
           type: 'text',
           admin: {
             readOnly: true,
-            description:
-              'Automatic SHA-256 digest of the exact uploaded file. Replacing the file generates a new checksum and resets verification.',
           },
         },
         {
           name: 'contentUnmodified',
           type: 'checkbox',
           defaultValue: true,
-        },
-        {
-          name: 'transformationNotes',
-          type: 'textarea',
-          localized: true,
+          admin: {
+            readOnly: true,
+          },
         },
         {
           name: 'verified',
@@ -335,6 +282,11 @@ export const ResearchArtifacts: CollectionConfig = {
           type: 'relationship',
           relationTo: 'researchers',
           hasMany: true,
+        },
+        {
+          name: 'verificationNotes',
+          type: 'textarea',
+          localized: true,
         },
       ],
     },
