@@ -13,7 +13,7 @@ import { Observations } from './cms/collections/ObservationsWithIntegrity';
 import { PromptExecutions } from './cms/collections/PromptExecutionsWithUniqueness';
 import { Prompts } from './cms/collections/PromptsWithIntegrity';
 import { ResearchArtifacts } from './cms/collections/ResearchArtifacts';
-import { Resources } from './cms/collections/Resources';
+import { Resources } from './cms/collections/ResourcesWithIntegrity';
 import { Software } from './cms/collections/Software';
 import { TestDataBatches } from './cms/collections/TestDataBatches';
 import { Users } from './cms/collections/Users';
