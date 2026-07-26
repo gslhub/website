@@ -2,6 +2,7 @@ import type { CollectionConfig, Field } from 'payload';
 
 import { inheritMetricDefinitionSnapshot } from '../hooks/inheritMetricDefinitionSnapshot';
 import { protectMetricSnapshot } from '../hooks/protectMetricSnapshot';
+import { syncMetricResultBenchmarkRegistry } from '../hooks/syncMetricResultBenchmarkRegistry';
 import { createScientificRecordCodeValidator } from '../hooks/validateScientificRecordCode';
 import { validateMetricScientificContext } from '../hooks/validateMetricScientificContext';
 import { Metrics as BaseMetrics } from './Metrics';
@@ -98,6 +99,10 @@ export const Metrics: CollectionConfig = {
       inheritMetricDefinitionSnapshot,
       validateMetricScientificContext,
       protectMetricSnapshot,
+    ],
+    afterChange: [
+      ...(BaseMetrics.hooks?.afterChange || []),
+      syncMetricResultBenchmarkRegistry,
     ],
   },
 };
