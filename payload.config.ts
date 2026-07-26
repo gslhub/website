@@ -14,7 +14,7 @@ import { PromptExecutions } from './cms/collections/PromptExecutionsWithUniquene
 import { Prompts } from './cms/collections/PromptsWithIntegrity';
 import { ResearchArtifacts } from './cms/collections/ResearchArtifacts';
 import { Resources } from './cms/collections/ResourcesWithIntegrity';
-import { Software } from './cms/collections/Software';
+import { Software } from './cms/collections/SoftwareWithIntegrity';
 import { TestDataBatches } from './cms/collections/TestDataBatches';
 import { Users } from './cms/collections/Users';
 import {
