@@ -1,6 +1,7 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
 import { generatePilotMetricDefinitionRecords } from '../test-data/pilotMetricDefinitionBatch';
+import { generatePilotMetricResultRecords } from '../test-data/pilotMetricResultBatch';
 import { generateTestDataBatch } from '../test-data/testDataBatchLifecycle';
 
 type AdminUser = {
@@ -9,6 +10,7 @@ type AdminUser = {
 
 type BatchDocument = {
   id: string | number;
+  batchCode?: unknown;
   status?: unknown;
   scenario?: unknown;
   errorMessage?: unknown;
@@ -23,6 +25,30 @@ const getRouteID = (req: PayloadRequest): string | number | null => {
 
 const getString = (value: unknown): string | null =>
   typeof value === 'string' && value.trim().length > 0 ? value.trim() : null;
+
+const persistGeneratedRecords = async ({
+  req,
+  id,
+  records,
+}: {
+  req: PayloadRequest;
+  id: string | number;
+  records: Array<Record<string, unknown>>;
+}) => {
+  await req.payload.update({
+    collection: 'test-data-batches',
+    id,
+    overrideAccess: true,
+    req,
+    data: {
+      status: 'generated',
+      generatedAt: new Date().toISOString(),
+      recordCount: records.length,
+      records,
+      errorMessage: null,
+    },
+  });
+};
 
 export const generateTestDataBatchEndpoint: Endpoint = {
   path: '/:id/generate',
@@ -75,28 +101,34 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         },
       });
 
-      if (getString(batch.scenario) === 'pilot-metric-definitions') {
+      const scenario = getString(batch.scenario);
+
+      if (scenario === 'pilot-metric-definitions') {
         const records = await generatePilotMetricDefinitionRecords({
           payload: req.payload,
           req,
         });
 
-        await req.payload.update({
-          collection: 'test-data-batches',
-          id,
-          overrideAccess: true,
-          req,
-          data: {
-            status: 'generated',
-            generatedAt: new Date().toISOString(),
-            recordCount: records.length,
-            records,
-            errorMessage: null,
-          },
-        });
-
+        await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `Pilot metric-definition batch generated ${records.length} reviewable records.`,
+        );
+      } else if (scenario === 'pilot-metric-results') {
+        const batchCode = getString(batch.batchCode);
+
+        if (!batchCode) {
+          throw new Error('The metric-result batch has no valid ownership code.');
+        }
+
+        const records = await generatePilotMetricResultRecords({
+          payload: req.payload,
+          req,
+          batchCode,
+        });
+
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `Definition-linked metric-result batch generated ${records.length} calculated test records.`,
         );
       } else {
         await generateTestDataBatch({
