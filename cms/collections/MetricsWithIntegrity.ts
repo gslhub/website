@@ -1,5 +1,6 @@
-import type { CollectionConfig } from 'payload';
+import type { CollectionConfig, Field } from 'payload';
 
+import { inheritMetricDefinitionSnapshot } from '../hooks/inheritMetricDefinitionSnapshot';
 import { protectMetricSnapshot } from '../hooks/protectMetricSnapshot';
 import { createScientificRecordCodeValidator } from '../hooks/validateScientificRecordCode';
 import { validateMetricScientificContext } from '../hooks/validateMetricScientificContext';
@@ -11,13 +12,95 @@ const validateMetricRecordCode = createScientificRecordCodeValidator({
   label: 'Metric result',
 });
 
+const inheritedFieldNames = new Set([
+  'metricCode',
+  'metricName',
+  'metricVersion',
+  'metricCategory',
+  'direction',
+  'scopeType',
+  'valueType',
+  'unit',
+  'precision',
+  'formulaSnapshot',
+  'aggregationMethod',
+  'missingDataPolicy',
+]);
+
+const metricDefinitionField: Field = {
+  name: 'metricDefinition',
+  type: 'relationship',
+  relationTo: 'metric-definitions',
+  required: true,
+  index: true,
+  admin: {
+    description:
+      'Versioned scientific definition used to inherit the metric code, formula, direction, unit and calculation rules.',
+  },
+};
+
+const enhanceField = (field: Field): Field => {
+  if (!('name' in field) || typeof field.name !== 'string') return field;
+
+  const admin =
+    'admin' in field && field.admin && typeof field.admin === 'object'
+      ? field.admin
+      : {};
+
+  if (field.name === 'metricCategory' && field.type === 'select') {
+    const options = Array.isArray(field.options) ? field.options : [];
+    const hasPosition = options.some(
+      (option) =>
+        typeof option === 'object' &&
+        option !== null &&
+        'value' in option &&
+        option.value === 'position',
+    );
+
+    return {
+      ...field,
+      options: hasPosition
+        ? options
+        : [...options, { label: 'Position', value: 'position' }],
+      admin: {
+        ...admin,
+        readOnly: true,
+      },
+    };
+  }
+
+  if (inheritedFieldNames.has(field.name)) {
+    return {
+      ...field,
+      admin: {
+        ...admin,
+        readOnly: true,
+      },
+    };
+  }
+
+  return field;
+};
+
+const enhancedFields = BaseMetrics.fields.flatMap((field) => {
+  const enhanced = enhanceField(field);
+
+  if ('name' in field && field.name === 'metricRecordCode') {
+    return [enhanced, metricDefinitionField];
+  }
+
+  return [enhanced];
+});
+
 export const Metrics: CollectionConfig = {
   ...BaseMetrics,
+  fields: enhancedFields,
   hooks: {
     ...BaseMetrics.hooks,
     beforeValidate: [
       ...(BaseMetrics.hooks?.beforeValidate || []),
       validateMetricRecordCode,
+      inheritMetricDefinitionSnapshot,
       validateMetricScientificContext,
       protectMetricSnapshot,
     ],
