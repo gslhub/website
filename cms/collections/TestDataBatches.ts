@@ -3,6 +3,7 @@ import type { CollectionBeforeValidateHook, CollectionConfig } from 'payload';
 import { adminOnly } from '../access/scientificContentAccess';
 import { generateTestDataBatchEndpoint } from '../endpoints/generateTestDataBatch';
 import { cleanupPilotMetricDefinitionBatch } from '../test-data/pilotMetricDefinitionBatch';
+import { cleanupPilotMetricResultDefinitions } from '../test-data/pilotMetricResultBatchCleanup';
 import {
   cleanupTestDataBatch,
   prepareTestDataBatch,
@@ -44,12 +45,16 @@ export const TestDataBatches: CollectionConfig = {
       'createdAt',
     ],
     description:
-      'Administrator-only controlled generation. Disposable test scenarios are removed with their batch; pilot metric definitions remain reviewable drafts until they are promoted or deleted.',
+      'Administrator-only controlled generation. Disposable test scenarios are removed with their batch; promoted scientific definitions are preserved.',
   },
   endpoints: [generateTestDataBatchEndpoint],
   hooks: {
     beforeValidate: [prepareTestDataBatch, markTestDataBatchPending],
-    beforeDelete: [cleanupPilotMetricDefinitionBatch, cleanupTestDataBatch],
+    beforeDelete: [
+      cleanupPilotMetricDefinitionBatch,
+      cleanupTestDataBatch,
+      cleanupPilotMetricResultDefinitions,
+    ],
   },
   fields: [
     {
@@ -58,7 +63,8 @@ export const TestDataBatches: CollectionConfig = {
       required: true,
       defaultValue: 'GSLHub research workflow test data',
       admin: {
-        description: 'Human-readable name for this administrator-controlled generation batch.',
+        description:
+          'Human-readable name for this administrator-controlled generation batch.',
       },
     },
     {
@@ -91,13 +97,14 @@ export const TestDataBatches: CollectionConfig = {
           value: 'pilot-metric-definitions',
         },
         {
-          label: 'Metric definition linkage — 4 calculated test results',
+          label:
+            'Metric definition linkage — 4 calculated results with automatic prerequisites',
           value: 'pilot-metric-results',
         },
       ],
       admin: {
         description:
-          'Metric Definitions creates the four bilingual v0.1.0 methodology records. Metric Definition Linkage creates four disposable calculated results that inherit their code, version, category, direction, unit, precision and formula from those definitions.',
+          'Metric Definitions creates the four bilingual v0.1.0 methodology records. Metric Definition Linkage creates four disposable calculated results and automatically creates all four missing draft definitions when none exist. Existing definitions are reused and never claimed by the linkage batch.',
       },
     },
     {
