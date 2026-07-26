@@ -9,7 +9,7 @@ import { Datasets } from './cms/collections/Datasets';
 import { Evidence } from './cms/collections/EvidenceWithExecutionContext';
 import { Experiments } from './cms/collections/Experiments';
 import { Metrics } from './cms/collections/Metrics';
-import { Observations } from './cms/collections/Observations';
+import { Observations } from './cms/collections/ObservationsWithIntegrity';
 import { PromptExecutions } from './cms/collections/PromptExecutions';
 import { Prompts } from './cms/collections/Prompts';
 import { ResearchArtifacts } from './cms/collections/ResearchArtifacts';
