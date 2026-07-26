@@ -11,6 +11,8 @@ type MetricResultDocument = Record<string, unknown> & {
   metricRecordCode?: unknown;
   lifecycleStatus?: unknown;
   metricDefinition?: RelationshipValue;
+  metricCode?: unknown;
+  metricVersion?: unknown;
   project?: RelationshipValue;
   benchmark?: RelationshipValue;
 };
@@ -73,6 +75,53 @@ const throwConflict = (message: string, status = 409): never => {
   throw new APIError(message, status);
 };
 
+const resolveTestDefinitionID = async ({
+  incoming,
+  previous,
+  req,
+}: {
+  incoming: MetricResultDocument;
+  previous: MetricResultDocument;
+  req: Parameters<CollectionBeforeValidateHook>[0]['req'];
+}): Promise<string | number | null> => {
+  const metricCode = getString(incoming.metricCode ?? previous.metricCode);
+  const metricVersion =
+    getString(incoming.metricVersion ?? previous.metricVersion) || '0.1.0';
+
+  if (!metricCode) return null;
+
+  const result = await req.payload.find({
+    collection: 'metric-definitions',
+    where: {
+      and: [
+        { metricCode: { equals: metricCode } },
+        { version: { equals: metricVersion } },
+      ],
+    },
+    limit: 2,
+    depth: 0,
+    pagination: false,
+    draft: true,
+    overrideAccess: true,
+    req,
+  });
+
+  if (result.docs.length === 0) {
+    throwConflict(
+      `Test metric ${metricCode} ${metricVersion} cannot be generated because its Metric Definition does not exist. Create the Pilot metric definitions batch first.`,
+      400,
+    );
+  }
+
+  if (result.docs.length > 1) {
+    throwConflict(
+      `Test metric ${metricCode} ${metricVersion} matched multiple Metric Definitions. Resolve the duplicate definitions before generating results.`,
+    );
+  }
+
+  return result.docs[0].id;
+};
+
 export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = async ({
   data,
   operation,
@@ -81,9 +130,16 @@ export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = asy
 }) => {
   const incoming = (data || {}) as MetricResultDocument;
   const previous = (originalDoc || {}) as MetricResultDocument;
-  const definitionID = getRelationshipID(
+  const metricRecordCode =
+    getString(incoming.metricRecordCode ?? previous.metricRecordCode) || '';
+  const isTestResult = metricRecordCode.startsWith('TEST-');
+  let definitionID = getRelationshipID(
     incoming.metricDefinition ?? previous.metricDefinition,
   );
+
+  if (definitionID === null && isTestResult) {
+    definitionID = await resolveTestDefinitionID({ incoming, previous, req });
+  }
 
   if (definitionID === null) {
     throwConflict(
@@ -115,9 +171,6 @@ export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = asy
     req,
   })) as MetricDefinitionDocument;
 
-  const metricRecordCode =
-    getString(incoming.metricRecordCode ?? previous.metricRecordCode) || '';
-  const isTestResult = metricRecordCode.startsWith('TEST-');
   const definitionStatus = getString(definition.lifecycleStatus) || 'planned';
 
   if (!isTestResult && !usableDefinitionStatuses.has(definitionStatus)) {
