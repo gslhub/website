@@ -56,6 +56,7 @@ const frozenDefinitionFields = [
   'protocol',
   'systems',
   'metrics',
+  'metricDefinitions',
   'startDate',
   'project',
   'researchAreas',
@@ -153,7 +154,7 @@ export const protectBenchmarkDefinition: CollectionBeforeValidateHook = ({
 
   if (changedFields.length > 0) {
     throwConflict(
-      `The benchmark definition is frozen. Protected fields changed: ${changedFields.join(', ')}. Create a new benchmark version instead of overwriting a protocol, system set or metric definition already used by a pilot or active study.`,
+      `The benchmark definition is frozen. Protected fields changed: ${changedFields.join(', ')}. Create a new benchmark version instead of overwriting a protocol, system set or versioned metric registry already used by a pilot or active study.`,
     );
   }
 
