@@ -1,4 +1,8 @@
-import { APIError, type CollectionBeforeValidateHook } from 'payload';
+import {
+  APIError,
+  type CollectionBeforeValidateHook,
+  type PayloadRequest,
+} from 'payload';
 
 type RelationshipValue =
   | string
@@ -13,6 +17,8 @@ type MetricResultDocument = Record<string, unknown> & {
   metricDefinition?: RelationshipValue;
   metricCode?: unknown;
   metricVersion?: unknown;
+  numericValue?: unknown;
+  unit?: unknown;
   project?: RelationshipValue;
   benchmark?: RelationshipValue;
 };
@@ -82,7 +88,7 @@ const resolveTestDefinitionID = async ({
 }: {
   incoming: MetricResultDocument;
   previous: MetricResultDocument;
-  req: Parameters<CollectionBeforeValidateHook>[0]['req'];
+  req: PayloadRequest;
 }): Promise<string | number | null> => {
   const metricCode = getString(incoming.metricCode ?? previous.metricCode);
   const metricVersion =
@@ -120,6 +126,32 @@ const resolveTestDefinitionID = async ({
   }
 
   return result.docs[0].id;
+};
+
+const normalizeTestNumericValue = ({
+  incoming,
+  previous,
+  definitionUnit,
+  isTestResult,
+}: {
+  incoming: MetricResultDocument;
+  previous: MetricResultDocument;
+  definitionUnit: string | null;
+  isTestResult: boolean;
+}): number | null => {
+  const numericValue = getNumber(incoming.numericValue ?? previous.numericValue);
+  const incomingUnit = getString(incoming.unit ?? previous.unit);
+
+  if (
+    isTestResult &&
+    numericValue !== null &&
+    incomingUnit === 'percentage' &&
+    definitionUnit === 'proportion'
+  ) {
+    return numericValue / 100;
+  }
+
+  return numericValue;
 };
 
 export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = async ({
@@ -217,6 +249,14 @@ export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = asy
     );
   }
 
+  const definitionUnit = getString(definition.unit);
+  const normalizedNumericValue = normalizeTestNumericValue({
+    incoming,
+    previous,
+    definitionUnit,
+    isTestResult,
+  });
+
   return {
     ...incoming,
     metricDefinition: definition.id,
@@ -227,7 +267,8 @@ export const inheritMetricDefinitionSnapshot: CollectionBeforeValidateHook = asy
     direction: getString(definition.direction),
     scopeType: getString(definition.unitOfAnalysis),
     valueType: getString(definition.valueType),
-    unit: getString(definition.unit),
+    numericValue: normalizedNumericValue,
+    unit: definitionUnit,
     precision: getNumber(definition.roundingPrecision) ?? 4,
     formulaSnapshot: getString(definition.formula),
     aggregationMethod: getString(definition.aggregationMethod),
