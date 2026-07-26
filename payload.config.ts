@@ -7,7 +7,7 @@ import { Benchmarks } from './cms/collections/Benchmarks';
 import { Citations } from './cms/collections/CitationsWithIntegrity';
 import { Datasets } from './cms/collections/Datasets';
 import { Evidence } from './cms/collections/EvidenceWithExecutionContext';
-import { Experiments } from './cms/collections/Experiments';
+import { Experiments } from './cms/collections/ExperimentsWithIntegrity';
 import { Metrics } from './cms/collections/MetricsWithIntegrity';
 import { Observations } from './cms/collections/ObservationsWithIntegrity';
 import { PromptExecutions } from './cms/collections/PromptExecutionsWithUniqueness';
