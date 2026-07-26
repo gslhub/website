@@ -8,7 +8,7 @@ import { Citations } from './cms/collections/CitationsWithIntegrity';
 import { Datasets } from './cms/collections/Datasets';
 import { Evidence } from './cms/collections/EvidenceWithExecutionContext';
 import { Experiments } from './cms/collections/Experiments';
-import { Metrics } from './cms/collections/Metrics';
+import { Metrics } from './cms/collections/MetricsWithIntegrity';
 import { Observations } from './cms/collections/ObservationsWithIntegrity';
 import { PromptExecutions } from './cms/collections/PromptExecutions';
 import { Prompts } from './cms/collections/Prompts';
