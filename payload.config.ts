@@ -3,7 +3,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload';
 
 import { AISystems } from './cms/collections/AISystems';
-import { Benchmarks } from './cms/collections/Benchmarks';
+import { Benchmarks } from './cms/collections/BenchmarksWithIntegrity';
 import { Citations } from './cms/collections/CitationsWithIntegrity';
 import { Datasets } from './cms/collections/Datasets';
 import { Evidence } from './cms/collections/EvidenceWithExecutionContext';
