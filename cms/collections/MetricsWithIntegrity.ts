@@ -42,12 +42,7 @@ const metricDefinitionField: Field = {
 const enhanceField = (field: Field): Field => {
   if (!('name' in field) || typeof field.name !== 'string') return field;
 
-  const admin =
-    'admin' in field && field.admin && typeof field.admin === 'object'
-      ? field.admin
-      : {};
-
-  if (field.name === 'metricCategory' && field.type === 'select') {
+  if (field.type === 'select' && field.name === 'metricCategory') {
     const options = Array.isArray(field.options) ? field.options : [];
     const hasPosition = options.some(
       (option) =>
@@ -63,7 +58,7 @@ const enhanceField = (field: Field): Field => {
         ? options
         : [...options, { label: 'Position', value: 'position' }],
       admin: {
-        ...admin,
+        ...(field.admin || {}),
         readOnly: true,
       },
     };
@@ -73,10 +68,10 @@ const enhanceField = (field: Field): Field => {
     return {
       ...field,
       admin: {
-        ...admin,
+        ...(field.admin || {}),
         readOnly: true,
       },
-    };
+    } as Field;
   }
 
   return field;
