@@ -136,6 +136,10 @@ export const Benchmarks: CollectionConfig = {
       name: 'metrics',
       type: 'array',
       minRows: 1,
+      admin: {
+        description:
+          'Legacy human-readable metric summary retained for compatibility. Versioned scientific methodology lives in Metric Definitions.',
+      },
       fields: [
         {
           name: 'name',
@@ -164,6 +168,16 @@ export const Benchmarks: CollectionConfig = {
           ],
         },
       ],
+    },
+    {
+      name: 'metricDefinitions',
+      type: 'relationship',
+      relationTo: 'metric-definitions',
+      hasMany: true,
+      admin: {
+        description:
+          'Versioned AIR, CR, MCP, RCR or future metric definitions formally approved for this benchmark version.',
+      },
     },
     {
       name: 'startDate',
