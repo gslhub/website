@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload';
 
 import { inheritEvidenceExecutionContext } from '../hooks/inheritEvidenceExecutionContext';
+import { protectEvidenceSnapshot } from '../hooks/protectEvidenceSnapshot';
 import { Evidence as BaseEvidence } from './Evidence';
 
 export const Evidence: CollectionConfig = {
@@ -10,6 +11,7 @@ export const Evidence: CollectionConfig = {
     beforeValidate: [
       ...(BaseEvidence.hooks?.beforeValidate || []),
       inheritEvidenceExecutionContext,
+      protectEvidenceSnapshot,
     ],
   },
 };
