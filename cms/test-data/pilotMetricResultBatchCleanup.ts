@@ -24,7 +24,7 @@ const requireAdmin = (req: PayloadRequest) => {
 
   if (!user || user.role !== 'admin') {
     throw new Error(
-      'Only an administrator can remove metric-definition linkage test data.',
+      'Only an administrator can remove automatically provisioned metric-definition test data.',
     );
   }
 };
@@ -66,7 +66,14 @@ export const cleanupPilotMetricResultDefinitions: CollectionBeforeDeleteHook = a
     req,
   })) as BatchDocument;
 
-  if (getString(batch.scenario) !== 'pilot-metric-results') return;
+  const scenario = getString(batch.scenario);
+
+  if (
+    scenario !== 'pilot-metric-results' &&
+    scenario !== 'air-deterministic-validation'
+  ) {
+    return;
+  }
 
   const definitions = normalizeTrackedDefinitions(batch.records);
   let deleted = 0;
@@ -91,7 +98,7 @@ export const cleanupPilotMetricResultDefinitions: CollectionBeforeDeleteHook = a
 
     if (definitionCode !== tracked.recordCode) {
       throw new Error(
-        `Cleanup refused for metric definition ${tracked.recordId}: its definitionCode no longer matches the linkage batch record.`,
+        `Cleanup refused for metric definition ${tracked.recordId}: its definitionCode no longer matches the tracked batch record.`,
       );
     }
 
@@ -116,6 +123,6 @@ export const cleanupPilotMetricResultDefinitions: CollectionBeforeDeleteHook = a
   }
 
   req.payload.logger.info(
-    `Metric-definition linkage cleanup removed ${deleted} auto-created definitions and preserved ${preserved} promoted definitions.`,
+    `Automatic prerequisite cleanup removed ${deleted} Metric Definitions and preserved ${preserved} promoted definitions for scenario ${scenario}.`,
   );
 };
