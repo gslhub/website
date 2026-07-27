@@ -3,6 +3,7 @@ import type { Endpoint, PayloadRequest } from 'payload';
 import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
 import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
 import { generateCRMetricValidationWithPrerequisites } from '../test-data/crMetricValidationWithPrerequisites';
+import { generateMCPMetricValidationWithPrerequisites } from '../test-data/mcpMetricValidationWithPrerequisites';
 import { generatePilotMetricDefinitionRecords } from '../test-data/pilotMetricDefinitionBatch';
 import { generatePilotMetricResultRecords } from '../test-data/pilotMetricResultBatch';
 import { generateTestDataBatch } from '../test-data/testDataBatchLifecycle';
@@ -167,6 +168,20 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `CR deterministic validation generated ${records.length} connected records including any automatically provisioned Metric Definitions.`,
+        );
+      } else if (scenario === 'mcp-deterministic-validation') {
+        const batchCode = getString(batch.batchCode);
+        if (!batchCode) {
+          throw new Error('The MCP validation batch has no valid ownership code.');
+        }
+        const records = await generateMCPMetricValidationWithPrerequisites({
+          payload: req.payload,
+          req,
+          batchCode,
+        });
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `MCP deterministic validation generated ${records.length} connected records including any automatically provisioned Metric Definitions.`,
         );
       } else {
         await generateTestDataBatch({
