@@ -78,7 +78,9 @@ const findRequiredDocument = async ({
     throw new Error(`Required ${collection} record not found: ${field} = ${value}`);
   }
   if (result.docs.length > 1) {
-    throw new Error(`Expected one ${collection} record but found ${result.docs.length}: ${field} = ${value}`);
+    throw new Error(
+      `Expected one ${collection} record but found ${result.docs.length}: ${field} = ${value}`,
+    );
   }
   return result.docs[0] as DocumentWithID;
 };
@@ -117,13 +119,55 @@ export const generateCRMetricValidationRecords = async ({
 
   const [project, benchmark, experiment, prompt, aiSystem, researcher, metricDefinition] =
     await Promise.all([
-      findRequiredDocument({ payload, req, collection: 'projects', field: 'projectCode', value: PILOT.projectCode }),
-      findRequiredDocument({ payload, req, collection: 'benchmarks', field: 'benchmarkCode', value: PILOT.benchmarkCode }),
-      findRequiredDocument({ payload, req, collection: 'experiments', field: 'experimentCode', value: PILOT.experimentCode }),
-      findRequiredDocument({ payload, req, collection: 'prompts', field: 'promptCode', value: PILOT.promptCode }),
-      findRequiredDocument({ payload, req, collection: 'ai-systems', field: 'systemCode', value: PILOT.aiSystemCode }),
-      findRequiredDocument({ payload, req, collection: 'researchers', field: 'slug', value: PILOT.researcherSlug }),
-      findRequiredDocument({ payload, req, collection: 'metric-definitions', field: 'definitionCode', value: PILOT.definitionCode }),
+      findRequiredDocument({
+        payload,
+        req,
+        collection: 'projects',
+        field: 'projectCode',
+        value: PILOT.projectCode,
+      }),
+      findRequiredDocument({
+        payload,
+        req,
+        collection: 'benchmarks',
+        field: 'benchmarkCode',
+        value: PILOT.benchmarkCode,
+      }),
+      findRequiredDocument({
+        payload,
+        req,
+        collection: 'experiments',
+        field: 'experimentCode',
+        value: PILOT.experimentCode,
+      }),
+      findRequiredDocument({
+        payload,
+        req,
+        collection: 'prompts',
+        field: 'promptCode',
+        value: PILOT.promptCode,
+      }),
+      findRequiredDocument({
+        payload,
+        req,
+        collection: 'ai-systems',
+        field: 'systemCode',
+        value: PILOT.aiSystemCode,
+      }),
+      findRequiredDocument({
+        payload,
+        req,
+        collection: 'researchers',
+        field: 'slug',
+        value: PILOT.researcherSlug,
+      }),
+      findRequiredDocument({
+        payload,
+        req,
+        collection: 'metric-definitions',
+        field: 'definitionCode',
+        value: PILOT.definitionCode,
+      }),
     ]);
 
   const promptText =
@@ -203,7 +247,8 @@ export const generateCRMetricValidationRecords = async ({
             durationMilliseconds: 1_000,
           },
           integrity: {
-            evidenceNotes: 'Synthetic execution created only to validate deterministic CR calculation.',
+            evidenceNotes:
+              'Synthetic execution created only to validate deterministic CR calculation.',
           },
           qualityControl: {
             reviewStatus: 'accepted',
@@ -259,16 +304,18 @@ export const generateCRMetricValidationRecords = async ({
             citationStyle: cited ? 'source-cards' : 'none',
           },
           sourceObservations: cited
-            ? [{
-                position: 1,
-                sourceTitle: 'GSLHub research platform',
-                sourceUrl: 'https://gslhub.com/research',
-                sourceDomain: PILOT.targetValue,
-                sourceType: 'corporate',
-                cited: true,
-                linked: true,
-                usedInAnswer: true,
-              }]
+            ? [
+                {
+                  position: 1,
+                  title: 'GSLHub research platform',
+                  url: 'https://gslhub.com/research',
+                  domain: PILOT.targetValue,
+                  sourceType: 'corporate',
+                  citedExplicitly: true,
+                  linked: true,
+                  usedInAnswer: true,
+                },
+              ]
             : [],
           visibilityCoding: {
             targetType: PILOT.targetType,
@@ -282,7 +329,7 @@ export const generateCRMetricValidationRecords = async ({
           semanticCoding: {
             themes: [{ label: 'CR validation' }],
             claimsCount: cited ? 1 : 0,
-            evidenceGrounding: cited ? 'explicit' : 'none',
+            evidenceGrounding: cited ? 'high' : 'none',
           },
           comparison: { variationLevel: 'not-assessed' },
           qualityControl: {
@@ -307,7 +354,9 @@ export const generateCRMetricValidationRecords = async ({
         collectionSlug: 'observations',
         recordId: String(observation.id),
         recordCode: observationCode,
-        label: accepted ? `CR accepted observation ${index}` : 'CR excluded denominator-control observation',
+        label: accepted
+          ? `CR accepted observation ${index}`
+          : 'CR excluded denominator-control observation',
       });
 
       if (cited) {
@@ -345,7 +394,8 @@ export const generateCRMetricValidationRecords = async ({
               displayText: rawCitationText,
               anchorText: 'GSLHub research platform',
               surroundingText: responseText,
-              claimSupported: 'The evaluated target is explicitly attributed as a source.',
+              claimSupported:
+                'The evaluated target is explicitly attributed as a source.',
               location: 'sources-panel',
               prominence: 'standard',
             },
@@ -366,13 +416,15 @@ export const generateCRMetricValidationRecords = async ({
               isOfficialSource: true,
               verifiedAt: executedAt,
               verifiedBy: [researcher.id],
-              verificationNotes: 'Synthetic verified citation used for deterministic CR validation.',
+              verificationNotes:
+                'Synthetic verified citation used for deterministic CR validation.',
             },
             integrity: {
               rawCitationText,
               checksumAlgorithm: 'sha256',
               checksum: createHash('sha256').update(rawCitationText).digest('hex'),
-              normalizationNotes: 'Synthetic canonical URL and domain normalization.',
+              normalizationNotes:
+                'Synthetic canonical URL and domain normalization.',
             },
             qualityControl: {
               reviewStatus: 'accepted',
@@ -449,7 +501,8 @@ export const generateCRMetricValidationRecords = async ({
         reproducibility: {
           engineVersion: 'gslhub-cr-calculator-0.1.0',
           querySnapshot: result.querySnapshot,
-          environmentSnapshot: 'Administrator Test Data Batches deterministic CR validation scenario.',
+          environmentSnapshot:
+            'Administrator Test Data Batches deterministic CR validation scenario.',
           inputChecksum: result.inputChecksum,
           outputChecksum: result.outputChecksum,
         },
