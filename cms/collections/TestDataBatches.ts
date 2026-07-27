@@ -106,10 +106,15 @@ export const TestDataBatches: CollectionConfig = {
             'Synchronize benchmark metric registry — AIR, CR, MCP and RCR',
           value: 'benchmark-metric-registry-sync',
         },
+        {
+          label:
+            'AIR deterministic validation — 11 connected records, expected 3 / 4 = 0.75',
+          value: 'air-deterministic-validation',
+        },
       ],
       admin: {
         description:
-          'Metric Definitions creates the four bilingual v0.1.0 methodology records. Metric Definition Linkage creates disposable calculated results. Synchronize Benchmark Metric Registry backfills the permanent metricDefinitions relationship on the planned benchmark without creating or deleting scientific definitions.',
+          'AIR Deterministic Validation creates five completed executions, five observations and one calculated result. Four observations are valid, one is explicitly excluded, and the calculator must return numerator 3, denominator 4 and AIR 0.75 with reproducibility checksums.',
       },
     },
     {
