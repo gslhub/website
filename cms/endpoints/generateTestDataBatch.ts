@@ -2,6 +2,7 @@ import type { Endpoint, PayloadRequest } from 'payload';
 
 import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
 import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
+import { generateCRMetricValidationWithPrerequisites } from '../test-data/crMetricValidationWithPrerequisites';
 import { generatePilotMetricDefinitionRecords } from '../test-data/pilotMetricDefinitionBatch';
 import { generatePilotMetricResultRecords } from '../test-data/pilotMetricResultBatch';
 import { generateTestDataBatch } from '../test-data/testDataBatchLifecycle';
@@ -21,7 +22,6 @@ type BatchDocument = {
 
 const getRouteID = (req: PayloadRequest): string | number | null => {
   const value = req.routeParams?.id;
-
   return typeof value === 'string' || typeof value === 'number' ? value : null;
 };
 
@@ -66,7 +66,6 @@ export const generateTestDataBatchEndpoint: Endpoint = {
     }
 
     const id = getRouteID(req);
-
     if (!id) {
       return Response.json(
         { error: 'A valid test-data batch ID is required.' },
@@ -114,24 +113,20 @@ export const generateTestDataBatchEndpoint: Endpoint = {
           payload: req.payload,
           req,
         });
-
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `Pilot metric-definition batch generated ${records.length} reviewable records.`,
         );
       } else if (scenario === 'pilot-metric-results') {
         const batchCode = getString(batch.batchCode);
-
         if (!batchCode) {
           throw new Error('The metric-result batch has no valid ownership code.');
         }
-
         const records = await generatePilotMetricResultRecords({
           payload: req.payload,
           req,
           batchCode,
         });
-
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `Definition-linked metric-result batch generated ${records.length} calculated test records.`,
@@ -141,27 +136,37 @@ export const generateTestDataBatchEndpoint: Endpoint = {
           payload: req.payload,
           req,
         });
-
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `Benchmark metric registry synchronized ${records.length} versioned definitions.`,
         );
       } else if (scenario === 'air-deterministic-validation') {
         const batchCode = getString(batch.batchCode);
-
         if (!batchCode) {
           throw new Error('The AIR validation batch has no valid ownership code.');
         }
-
         const records = await generateAIRMetricValidationWithPrerequisites({
           payload: req.payload,
           req,
           batchCode,
         });
-
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `AIR deterministic validation generated ${records.length} connected records including any automatically provisioned Metric Definitions.`,
+        );
+      } else if (scenario === 'cr-deterministic-validation') {
+        const batchCode = getString(batch.batchCode);
+        if (!batchCode) {
+          throw new Error('The CR validation batch has no valid ownership code.');
+        }
+        const records = await generateCRMetricValidationWithPrerequisites({
+          payload: req.payload,
+          req,
+          batchCode,
+        });
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `CR deterministic validation generated ${records.length} connected records including any automatically provisioned Metric Definitions.`,
         );
       } else {
         await generateTestDataBatch({
@@ -182,8 +187,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
       if (result.status === 'failed') {
         return Response.json(
           {
-            error:
-              getString(result.errorMessage) || 'Test-data generation failed.',
+            error: getString(result.errorMessage) || 'Test-data generation failed.',
             status: result.status,
           },
           { status: 422 },
@@ -197,7 +201,6 @@ export const generateTestDataBatchEndpoint: Endpoint = {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-
       await req.payload
         .update({
           collection: 'test-data-batches',
@@ -214,7 +217,6 @@ export const generateTestDataBatchEndpoint: Endpoint = {
       req.payload.logger.error(
         `Explicit test-data generation failed for batch ${id}: ${message}`,
       );
-
       return Response.json({ error: message }, { status: 500 });
     }
   },
