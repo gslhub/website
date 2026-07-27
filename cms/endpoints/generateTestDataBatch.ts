@@ -6,6 +6,7 @@ import { generateCRMetricValidationWithPrerequisites } from '../test-data/crMetr
 import { generateMCPMetricValidationWithPrerequisites } from '../test-data/mcpMetricValidationWithPrerequisites';
 import { generatePilotMetricDefinitionRecords } from '../test-data/pilotMetricDefinitionBatch';
 import { generatePilotMetricResultRecords } from '../test-data/pilotMetricResultBatch';
+import { generateRCRMetricValidationWithPrerequisites } from '../test-data/rcrMetricValidationWithPrerequisites';
 import { generateTestDataBatch } from '../test-data/testDataBatchLifecycle';
 
 type AdminUser = {
@@ -182,6 +183,20 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `MCP deterministic validation generated ${records.length} connected records including any automatically provisioned Metric Definitions.`,
+        );
+      } else if (scenario === 'rcr-deterministic-validation') {
+        const batchCode = getString(batch.batchCode);
+        if (!batchCode) {
+          throw new Error('The RCR validation batch has no valid ownership code.');
+        }
+        const records = await generateRCRMetricValidationWithPrerequisites({
+          payload: req.payload,
+          req,
+          batchCode,
+        });
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `RCR deterministic validation generated ${records.length} connected records including any automatically provisioned Metric Definitions.`,
         );
       } else {
         await generateTestDataBatch({
