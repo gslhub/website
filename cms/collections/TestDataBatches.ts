@@ -116,10 +116,15 @@ export const TestDataBatches: CollectionConfig = {
             'CR deterministic validation — 13 core records, expected 2 / 4 = 0.5',
           value: 'cr-deterministic-validation',
         },
+        {
+          label:
+            'MCP deterministic validation — 14 core records, expected mean position 2.0',
+          value: 'mcp-deterministic-validation',
+        },
       ],
       admin: {
         description:
-          'AIR validates answer inclusion. CR creates five completed executions, five observations, two verified Citation records and one calculated result. Four observations are valid, one is excluded, and CR must return numerator 2, denominator 4 and value 0.5 with reproducibility checksums.',
+          'AIR validates answer inclusion. CR validates citation occurrence. MCP creates five completed executions, five observations, three verified Citation records and one calculated result. Citation positions 1, 2 and 3 must produce position sum 6, denominator 3 and mean position 2.0; one accepted non-cited observation and one excluded observation are reported but not counted.',
       },
     },
     {
