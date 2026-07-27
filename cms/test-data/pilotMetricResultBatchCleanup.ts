@@ -72,7 +72,8 @@ export const cleanupPilotMetricResultDefinitions: CollectionBeforeDeleteHook = a
     scenario !== 'pilot-metric-results' &&
     scenario !== 'air-deterministic-validation' &&
     scenario !== 'cr-deterministic-validation' &&
-    scenario !== 'mcp-deterministic-validation'
+    scenario !== 'mcp-deterministic-validation' &&
+    scenario !== 'rcr-deterministic-validation'
   ) {
     return;
   }
