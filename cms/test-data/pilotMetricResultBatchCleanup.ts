@@ -70,7 +70,8 @@ export const cleanupPilotMetricResultDefinitions: CollectionBeforeDeleteHook = a
 
   if (
     scenario !== 'pilot-metric-results' &&
-    scenario !== 'air-deterministic-validation'
+    scenario !== 'air-deterministic-validation' &&
+    scenario !== 'cr-deterministic-validation'
   ) {
     return;
   }
