@@ -1,6 +1,6 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
-import { generateAIRMetricValidationRecords } from '../test-data/airMetricValidationBatch';
+import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
 import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
 import { generatePilotMetricDefinitionRecords } from '../test-data/pilotMetricDefinitionBatch';
 import { generatePilotMetricResultRecords } from '../test-data/pilotMetricResultBatch';
@@ -153,7 +153,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
           throw new Error('The AIR validation batch has no valid ownership code.');
         }
 
-        const records = await generateAIRMetricValidationRecords({
+        const records = await generateAIRMetricValidationWithPrerequisites({
           payload: req.payload,
           req,
           batchCode,
@@ -161,7 +161,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
 
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
-          `AIR deterministic validation generated ${records.length} connected test records.`,
+          `AIR deterministic validation generated ${records.length} connected records including any automatically provisioned Metric Definitions.`,
         );
       } else {
         await generateTestDataBatch({
