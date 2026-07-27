@@ -108,13 +108,13 @@ export const TestDataBatches: CollectionConfig = {
         },
         {
           label:
-            'AIR deterministic validation — 11 connected records, expected 3 / 4 = 0.75',
+            'AIR deterministic validation — 11 core records plus automatic metric prerequisites',
           value: 'air-deterministic-validation',
         },
       ],
       admin: {
         description:
-          'AIR Deterministic Validation creates five completed executions, five observations and one calculated result. Four observations are valid, one is explicitly excluded, and the calculator must return numerator 3, denominator 4 and AIR 0.75 with reproducibility checksums.',
+          'AIR Deterministic Validation creates five completed executions, five observations and one calculated result. When the AIR, CR, MCP and RCR definitions are absent, it first creates those four review drafts. The calculator must return numerator 3, denominator 4 and AIR 0.75 with one documented exclusion and reproducibility checksums.',
       },
     },
     {
