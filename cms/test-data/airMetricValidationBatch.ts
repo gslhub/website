@@ -15,7 +15,7 @@ type DocumentWithID = {
   id: RecordID;
   promptText?: unknown;
   version?: unknown;
-  language?: unknown;
+  promptLanguage?: unknown;
 };
 
 type ContextCollection =
@@ -176,7 +176,7 @@ const resolveContext = async ({
       getString(prompt.promptText) ||
       'What factors determine whether a website is selected, cited or recommended by generative search systems?',
     promptVersion: getString(prompt.version) || '0.1.0',
-    promptLanguage: getString(prompt.language) || 'en',
+    promptLanguage: getString(prompt.promptLanguage) || 'en',
   };
 };
 
