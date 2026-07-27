@@ -227,7 +227,7 @@ export const generateCRMetricValidationRecords = async ({
             timezone: 'Europe/Madrid',
             location: 'Barcelona, Spain',
             webAccessEnabled: true,
-            searchModeSelection: 'enabled',
+            searchModeSelection: 'manual',
             newSessionConfirmed: true,
             memoryEnabled: false,
             customInstructionsEnabled: false,
