@@ -182,7 +182,6 @@ export const generateRCRMetricValidationRecords = async ({
   const executionIds: RecordID[] = [];
   const observationIds: RecordID[] = [];
   const variationLevels = ['not-assessed', 'none', 'low', 'low', 'high'] as const;
-  const semanticOverlaps = [1, 1, 0.9, 0.85, 0.4] as const;
   let baselineObservationId: RecordID | null = null;
 
   try {
@@ -326,11 +325,7 @@ export const generateRCRMetricValidationRecords = async ({
           comparison: {
             baselineObservation: isBaseline ? undefined : baselineObservationId,
             variationLevel,
-            inclusionChanged: variationLevel === 'high',
-            citationChanged: false,
-            positionChanged: false,
-            semanticOverlap: semanticOverlaps[index - 1],
-            notes: isBaseline
+            comparisonNotes: isBaseline
               ? 'Frozen baseline; excluded from the assessed-comparison denominator.'
               : isConsistent
                 ? 'Protocol-coded as consistent relative to baseline.'
