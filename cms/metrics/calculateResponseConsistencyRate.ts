@@ -264,9 +264,9 @@ export const calculateResponseConsistencyRate = async ({
     baselineIDs.add(String(baselineObservationId));
     validObservationIds.push(String(observation.id));
     validExecutionIds.push(executionKey);
-    assessedLevels.push(variationLevel as string);
+    assessedLevels.push(variationLevel);
 
-    if (consistentVariationLevels.has(variationLevel as string)) numerator += 1;
+    if (consistentVariationLevels.has(variationLevel)) numerator += 1;
   }
 
   if (baselineIDs.size !== 1) {
@@ -275,12 +275,17 @@ export const calculateResponseConsistencyRate = async ({
     );
   }
 
-  const baselineObservationId = [...baselineIDs][0];
-  const baseline = documents.get(baselineObservationId);
+  const resolvedBaselineObservationId = [...baselineIDs][0];
+
+  if (typeof resolvedBaselineObservationId !== 'string') {
+    throw new Error('RCR could not resolve the frozen baseline observation identifier.');
+  }
+
+  const baseline = documents.get(resolvedBaselineObservationId);
 
   if (!baseline) {
     throw new Error(
-      `RCR baseline observation ${baselineObservationId} is not included in the candidate observation set.`,
+      `RCR baseline observation ${resolvedBaselineObservationId} is not included in the candidate observation set.`,
     );
   }
 
@@ -343,7 +348,7 @@ export const calculateResponseConsistencyRate = async ({
     candidateCount: observationIds.length,
     excludedCount: excludedCandidates.length,
     numericValue,
-    baselineObservationId,
+    baselineObservationId: resolvedBaselineObservationId,
     assessedVariationLevels: assessedLevels,
   };
 
@@ -358,7 +363,7 @@ export const calculateResponseConsistencyRate = async ({
       {
         targetType: expectedTargetType,
         targetValue: expectedTargetValue,
-        baselineObservationId,
+        baselineObservationId: resolvedBaselineObservationId,
         requiredExecutionLifecycle: 'completed',
         requiredObservationLifecycle: 'validated',
         requiredObservationReviewStatus: 'accepted',
