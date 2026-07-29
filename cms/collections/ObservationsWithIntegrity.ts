@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload';
 
 import { inheritObservationExecutionContext } from '../hooks/inheritObservationExecutionContext';
 import { protectObservationSnapshot } from '../hooks/protectObservationSnapshot';
+import { validateObservationCoding } from '../hooks/validateObservationCoding';
 import { createScientificRecordCodeValidator } from '../hooks/validateScientificRecordCode';
 import { Observations as BaseObservations } from './Observations';
 
@@ -19,6 +20,7 @@ export const Observations: CollectionConfig = {
       ...(BaseObservations.hooks?.beforeValidate || []),
       validateObservationCode,
       inheritObservationExecutionContext,
+      validateObservationCoding,
       protectObservationSnapshot,
     ],
   },
