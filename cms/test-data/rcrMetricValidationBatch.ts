@@ -273,7 +273,7 @@ export const generateRCRMetricValidationRecords = async ({
           : `RCR comparison execution ${index - 1}`,
       });
 
-      const observation = await payload.create({
+      const observation: DocumentWithID = await payload.create({
         collection: 'observations',
         draft: true,
         overrideAccess: true,
