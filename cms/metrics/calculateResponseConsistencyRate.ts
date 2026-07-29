@@ -241,7 +241,10 @@ export const calculateResponseConsistencyRate = async ({
       continue;
     }
 
-    if (!assessedVariationLevels.has(variationLevel || '')) {
+    if (
+      variationLevel === null ||
+      !assessedVariationLevels.has(variationLevel)
+    ) {
       exclude(
         `Variation level ${variationLevel || 'missing'} is not an assessed RCR category.`,
       );
