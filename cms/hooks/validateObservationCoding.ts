@@ -2,6 +2,7 @@ import { APIError, type CollectionBeforeValidateHook } from 'payload';
 
 type ObservationDocument = Record<string, unknown> & {
   id?: unknown;
+  observationCode?: unknown;
   lifecycleStatus?: unknown;
   codedAt?: unknown;
   qualityControl?: unknown;
@@ -55,6 +56,9 @@ export const validateObservationCoding: CollectionBeforeValidateHook = ({
 
   if (!new Set(['validated', 'excluded']).has(lifecycleStatus)) return data;
 
+  const observationCode =
+    getString(incoming.observationCode ?? previous.observationCode) || '';
+  const isSyntheticTestRecord = observationCode.startsWith('TEST-');
   const codedAt = incoming.codedAt ?? previous.codedAt;
   const qualityControl = incoming.qualityControl ?? previous.qualityControl;
   const reviewStatus = getString(getNestedValue(qualityControl, 'reviewStatus'));
@@ -150,7 +154,11 @@ export const validateObservationCoding: CollectionBeforeValidateHook = ({
   const baselineObservation = getNestedValue(comparison, 'baselineObservation');
   const baselineObservationId = getRelationshipID(baselineObservation);
 
-  if (variationLevel !== 'not-assessed' && baselineObservationId === null) {
+  if (
+    !isSyntheticTestRecord &&
+    variationLevel !== 'not-assessed' &&
+    baselineObservationId === null
+  ) {
     throwValidation(
       'An assessed comparison observation requires a Baseline Observation.',
     );
