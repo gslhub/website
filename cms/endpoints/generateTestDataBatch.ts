@@ -1,6 +1,7 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
 import { provisionPermanentPilotMetricDefinitions } from '../pilot/provisionPilotMetricDefinitions';
+import { provisionRealPilotExecutions } from '../pilot/provisionRealPilotExecutions';
 import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
 import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
 import { generateCRMetricValidationWithPrerequisites } from '../test-data/crMetricValidationWithPrerequisites';
@@ -63,7 +64,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
 
     if (!user || user.role !== 'admin') {
       return Response.json(
-        { error: 'Only an administrator can generate test data.' },
+        { error: 'Only an administrator can run this administrative action.' },
         { status: 403 },
       );
     }
@@ -71,7 +72,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
     const id = getRouteID(req);
     if (!id) {
       return Response.json(
-        { error: 'A valid test-data batch ID is required.' },
+        { error: 'A valid administrative batch ID is required.' },
         { status: 400 },
       );
     }
@@ -89,7 +90,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         return Response.json(
           {
             error:
-              'This test-data batch has already been generated. Delete it before creating another batch.',
+              'This administrative batch has already run. Create another batch only when a new action is required.',
           },
           { status: 409 },
         );
@@ -119,6 +120,15 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `Permanent pilot metric-definition preparation resolved ${records.length} scientific definitions.`,
+        );
+      } else if (scenario === 'pilot-real-executions') {
+        const records = await provisionRealPilotExecutions({
+          payload: req.payload,
+          req,
+        });
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `Permanent first-pilot preparation resolved ${records.length} real planned executions.`,
         );
       } else if (scenario === 'pilot-metric-definitions') {
         const records = await generatePilotMetricDefinitionRecords({
@@ -227,7 +237,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
       if (result.status === 'failed') {
         return Response.json(
           {
-            error: getString(result.errorMessage) || 'Test-data generation failed.',
+            error: getString(result.errorMessage) || 'Administrative action failed.',
             status: result.status,
           },
           { status: 422 },
@@ -235,7 +245,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
       }
 
       return Response.json({
-        message: 'Test data generated successfully.',
+        message: 'Administrative action completed successfully.',
         status: result.status,
         recordCount: result.recordCount,
       });
@@ -255,7 +265,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         .catch(() => undefined);
 
       req.payload.logger.error(
-        `Explicit test-data generation failed for batch ${id}: ${message}`,
+        `Explicit administrative action failed for batch ${id}: ${message}`,
       );
       return Response.json({ error: message }, { status: 500 });
     }
