@@ -1,5 +1,6 @@
 /* THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD. */
-/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
+/* Keep the Suspense boundary below: it prevents the Next.js admin document from
+ * failing hydration before Payload has resolved its dynamic layout state. */
 
 import config from '@payload-config'
 import '@payloadcms/next/css'
@@ -10,7 +11,7 @@ import {
   RootLayout,
 } from '@payloadcms/next/layouts'
 import type { ServerFunctionClient } from 'payload'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import { importMap } from './admin/importMap'
 
@@ -28,10 +29,12 @@ const serverFunction: ServerFunctionClient = async function (args) {
   })
 }
 
-const Layout = ({ children }: Args) => (
-  <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
-    {children}
-  </RootLayout>
+const Layout = async ({ children }: Args) => (
+  <Suspense fallback={null}>
+    <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
+      {children}
+    </RootLayout>
+  </Suspense>
 )
 
 export default Layout
