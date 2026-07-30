@@ -15,6 +15,14 @@ const getBoolean = (value: string | undefined, fallback = false): boolean => {
   return fallback;
 };
 
+const getVerifiedAt = (value: string | undefined): string | null => {
+  const normalized = getString(value);
+  if (!normalized) return null;
+
+  const timestamp = Date.parse(normalized);
+  return Number.isNaN(timestamp) ? null : new Date(timestamp).toISOString();
+};
+
 const enabled = getBoolean(process.env.S3_ENABLED);
 const bucket = getString(process.env.S3_BUCKET);
 const accessKeyId = getString(process.env.S3_ACCESS_KEY_ID);
@@ -23,6 +31,12 @@ const region = getString(process.env.S3_REGION) || 'us-east-1';
 const endpoint = getString(process.env.S3_ENDPOINT);
 const prefix = getString(process.env.S3_PREFIX) || 'research-artifacts';
 const forcePathStyle = getBoolean(process.env.S3_FORCE_PATH_STYLE, Boolean(endpoint));
+const artifactRoundtripVerifiedAt = getVerifiedAt(
+  process.env.PILOT_ARTIFACT_ROUNDTRIP_VERIFIED_AT,
+);
+const backupRecoveryVerifiedAt = getVerifiedAt(
+  process.env.PILOT_BACKUP_RECOVERY_VERIFIED_AT,
+);
 
 if (enabled && !bucket) {
   throw new Error('S3_ENABLED=true requires S3_BUCKET.');
@@ -52,6 +66,8 @@ export const researchArtifactStorageSettings = {
   endpoint,
   prefix,
   forcePathStyle,
+  artifactRoundtripVerifiedAt,
+  backupRecoveryVerifiedAt,
 };
 
 export const getResearchArtifactStorageReadiness = () => ({
@@ -73,6 +89,16 @@ export const getResearchArtifactStorageReadiness = () => ({
   forcePathStyle: researchArtifactStorageSettings.forcePathStyle,
   credentialsConfigured: Boolean(accessKeyId && secretAccessKey),
   accessControlMode: 'payload-proxy',
+  artifactRoundtripVerifiedAt:
+    researchArtifactStorageSettings.artifactRoundtripVerifiedAt,
+  artifactRoundtripVerified: Boolean(
+    researchArtifactStorageSettings.artifactRoundtripVerifiedAt,
+  ),
+  backupRecoveryVerifiedAt:
+    researchArtifactStorageSettings.backupRecoveryVerifiedAt,
+  backupRecoveryVerified: Boolean(
+    researchArtifactStorageSettings.backupRecoveryVerifiedAt,
+  ),
 });
 
 export const researchArtifactStoragePlugin = s3Storage({
