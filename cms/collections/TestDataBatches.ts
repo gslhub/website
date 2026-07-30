@@ -2,12 +2,10 @@ import type { CollectionBeforeValidateHook, CollectionConfig } from 'payload';
 
 import { adminOnly } from '../access/scientificContentAccess';
 import { generateTestDataBatchEndpoint } from '../endpoints/generateTestDataBatch';
+import { cleanupAdministrativeBatch } from '../pilot/cleanupAdministrativeBatch';
 import { cleanupPilotMetricDefinitionBatch } from '../test-data/pilotMetricDefinitionBatch';
 import { cleanupPilotMetricResultDefinitions } from '../test-data/pilotMetricResultBatchCleanup';
-import {
-  cleanupTestDataBatch,
-  prepareTestDataBatch,
-} from '../test-data/testDataBatchLifecycle';
+import { prepareTestDataBatch } from '../test-data/testDataBatchLifecycle';
 
 const showGeneratedFields = (data: Record<string, unknown>) =>
   typeof data?.batchCode === 'string' && data.batchCode.length > 0;
@@ -24,8 +22,8 @@ const markTestDataBatchPending: CollectionBeforeValidateHook = ({ data, operatio
 export const TestDataBatches: CollectionConfig = {
   slug: 'test-data-batches',
   labels: {
-    singular: 'Test Data Batch',
-    plural: 'Test Data Batches',
+    singular: 'Administrative Batch',
+    plural: 'Administrative Batches',
   },
   access: {
     create: adminOnly,
@@ -45,14 +43,14 @@ export const TestDataBatches: CollectionConfig = {
       'createdAt',
     ],
     description:
-      'Administrator-only controlled generation and preparation. Disposable TEST scenarios are removed with their batch; permanent pilot definitions and benchmark-registry synchronizations are preserved.',
+      'Administrator-only controlled test generation and permanent pilot preparation. Disposable TEST records are cleaned with their batch; permanent scientific definitions and real execution reservations are preserved.',
   },
   endpoints: [generateTestDataBatchEndpoint],
   hooks: {
     beforeValidate: [prepareTestDataBatch, markTestDataBatchPending],
     beforeDelete: [
       cleanupPilotMetricDefinitionBatch,
-      cleanupTestDataBatch,
+      cleanupAdministrativeBatch,
       cleanupPilotMetricResultDefinitions,
     ],
   },
@@ -61,10 +59,10 @@ export const TestDataBatches: CollectionConfig = {
       name: 'label',
       type: 'text',
       required: true,
-      defaultValue: 'GSLHub research workflow test data',
+      defaultValue: 'GSLHub administrative research action',
       admin: {
         description:
-          'Human-readable name for this administrator-controlled generation or preparation batch.',
+          'Human-readable name for this administrator-controlled generation or preparation action.',
       },
     },
     {
@@ -98,12 +96,17 @@ export const TestDataBatches: CollectionConfig = {
           value: 'pilot-permanent-metric-definitions',
         },
         {
+          label:
+            'Permanent real pilot executions — create or reuse GSL-EXEC-GEO-0001 to 0005 after readiness passes',
+          value: 'pilot-real-executions',
+        },
+        {
           label: 'Disposable pilot metric definitions — AIR, CR, MCP and RCR review drafts',
           value: 'pilot-metric-definitions',
         },
         {
           label:
-            'Metric definition linkage — 4 calculated results with automatic prerequisites',
+            'Metric definition linkage — 4 calculated TEST results with automatic prerequisites',
           value: 'pilot-metric-results',
         },
         {
@@ -134,7 +137,7 @@ export const TestDataBatches: CollectionConfig = {
       ],
       admin: {
         description:
-          'Use Permanent pilot metric definitions for the real pilot. It creates the canonical four review drafts only when absent and reuses a complete existing set. TEST scenarios remain synthetic and disposable.',
+          'Permanent actions create or reuse real scientific records and are never removed by batch cleanup. The real-execution action refuses to run until every scientific and storage readiness condition passes.',
       },
     },
     {
@@ -153,9 +156,9 @@ export const TestDataBatches: CollectionConfig = {
       defaultValue: 'pending',
       index: true,
       options: [
-        { label: 'Pending generation', value: 'pending' },
-        { label: 'Generating', value: 'generating' },
-        { label: 'Generated', value: 'generated' },
+        { label: 'Pending action', value: 'pending' },
+        { label: 'Running', value: 'generating' },
+        { label: 'Completed', value: 'generated' },
         { label: 'Failed', value: 'failed' },
       ],
       admin: {
@@ -197,7 +200,7 @@ export const TestDataBatches: CollectionConfig = {
         readOnly: true,
         condition: showGeneratedFields,
         description:
-          'Exact records generated, reused or synchronized by this batch. Permanent pilot definitions are not removed when their administrative batch is deleted.',
+          'Exact records generated, reused or synchronized by this action. Permanent definitions and real executions remain intact if this administrative audit record is removed.',
       },
       fields: [
         {
@@ -237,7 +240,7 @@ export const TestDataBatches: CollectionConfig = {
       admin: {
         readOnly: true,
         condition: showGeneratedFields,
-        description: 'Generation error retained for administrator diagnosis.',
+        description: 'Action error retained for administrator diagnosis.',
       },
     },
     {
@@ -245,7 +248,7 @@ export const TestDataBatches: CollectionConfig = {
       type: 'textarea',
       admin: {
         description:
-          'Optional administrator notes. Deleting a batch runs scenario-specific cleanup only for disposable records.',
+          'Optional administrator notes. Permanent scientific records require their own governed lifecycle and are not deleted through administrative-batch cleanup.',
       },
     },
   ],
