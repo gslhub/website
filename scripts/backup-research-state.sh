@@ -85,7 +85,7 @@ while IFS= read -r -d '' file; do
   relative_path="${file#${backup_dir}/}"
   [[ "$relative_path" == 'manifest.sha256' ]] && continue
   printf '%s  %s\n' "$(sha256_file "$file")" "$relative_path" >>"$manifest"
-done < <(find "$backup_dir" -type f -print0 | sort -z)
+done < <(find "$backup_dir" -type f -print0)
 
 printf 'Backup created: %s\n' "$backup_dir"
 printf 'Files in manifest: %s\n' "$(wc -l <"$manifest" | tr -d ' ')"
