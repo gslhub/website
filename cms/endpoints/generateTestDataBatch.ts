@@ -1,7 +1,7 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
 import { provisionPermanentPilotMetricDefinitions } from '../pilot/provisionPilotMetricDefinitions';
-import { provisionRealPilotExecutions } from '../pilot/provisionRealPilotExecutions';
+import { provisionVerifiedRealPilotExecutions } from '../pilot/provisionVerifiedRealPilotExecutions';
 import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
 import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
 import { generateCRMetricValidationWithPrerequisites } from '../test-data/crMetricValidationWithPrerequisites';
@@ -122,7 +122,7 @@ export const generateTestDataBatchEndpoint: Endpoint = {
           `Permanent pilot metric-definition preparation resolved ${records.length} scientific definitions.`,
         );
       } else if (scenario === 'pilot-real-executions') {
-        const records = await provisionRealPilotExecutions({
+        const records = await provisionVerifiedRealPilotExecutions({
           payload: req.payload,
           req,
         });
