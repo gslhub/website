@@ -31,6 +31,7 @@ const trustedOrigins = Array.from(
 export default buildConfig({
   admin: {
     user: Users.slug,
+    suppressHydrationWarning: true,
     meta: {
       title: 'GSLHub Research CMS',
       titleSuffix: '— GSLHub',
