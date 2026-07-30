@@ -1,5 +1,6 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
+import { provisionPermanentPilotMetricDefinitions } from '../pilot/provisionPilotMetricDefinitions';
 import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
 import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
 import { generateCRMetricValidationWithPrerequisites } from '../test-data/crMetricValidationWithPrerequisites';
@@ -110,7 +111,16 @@ export const generateTestDataBatchEndpoint: Endpoint = {
 
       const scenario = getString(batch.scenario);
 
-      if (scenario === 'pilot-metric-definitions') {
+      if (scenario === 'pilot-permanent-metric-definitions') {
+        const records = await provisionPermanentPilotMetricDefinitions({
+          payload: req.payload,
+          req,
+        });
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `Permanent pilot metric-definition preparation resolved ${records.length} scientific definitions.`,
+        );
+      } else if (scenario === 'pilot-metric-definitions') {
         const records = await generatePilotMetricDefinitionRecords({
           payload: req.payload,
           req,
