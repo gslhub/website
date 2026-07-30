@@ -45,7 +45,7 @@ export const TestDataBatches: CollectionConfig = {
       'createdAt',
     ],
     description:
-      'Administrator-only controlled generation and maintenance. Disposable test scenarios are removed with their batch; promoted scientific definitions and registry synchronizations are preserved.',
+      'Administrator-only controlled generation and preparation. Disposable TEST scenarios are removed with their batch; permanent pilot definitions and benchmark-registry synchronizations are preserved.',
   },
   endpoints: [generateTestDataBatchEndpoint],
   hooks: {
@@ -64,7 +64,7 @@ export const TestDataBatches: CollectionConfig = {
       defaultValue: 'GSLHub research workflow test data',
       admin: {
         description:
-          'Human-readable name for this administrator-controlled generation batch.',
+          'Human-readable name for this administrator-controlled generation or preparation batch.',
       },
     },
     {
@@ -85,15 +85,20 @@ export const TestDataBatches: CollectionConfig = {
       defaultValue: 'pilot-executions',
       options: [
         {
-          label: 'Pilot prompt executions — 5 planned draft records',
+          label: 'Pilot prompt executions — 5 planned TEST draft records',
           value: 'pilot-executions',
         },
         {
-          label: 'Full research pipeline — 27 connected test records',
+          label: 'Full research pipeline — 27 connected TEST records',
           value: 'full-research-pipeline',
         },
         {
-          label: 'Pilot metric definitions — AIR, CR, MCP and RCR drafts',
+          label:
+            'Permanent pilot metric definitions — provision or reuse AIR, CR, MCP and RCR v0.1.0',
+          value: 'pilot-permanent-metric-definitions',
+        },
+        {
+          label: 'Disposable pilot metric definitions — AIR, CR, MCP and RCR review drafts',
           value: 'pilot-metric-definitions',
         },
         {
@@ -129,7 +134,7 @@ export const TestDataBatches: CollectionConfig = {
       ],
       admin: {
         description:
-          'AIR validates inclusion, CR citation occurrence and MCP citation order. RCR creates one frozen baseline plus four assessed repetition comparisons with variation levels none, low, low and high. The baseline is excluded from the denominator, the first three comparisons are consistent, and the calculator must return numerator 3, denominator 4 and RCR 0.75 with reproducibility checksums.',
+          'Use Permanent pilot metric definitions for the real pilot. It creates the canonical four review drafts only when absent and reuses a complete existing set. TEST scenarios remain synthetic and disposable.',
       },
     },
     {
@@ -192,7 +197,7 @@ export const TestDataBatches: CollectionConfig = {
         readOnly: true,
         condition: showGeneratedFields,
         description:
-          'Exact records generated, reused or synchronized by this batch. Cleanup only removes records owned by disposable scenarios.',
+          'Exact records generated, reused or synchronized by this batch. Permanent pilot definitions are not removed when their administrative batch is deleted.',
       },
       fields: [
         {
@@ -240,7 +245,7 @@ export const TestDataBatches: CollectionConfig = {
       type: 'textarea',
       admin: {
         description:
-          'Optional administrator notes. Deleting a batch runs its scenario-specific cleanup rules before the batch itself is removed.',
+          'Optional administrator notes. Deleting a batch runs scenario-specific cleanup only for disposable records.',
       },
     },
   ],
