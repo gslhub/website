@@ -10,8 +10,13 @@
 # Production
 /build
 
-# Local research uploads
+# Local research uploads and recovery material
 /research-artifacts/
+/restored-research-artifacts/
+/backups/
+*.archive.gz
+manifest.sha256
+backup-metadata.txt
 
 # Local environment files
 .env
