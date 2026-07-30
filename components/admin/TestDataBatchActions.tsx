@@ -38,12 +38,12 @@ export default function TestDataBatchActions() {
       const data = (await response.json().catch(() => ({}))) as GenerationResponse;
 
       if (!response.ok) {
-        throw new Error(data.error || `Generation failed with status ${response.status}.`);
+        throw new Error(data.error || `Action failed with status ${response.status}.`);
       }
 
       setMessage(
-        `${data.message || 'Test data generated.'}${
-          typeof data.recordCount === 'number' ? ` ${data.recordCount} records created.` : ''
+        `${data.message || 'Administrative action completed.'}${
+          typeof data.recordCount === 'number' ? ` ${data.recordCount} records resolved.` : ''
         }`,
       );
 
@@ -52,7 +52,7 @@ export default function TestDataBatchActions() {
       setError(
         generationError instanceof Error
           ? generationError.message
-          : 'An unknown test-data generation error occurred.',
+          : 'An unknown administrative action error occurred.',
       );
       setIsGenerating(false);
     }
@@ -67,10 +67,15 @@ export default function TestDataBatchActions() {
         padding: '20px',
       }}
     >
-      <div style={{ fontWeight: 600, marginBottom: '8px' }}>Test-data generation</div>
+      <div style={{ fontWeight: 600, marginBottom: '8px' }}>Administrative action</div>
+      <p style={{ margin: '0 0 10px', color: 'var(--theme-elevation-600)' }}>
+        Review the selected scenario before running it. TEST scenarios create disposable synthetic
+        records. Permanent pilot scenarios create or reuse governed scientific records and are not
+        removed when this administrative batch is deleted.
+      </p>
       <p style={{ margin: '0 0 16px', color: 'var(--theme-elevation-600)' }}>
-        The batch is saved first. Generation runs as a separate administrator action so errors can be
-        reported without interrupting document creation.
+        Real pilot executions are protected by readiness checks and will not be created while any
+        scientific or durable-storage blocker remains.
       </p>
       <button
         type="button"
@@ -86,7 +91,7 @@ export default function TestDataBatchActions() {
           padding: '10px 16px',
         }}
       >
-        {isGenerating ? 'Generating test data…' : 'Generate test data'}
+        {isGenerating ? 'Running action…' : 'Run selected action'}
       </button>
       {message ? (
         <p style={{ color: 'var(--theme-success-500)', margin: '12px 0 0' }}>{message}</p>
