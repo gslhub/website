@@ -29,10 +29,11 @@
 </p>
 
 <p align="center">
-  <img alt="Status" src="https://img.shields.io/badge/status-pilot%20readiness-2563EB" />
-  <img alt="Version" src="https://img.shields.io/badge/platform-0.3.3-7C3AED" />
+  <img alt="Status" src="https://img.shields.io/badge/status-pre--pilot-2563EB" />
+  <img alt="Version" src="https://img.shields.io/badge/platform-0.4.0-7C3AED" />
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.2.10-0B132B" />
-  <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.86.0-0B132B" />
+  <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.75.0-0B132B" />
+  <img alt="Storage" src="https://img.shields.io/badge/artifacts-local-64748B" />
   <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-Atlas-47A248" />
 </p>
 
@@ -42,44 +43,112 @@
 
 **GSLHub — Generative Search Lab Hub** is an independent scientific platform for studying how generative artificial intelligence systems discover, retrieve, interpret, cite, summarize and recommend digital information.
 
-The platform connects scientific project management, benchmark design, controlled experiments, versioned prompts, AI-system profiles, prompt executions, observations, research artifacts, evidence, citations, versioned metric definitions, calculated metric results, datasets, software, methodological resources and publications inside one traceable infrastructure.
+The platform connects projects, benchmarks, experiments, versioned prompts, AI-system profiles, controlled executions, observations, research artifacts, evidence, citations, metric definitions, calculated metric results, datasets, software, methodological resources and publications inside one traceable infrastructure.
 
-GSLHub is based in Barcelona and is being developed with an international research scope.
+GSLHub is developed from Barcelona with an international research scope and currently supports the preparation of a doctoral research pilot on visibility and source selection in generative search systems.
 
-> **Current stage — 26 July 2026:** the scientific CMS, public catalogues, dashboard, file-integrity workflow, administrator test-data framework and end-to-end relationship protections are operational. The complete 27-record synthetic pipeline has been generated, validated, safely deleted and repeated in production. Versioned Metric Definitions are now separated from calculated Metric Results, AIR, CR, MCP and RCR v0.1.0 exist as bilingual reviewable drafts, results inherit immutable definition snapshots, and the benchmark API exposes its canonical `metricDefinitions` registry. The next milestone is to review and validate the real metric definitions, finalize the observation and citation codebook, verify durable storage and recovery, freeze the real pilot records and run the first five controlled executions.
+## Project status — 31 July 2026
 
-## Mission
+### Current conclusion
 
-GSLHub develops transparent, reproducible and practice-led research in:
+The production administrator is operational again after restoring the last validated compatibility set:
 
-- generative search;
-- Generative Engine Optimization (GEO);
-- artificial intelligence;
-- information retrieval;
-- source selection and citation;
-- digital transformation;
-- process automation;
-- open science and research software.
+```text
+Payload CMS       3.75.0
+@payloadcms/next  3.75.0
+Next.js           16.2.10
+React             19.2.7
+React DOM         19.2.7
+MongoDB driver    6.21.0
+Artifact storage  Local Payload uploads
+```
 
-Its mission is to transform real-world questions about AI-mediated search into documented methods, measurable experiments, reusable datasets, research software and citable scientific outputs.
+The native Payload login, authenticated dashboard, collection lists, creation forms and existing records have been verified in production.
 
-## Vision
+A later upgrade to Payload 3.86.0 caused the administrator to render an empty React Server Components boundary even though authentication, APIs and server data remained available. Reverting Payload packages to 3.75.0 restored the complete interface. These versions are therefore intentionally pinned until a future upgrade is tested separately.
 
-GSLHub aims to become an independent international reference for research on visibility, retrieval, citation, recommendation and authority in generative search systems.
+### Status matrix
 
-The platform supports the full scientific lifecycle:
+| Area | Status | Current position |
+| --- | --- | --- |
+| Production hosting and deployment | ✅ Operational | Automatic deployment from `main` to Hostinger works. |
+| Native Payload administrator | ✅ Restored and verified | Login, dashboard, forms, lists and records work with Payload 3.75.0. |
+| Scientific data model | ✅ Complete for pilot | Twenty connected collections cover the research and publication lifecycle. |
+| Access, lifecycle and integrity rules | ✅ Implemented | Roles, code reservation, relationship validation and frozen scientific states are active. |
+| Public website and catalogues | ✅ Operational | Research, benchmarks, publications, software, datasets, resources and people are connected. |
+| Synthetic end-to-end testing | ✅ Core flow validated | The 27-record synthetic pipeline has been generated, inspected, deleted safely and repeated. |
+| Metric governance | 🚧 Advanced | AIR, CR, MCP and RCR v0.1.0 exist as bilingual definitions under review. |
+| Real pilot records | 🚧 Prepared | Project, benchmark, experiment, prompt and AI-system records exist; final scientific freeze is pending. |
+| First controlled pilot | ⏳ Not started | Five real executions still need to be created and run. |
+| Research artifact storage | ✅ Local strategy selected | Local Payload uploads are sufficient for the current doctoral phase. Persistence and recovery must still be tested. |
+| Deterministic metric calculation | 🚧 Partly implemented | Administrative validation scenarios exist; final production calculators and verification tests remain pending. |
+| Dataset and publication release | ⏳ Planned | Draft records exist, but no formal scientific release should be claimed yet. |
+| Open-science release workflow | ⏳ Planned | ORCID, Zenodo, DOI, `CITATION.cff` and release metadata remain future work. |
 
-1. define research areas and projects;
-2. design benchmarks and experiments;
-3. version prompts and document AI systems;
-4. execute controlled research runs;
-5. preserve responses and uploaded research artifacts;
-6. code observations and source-level citations;
-7. validate evidence and chain of custody;
-8. define, version and validate metrics;
-9. calculate metric results from traceable inputs;
-10. test the workflow with administrator-only controlled data;
-11. release datasets, software, resources and publications.
+## What is complete
+
+- production Next.js application and MongoDB Atlas persistence;
+- native Payload authentication and role-based access;
+- bilingual scientific fields with English fallback;
+- twenty Payload collections and their relationships;
+- project, benchmark, experiment, prompt and AI-system lifecycle governance;
+- controlled prompt executions with uniqueness rules;
+- inherited scientific context across observations, artifacts, evidence, citations and metrics;
+- reserved scientific code namespaces;
+- automatic SHA-256 for uploaded research artifacts;
+- append-only evidence chain-of-custody rules;
+- immutable validated or released scientific snapshots;
+- versioned Metric Definitions separated from calculated Metric Results;
+- automatic methodological snapshots in Metric Results;
+- canonical benchmark `metricDefinitions` exposure through the API;
+- administrator-only Test Data Batches with rollback and cleanup;
+- public catalogues and initial dashboard;
+- Spanish user and scientific-governance manual;
+- validated production compatibility configuration.
+
+## What remains before the first real pilot
+
+1. Review AIR, CR, MCP and RCR v0.1.0 field by field.
+2. Confirm formulas, ranges, required inputs, aggregation, missing-data policy, assumptions and limitations.
+3. Complete `Validated At` and `Validated By`, then move accepted definitions to `Validated`.
+4. Finalize the observation and citation codebook.
+5. Finalize inclusion, exclusion and quality-control rules.
+6. Review and freeze the real project, benchmark, experiment, prompt and AI-system profile.
+7. Confirm that `research-artifacts/` survives application restart and production redeployment.
+8. Define and test a backup and restore procedure for MongoDB plus `research-artifacts/`.
+9. Prepare the execution, capture and evidence checklist.
+10. Create exactly five real planned Prompt Executions with `GSL-EXEC-` codes.
+11. Run five isolated sessions under the frozen protocol.
+12. Preserve the response and interface evidence for each run.
+13. Code and review observations, citations and exclusions.
+14. Calculate AIR, CR, MCP and RCR through deterministic procedures.
+15. Review the complete round before preparing the first dataset and technical report.
+
+S3-compatible object storage is **not a blocker for the current doctoral pilot**. It will be reconsidered when file volume, collaboration, availability or formal preservation requirements increase.
+
+## Immediate next milestone
+
+```text
+Project:            GSL-GEO-BENCH-01
+Benchmark:          GSL-BENCH-GEO-01 v0.1.0
+Experiment:         GSL-EXP-GEO-001
+Prompt:             GSL-PROMPT-GEO-001 v0.1.0
+AI System:          GSL-AISYS-001
+Metric Definitions: AIR / CR / MCP / RCR v0.1.0
+Planned repetitions: 5
+```
+
+Recommended order:
+
+1. validate the four Metric Definitions;
+2. finish the observation and citation codebook;
+3. verify local artifact persistence, backup and restore;
+4. freeze the benchmark, experiment, prompt and AI-system profile;
+5. create five real planned executions;
+6. run the controlled round;
+7. code observations, evidence and citations;
+8. calculate and independently verify the four metrics;
+9. prepare the first dataset, protocol release and technical report.
 
 ## Scientific architecture
 
@@ -90,7 +159,7 @@ flowchart TD
     C --> D[Experiments]
     C --> MD[Metric Definitions]
 
-    D --> E[Prompt Library]
+    D --> E[Prompts]
     D --> F[AI Systems]
     E --> G[Prompt Executions]
     F --> G
@@ -114,7 +183,7 @@ flowchart TD
     N --> P[Publications]
     O --> P
 
-    T[Test Data Batches] -. Administrator-only validation .-> MD
+    T[Test Data Batches] -. Controlled validation .-> MD
     T -.-> G
     T -.-> H
     T -.-> I
@@ -123,105 +192,32 @@ flowchart TD
     T -.-> L
 ```
 
-The architecture preserves traceability from the research question and approved protocol to the evaluated system, exact prompt, execution, file, evidence, observation, citation, metric definition, calculated result and released output.
+The architecture preserves traceability from the research question and approved protocol to the evaluated system, exact prompt, execution, evidence, coded observations, source-level citations, metric definition, calculated result and released output.
 
-## Current platform status
-
-### Payload CMS collections
+## Payload collections
 
 The production configuration registers **20 collections**.
 
-| Collection | Purpose | Status |
-| --- | --- | --- |
-| Users | Authentication and role management. | ✅ Operational |
-| Test Data Batches | Administrator-only generation, synchronization and cleanup. | ✅ Validated |
-| Research Areas | Scientific classification. | ✅ Operational |
-| Researchers | Researcher profiles and scholarly identifiers. | ✅ Operational |
-| Projects | Objectives, methodology and project lifecycle. | ✅ Governance validated |
-| Benchmarks | Protocols, systems and metric-definition registry. | ✅ Governance validated |
-| Experiments | Questions, hypotheses, variables and sampling. | ✅ Governance validated |
-| Prompts | Exact wording, versions and constraints. | ✅ Governance validated |
-| AI Systems | Providers, access conditions, capabilities and visible versions. | ✅ Governance validated |
-| Prompt Executions | Controlled runs, environment, response and review. | ✅ Integrity validated |
-| Observations | Structured coding of generated responses. | ✅ Integrity validated |
-| Research Artifacts | Private files with automatic SHA-256. | ✅ Validated |
-| Evidence | Preserved records, integrity and chain of custody. | ✅ Integrity validated |
-| Citations | Source extraction and verification. | ✅ Integrity validated |
-| Metric Definitions | Versioned formulas, ranges, inputs and interpretation. | ✅ Operational — under review |
-| Metrics | Calculated results and reproducibility metadata. | ✅ Definition-linked integrity validated |
-| Publications | Preprints, articles and technical reports. | ✅ Governance validated |
-| Software | Versions and source availability. | ✅ Governance validated |
-| Datasets | Methodology, formats and release metadata. | ✅ Governance validated |
-| Resources | Protocols, guides and templates. | ✅ Governance validated |
+| Group | Collections |
+| --- | --- |
+| Administration | Users, Test Data Batches |
+| Research | Research Areas, Researchers, Projects, Benchmarks, Publications |
+| Research Operations | Experiments, Prompts, AI Systems, Prompt Executions, Observations, Research Artifacts, Evidence, Citations, Metric Definitions, Metrics |
+| Outputs | Software, Datasets, Resources |
 
-### Validated capabilities
-
-- English and Spanish localized scientific fields;
-- draft and publish workflows;
-- anonymous published-only access;
-- administrator, editor and researcher roles;
-- MongoDB Atlas persistence;
-- public REST API and scientific dashboard;
-- private research artifact uploads;
-- scientific MIME normalization;
-- automatic SHA-256 checksums;
-- inherited scientific context;
-- administrator-only test-data generation;
-- rollback, retry and ownership-based cleanup;
-- physical upload deletion during cleanup;
-- repeatable 27-record synthetic pipeline;
-- unique controlled execution conditions;
-- reserved scientific code namespaces;
-- controlled lifecycle transitions;
-- immutable validated and released snapshots;
-- append-only evidence chain of custody;
-- versioned metric definitions separated from metric results;
-- automatic metric-result snapshot inheritance;
-- project and benchmark validation for metric definitions and results;
-- canonical benchmark `metricDefinitions` exposure through the API;
-- human-readable integrity errors.
+All collections remain in Payload 3.75.0. MongoDB documents were not migrated or rewritten during the compatibility rollback.
 
 ## Central governance rule
 
 GSLHub distinguishes an editable working document from a frozen scientific record.
 
-Before validation or release, a user may correct the content. After validation or release, the historical record must be preserved.
+Before validation or release, authorized users may correct the content. After validation or release, the historical record must be preserved. A later correction should use review notes, exclusion, deprecation, a new version, a new execution or a formal correction record rather than silently overwriting prior scientific history.
 
-When a frozen record needs correction, the correct action is one of the following:
+Detailed collection rules are documented in [`docs/MANUAL_USUARIO_ES.md`](./docs/MANUAL_USUARIO_ES.md).
 
-- add review or validation notes;
-- exclude or reject the record;
-- mark it deprecated or archived;
-- create a new version;
-- create a new execution, observation, citation or metric result;
-- create a formal correction record for a publication.
+## Scientific identifiers
 
-A scientific record already used by research must never be silently overwritten.
-
-The detailed user-facing rules are documented in [`docs/MANUAL_USUARIO_ES.md`](./docs/MANUAL_USUARIO_ES.md).
-
-## Governance summary by entity
-
-| Entity | Freeze point | Correct action when the scientific definition changes |
-| --- | --- | --- |
-| Project | Active | Create a new project version |
-| Benchmark | Pilot | Create a new benchmark version |
-| Experiment | Ready | Create a new experiment or version |
-| Prompt | Validated | Create a new prompt version |
-| AI System | Active or equivalent | Create a new profile or snapshot |
-| Prompt Execution | Running / Completed | Create a new execution or exclude the run |
-| Observation | Validated | Create a new observation or add review notes |
-| Research Artifact | Captured and hashed | Create a new artifact |
-| Evidence | Validated | Reject, archive or create new evidence |
-| Citation | Validated | Create a new citation or document the review |
-| Metric Definition | Validated | Create a new metric-definition version |
-| Metric Result | Validated | Create a new calculated result |
-| Resource | Available | Create a new resource version |
-| Dataset | Released | Create a new dataset version |
-| Software | Alpha or later | Create a new software version |
-| Publication | Preprint or Published | Create a new version or formal correction |
-
-## Scientific code namespaces
+Examples:
 
 ```text
 GSL-EXEC-GEO-0001
@@ -233,15 +229,7 @@ GSL-MDEF-AIR-0001
 GSL-MET-GEO-0001
 ```
 
-Codes:
-
-- are normalized to uppercase;
-- must use the correct collection prefix;
-- end with at least four digits;
-- are reserved when the record is created;
-- cannot be changed later.
-
-The `TEST-` namespace is reserved for administrators and Test Data Batches.
+Codes are normalized, collection-specific, reserved when the record is created and immutable afterward. The `TEST-` namespace is reserved for administrator-controlled synthetic data.
 
 ## Controlled execution uniqueness
 
@@ -257,332 +245,128 @@ Repetition Number
 
 This prevents duplicate scientific conditions and accidental reuse of a repetition.
 
-## Integrity rules by layer
+## Metric governance
 
-### Projects
+A Metric Definition stores the versioned methodology: formula, valid range, inputs, aggregation, missing-data policy, rounding, assumptions, limitations and validation procedure.
 
-A project becomes methodologically frozen when it reaches `Active`.
+A Metric Result stores a calculated value and automatically inherits an immutable snapshot of the linked definition. Real results must reference a `Validated` or `Active` definition.
 
-Protected fields include project code, slug, type, objectives, methodology, start date and research areas. A completed project also seals its end date.
+Current pilot definitions:
 
-### Benchmarks
-
-A benchmark becomes frozen at `Pilot`.
-
-Its code, type, version, scope, protocol, systems, embedded human-readable metrics, versioned `metricDefinitions`, start date, project and research areas cannot be overwritten after the pilot begins.
-
-The REST API derives `metricDefinitions` from the canonical relationships stored in Metric Definitions. This avoids stale benchmark records and preserves compatibility with older benchmark documents.
-
-### Experiments
-
-An experiment becomes frozen at `Ready`.
-
-Its research question, hypothesis, objective, protocol, sampling, inclusion and exclusion criteria, variables, planned repetitions and core relationships are protected.
-
-### Prompts
-
-A prompt becomes frozen at `Validated` and requires `Validated At`.
-
-The exact wording, version, language, execution instructions, placeholders and constraints cannot be edited after validation. A one-word change requires a new version.
-
-### AI systems
-
-An evaluation profile becomes frozen at `Active`, `Limited`, `Deprecated`, `Unavailable` or `Archived`.
-
-Access modes, account tier, model and interface versions, release channel, capabilities, languages and identification method are protected. A changed interface or access condition requires a new system profile or snapshot.
-
-### Prompt executions
-
-Real execution conditions are unique. When a run starts, its prompt snapshot, scientific context, repetition, date and environment are sealed. Completion also seals the response, source presentation, timing and usage metadata.
-
-Completed runs cannot return to planned or running states.
-
-### Observations
-
-Observations inherit project, benchmark, experiment, prompt and AI system from the prompt execution.
-
-Validated observations cannot be moved to another execution or silently recoded. Quality-control notes and exclusion metadata remain available.
-
-### Research artifacts
-
-Artifacts use reserved identifiers, inherited execution context and automatic SHA-256. A replacement file must be represented as a new artifact rather than a silent overwrite.
-
-### Evidence
-
-Validated evidence requires integrity verification, accepted quality control and a validation date.
-
-Its preserved content and metadata are immutable. Chain-of-custody events are append-only.
-
-### Citations
-
-A citation must use an observation and evidence belonging to the same prompt execution and scientific context.
-
-Validated source metadata, URL, domain, position, citation context, verification and relationships are sealed.
-
-### Metric definitions
-
-A Metric Definition documents one version of a scientific calculation method. It includes:
-
-- definition code and metric code;
-- semantic version;
-- category, direction and unit of analysis;
-- value type and unit;
-- formula and pseudocode;
-- numerator and denominator definitions;
-- aggregation and missing-data policies;
-- valid range and rounding precision;
-- required source fields;
-- assumptions, limitations and validation procedure;
-- project, benchmark, researchers and methodological resources.
-
-The combination `Metric Code + Version` must be unique. From `Validated`, the formula and all methodological fields are frozen. A changed formula requires a new definition version.
-
-### Metric results
-
-Every real Metric Result must reference a `Validated` or `Active` Metric Definition.
-
-The result automatically inherits a snapshot of the definition code, name, version, category, direction, scope, value type, unit, precision, formula, aggregation method and missing-data policy. Those fields are read-only in the result.
-
-Metric inputs must belong to the declared project, benchmark, experiment, prompt and AI system. Validated values, inputs, breakdowns and reproducibility metadata are immutable.
-
-### Resources
-
-An `Available` resource requires a publication date and content or a canonical location.
-
-Its released version, content, URLs, license and scientific relationships are frozen.
-
-### Datasets
-
-A dataset follows:
-
-```text
-Planned → Collecting → Cleaning → Validating → Released → Archived
-```
-
-A released dataset requires a release date, final availability, at least one format and a positive record count. A public release also requires a repository or DOI, license and Open Data.
-
-### Software
-
-Software follows a controlled release lifecycle from Planned to Alpha, Beta, Stable, Maintenance, Deprecated and Archived.
-
-From Alpha onward, the release date, version, source availability, repository, license, languages, technologies and scientific relationships are frozen.
-
-### Publications
-
-A preprint or publication requires a publication date, at least one author, a DOI or canonical URL, and a venue.
-
-Title, abstract, keywords, bibliographic metadata, authors and relationships are frozen after scholarly release.
+| Metric | Purpose | Version | Current state |
+| --- | --- | --- | --- |
+| AIR | AI inclusion / appearance rate | 0.1.0 | Under review |
+| CR | Citation rate | 0.1.0 | Under review |
+| MCP | Mean citation position | 0.1.0 | Under review |
+| RCR | Relevant citation rate | 0.1.0 | Under review |
 
 ## Administrator test-data framework
 
-### Scenarios
+Implemented scenarios include:
 
-| Scenario | Records | Purpose |
-| --- | ---: | --- |
-| Pilot prompt executions | 5 | Validate planned execution records. |
-| Full research pipeline | 27 | Validate the complete operational pipeline. |
-| Pilot metric definitions | 4 | Create bilingual AIR, CR, MCP and RCR v0.1.0 review drafts. |
-| Metric definition linkage | 4 or 8 | Create four calculated test results and automatically create all four definitions when none exist. |
-| Synchronize benchmark metric registry | 4 references | Backfill the benchmark registry without creating or deleting definitions. |
+- five pilot Prompt Execution drafts;
+- a complete 27-record connected research pipeline;
+- permanent pilot metric definitions;
+- permanent real pilot execution reservations;
+- disposable metric-definition review drafts;
+- metric-definition linkage and calculated test results;
+- benchmark metric-registry synchronization;
+- deterministic AIR validation;
+- deterministic CR validation;
+- deterministic MCP validation;
+- deterministic RCR validation.
 
-The full pipeline scenario creates:
+Synthetic records remain draft or private, use `TEST-` identifiers and must never be presented as scientific findings.
 
-```text
-5 Prompt Executions
-5 Observations
-5 Research Artifacts
-5 Evidence records
-3 Citations
-4 Metric results
-────────────────────
-27 connected records
+## Research artifacts and local storage
+
+The `research-artifacts` collection uses Payload's native local upload system:
+
+```ts
+upload: {
+  staticDir: 'research-artifacts'
+}
 ```
 
-The metric-definition linkage scenario validates:
+Supported artifacts include screenshots, PDF, HTML, JSON, JSON-LD, CSV, text, logs and ZIP archives. The workflow can normalize MIME types, calculate SHA-256, inherit execution context and restrict access.
+
+For the current phase, operational backups must include:
 
 ```text
-Metric Definition v0.1.0
-          ↓
-Inherited immutable snapshot
-          ↓
-Calculated TEST- Metric Result
+MongoDB database
+research-artifacts/ directory
+production environment variables
 ```
 
-Safety rules:
-
-- generated scientific records stay draft or private;
-- each disposable record is owned by its batch through document ID and scientific code;
-- partial failures roll back;
-- failed batches can be retried;
-- generated batches cannot be duplicated;
-- deletion follows reverse dependency order;
-- all physical test files are deleted;
-- promoted metric definitions are preserved;
-- benchmark-registry synchronization is permanent and is not reversed when its administrative batch is removed;
-- synthetic data is never presented as scientific findings.
-
-## Research artifacts and storage
-
-GSLHub can preserve:
-
-- screenshots;
-- PDFs;
-- response exports;
-- HTML snapshots;
-- JSON and JSON-LD;
-- CSV;
-- logs;
-- ZIP archives.
-
-For supported uploads it can normalize MIME, calculate SHA-256, store integrity metadata, inherit execution context, restrict access and remove files through owned test-data cleanup.
-
-The current archive uses private local storage. Durable S3-compatible or equivalent versioned storage is still required before irreplaceable evidence is collected at scale.
-
-## Current scientific assets
-
-| Scientific object | Current record |
-| --- | --- |
-| Research area | Generative Search and GEO |
-| Researcher | Eduardo José Yauri Luna |
-| Project | GSLHub Generative Search Visibility Benchmark |
-| Benchmark | GSLHub Generative Search Visibility Benchmark |
-| Experiment | Pilot Validation of the GSLHub Generative Search Visibility Protocol |
-| Prompt | Factors Influencing Source Selection in Generative Search |
-| AI system | ChatGPT Search — authenticated web configuration |
-| Metric definitions | AIR, CR, MCP and RCR v0.1.0 — Under review |
-| Publication | A Reproducible Protocol for Measuring Visibility in Generative Search Systems |
-| Software | GSLHub Generative Search Benchmark Toolkit |
-| Dataset | GSLHub Generative Search Visibility Benchmark Dataset |
-| Resource | GSLHub Generative Search Visibility Benchmark Research Protocol |
-
-Real editorial and operational records remain drafts until their scientific requirements are complete.
+Before collecting irreplaceable pilot evidence, verify persistence across restart and redeployment and complete one documented restore test.
 
 ## Public website
 
-| Page | Data source | Status |
+| Route | Source | Status |
 | --- | --- | --- |
 | `/research` | Research Areas and Projects | ✅ Live |
-| `/benchmarks` | Benchmarks and canonical Metric Definitions | ✅ Live |
-| `/dashboard` | Published operational records and validated metrics | ✅ Live |
+| `/benchmarks` | Benchmarks and Metric Definitions | ✅ Live |
+| `/dashboard` | Published operational records and validated metrics | ✅ Initial version |
 | `/publications` | Publications | ✅ Live |
 | `/software` | Software | ✅ Live |
 | `/datasets` | Datasets | ✅ Live |
 | `/resources` | Resources | ✅ Live |
 | `/people` | Researchers | ✅ Live |
 
-Drafts, private artifacts, `TEST-` records, under-review metric definitions and unvalidated calculations are intentionally excluded from public scientific claims.
+Drafts, private artifacts, `TEST-` data, under-review metric definitions and unvalidated calculations are intentionally excluded from public scientific claims.
 
-## Where the project stands
-
-### Completed
-
-- infrastructure and automatic deployment;
-- scientific CMS;
-- public website and initial dashboard;
-- research data model;
-- analysis data model;
-- uploads and checksums;
-- administrator test data;
-- end-to-end scientific context validation;
-- immutable execution, observation, evidence, citation and metric snapshots;
-- code reservation and execution uniqueness;
-- governance for projects, benchmarks, experiments, prompts and AI systems;
-- release governance for resources, datasets, software and publications;
-- versioned Metric Definitions collection;
-- separation between methodology definitions and calculated results;
-- bilingual AIR, CR, MCP and RCR v0.1.0 drafts;
-- automatic definition snapshots in Metric Results;
-- benchmark API exposure of canonical `metricDefinitions`;
-- Spanish user-governance manual.
-
-### Current milestone
-
-**Metric governance and pilot readiness**:
-
-- scientifically review AIR, CR, MCP and RCR v0.1.0;
-- correct wording, formulas, ranges, inputs and limitations while they remain `Under review`;
-- add `Validated At` and `Validated By`;
-- move accepted definitions to `Validated` and freeze them;
-- finalize the observation and citation codebook;
-- freeze the real benchmark, experiment, prompt and AI-system profile;
-- verify durable storage and recovery;
-- prepare the exact manual pilot procedure.
-
-### Remaining before the first real pilot
-
-1. final scientific approval of AIR, CR, MCP and RCR;
-2. final observation and citation codebook;
-3. durable evidence storage;
-4. tested MongoDB and file recovery;
-5. final inclusion and exclusion rules;
-6. execution and capture checklist;
-7. five real executions without `TEST-` codes;
-8. scientific review of observations and citations;
-9. deterministic metric calculators and verification tests.
-
-## Immediate next milestone
-
-```text
-Project: GSL-GEO-BENCH-01
-Benchmark: GSL-BENCH-GEO-01 v0.1.0
-Experiment: GSL-EXP-GEO-001
-Prompt: GSL-PROMPT-GEO-001 v0.1.0
-AI System: GSL-AISYS-001
-Metric Definitions: AIR / CR / MCP / RCR v0.1.0
-Planned repetitions: 5
-```
-
-Recommended sequence:
-
-1. review AIR, CR, MCP and RCR field by field;
-2. validate and freeze the four metric definitions;
-3. finalize the observation and citation codebook;
-4. verify durable storage and backup recovery;
-5. review the real project;
-6. move the benchmark to `Pilot`;
-7. move the experiment to `Ready`;
-8. validate the prompt;
-9. confirm the AI-system profile;
-10. create five real planned executions;
-11. run five isolated sessions;
-12. preserve responses and interface evidence;
-13. code observations and citations;
-14. calculate metrics through deterministic procedures;
-15. review and document exclusions;
-16. prepare the first dataset and technical report.
-
-## Development roadmap
+## Roadmap
 
 | Phase | Scope | Status |
 | --- | --- | --- |
-| 1. Infrastructure | Hosting, Next.js, Payload and MongoDB | ✅ Complete |
-| 2. Scientific CMS | Collections, relationships, access and localization | ✅ Complete |
-| 3. Public website | Catalogues, navigation, SEO and branding | ✅ Complete |
-| 4. Research model | Experiments, prompts, systems and executions | ✅ Complete |
-| 5. Analysis model | Observations, evidence, citations and metrics | ✅ Complete |
-| 6. Dashboard | Published counters and metric presentation | ✅ Initial version |
-| 7. Artifact integrity | Uploads, MIME, inheritance and SHA-256 | ✅ Validated |
-| 8. Test-data lifecycle | Generation, rollback, synchronization and cleanup | ✅ Validated |
-| 9. Scientific snapshots | Relationships, lifecycle and immutability | ✅ Validated |
-| 10. Metric governance | Definitions, versions, result inheritance and benchmark registry | 🚧 Advanced — review pending |
-| 11. Pilot governance | Real records, codebook, storage and checklists | 🚧 Advanced |
-| 12. First real pilot | Five executions and analysis | ⏳ Next milestone |
-| 13. Automation | Deterministic metric calculators, exports and monitoring | ⏳ Planned |
-| 14. Publication pipeline | Dataset, software, protocol and report | ⏳ Planned |
-| 15. Open science | ORCID, Zenodo, DOI and citation metadata | ⏳ Planned |
-| 16. Comparative scaling | Multiple systems, languages and rounds | ⏳ Planned |
+| 1 | Infrastructure and deployment | ✅ Complete |
+| 2 | Scientific CMS and access model | ✅ Complete |
+| 3 | Public website and catalogues | ✅ Complete |
+| 4 | Research and analysis data models | ✅ Complete |
+| 5 | Integrity, lifecycle and scientific snapshots | ✅ Complete |
+| 6 | Test-data lifecycle and rollback | ✅ Core validation complete |
+| 7 | Metric governance | 🚧 Scientific review pending |
+| 8 | Local storage persistence and recovery | 🚧 Verification pending |
+| 9 | Pilot protocol and codebook | 🚧 In progress |
+| 10 | First five real executions | ⏳ Next operational milestone |
+| 11 | Deterministic calculation and review | ⏳ Planned |
+| 12 | Dataset, software and technical report | ⏳ Planned |
+| 13 | ORCID, Zenodo, DOI and formal citation | ⏳ Planned |
+| 14 | Comparative systems, languages and rounds | ⏳ Future scale-up |
 
 ## Technology stack
 
 - Next.js 16.2.10;
-- React 19.2.7;
+- React and React DOM 19.2.7;
 - TypeScript 5.9;
 - Tailwind CSS 4.3.3;
-- Payload CMS 3.86.0;
+- Payload CMS 3.75.0;
 - MongoDB Atlas;
+- Node.js crypto for SHA-256;
 - GitHub;
 - Hostinger Cloud;
-- Node.js crypto for SHA-256.
+- local Payload artifact storage.
+
+## Compatibility policy
+
+The currently validated set must not be upgraded automatically:
+
+```text
+payload
+@payloadcms/next
+@payloadcms/ui
+@payloadcms/db-mongodb
+@payloadcms/richtext-lexical
+next
+react
+react-dom
+```
+
+Do not run `npm audit fix --force` against production without reviewing the resulting framework versions and testing the complete administrator on a separate branch.
+
+The repository currently pins direct dependency versions, but does **not yet contain `package-lock.json`**. Creating and committing a validated lockfile is a remaining reproducibility task so transitive dependencies cannot change silently between deployments.
+
+The compatibility incident and accepted rollback are documented in [`docs/COMPATIBILIDAD_PAYLOAD_NEXT_ES.md`](./docs/COMPATIBILIDAD_PAYLOAD_NEXT_ES.md).
 
 ## Repository structure
 
@@ -591,31 +375,24 @@ Recommended sequence:
 ├── app/                         Public site, dashboard, Payload and APIs
 ├── cms/
 │   ├── access/                  Scientific access rules
-│   ├── collections/             Scientific and admin collections
+│   ├── collections/             Scientific and administrative collections
 │   ├── endpoints/               Administrator actions
-│   ├── hooks/                   Lifecycle, integrity and read-model controls
-│   └── test-data/               Generation, synchronization and cleanup
+│   ├── hooks/                   Lifecycle and integrity controls
+│   ├── pilot/                   Controlled pilot preparation
+│   ├── storage/                 Local artifact metadata
+│   └── test-data/               Generation, validation and cleanup
 ├── components/                  Shared, brand and admin components
-├── docs/                        User and governance documentation
+├── docs/                        Manuals and governance documentation
 ├── public/brand/                Brand assets
+├── research-artifacts/          Local private uploads at runtime
 ├── payload.config.ts            Payload configuration
 ├── README.md                    English documentation
 └── README.es.md                 Spanish documentation
 ```
 
-## Data and access model
-
-- authenticated researchers and editors can prepare scientific records;
-- administrators control destructive actions and Test Data Batches;
-- drafts remain visible only inside the authenticated CMS;
-- anonymous users receive published records only;
-- research artifacts require authentication;
-- test data stays draft or private;
-- scientific relationships are explicit;
-- English and Spanish localized fields use English fallback;
-- GSLHub uses dedicated CORS, CSRF and authentication settings.
-
 ## REST API
+
+Public and authenticated Payload endpoints include:
 
 ```text
 GET /api/research-areas
@@ -627,6 +404,7 @@ GET /api/prompts
 GET /api/ai-systems
 GET /api/prompt-executions
 GET /api/observations
+GET /api/research-artifacts
 GET /api/evidence
 GET /api/citations
 GET /api/metric-definitions
@@ -637,19 +415,13 @@ GET /api/datasets
 GET /api/resources
 ```
 
-The benchmark response includes a derived `metricDefinitions` array built from canonical Metric Definition relationships.
-
-Authenticated artifacts:
-
-```text
-GET /api/research-artifacts
-```
-
-Administrator generation and synchronization:
+Administrator-controlled generation:
 
 ```text
 POST /api/test-data-batches/:id/generate
 ```
+
+Anonymous access is restricted to published scientific content. Private research artifacts and draft operational records require authentication.
 
 ## Local development
 
@@ -679,55 +451,20 @@ npm run build
 
 ## Deployment notes
 
-- production deploys automatically from `main` to Hostinger Cloud;
-- the build command remains `next build`;
-- do not add `payload generate:importmap` without retesting the production Node.js environment;
+- production deploys automatically from `main` to Hostinger;
+- use `next build` and `next start`;
 - avoid overlapping rapid deployments;
-- do not run `npm audit fix --force` without reviewing Payload, Next.js and React compatibility;
-- dependency audit warnings are separate from TypeScript and build failures.
+- back up MongoDB and local artifacts before structural changes;
+- test dependency upgrades in an isolated branch;
+- confirm native login, dashboard, a collection list and a record form after every framework change.
 
-## Scientific principles
+## Documentation still to produce
 
-### Reproducibility
-
-Protocols, prompts, systems, metric definitions, calculations, evidence and datasets should support independent replication.
-
-### Transparency
-
-Methodological decisions, exclusions, limitations and version changes should remain traceable.
-
-### Versioning
-
-Scientific objects must not change silently after use.
-
-### FAIR data
-
-Released datasets should be findable, accessible, interoperable and reusable whenever legal and ethical conditions allow it.
-
-### Research integrity
-
-The platform distinguishes preparation, synthetic validation, capture, review, validation, calculation, release and publication.
-
-### Responsible openness
-
-Open science does not justify exposing private, personal, restricted or non-redistributable information.
-
-### Human review
-
-Automation remains subject to documented validation and scientific oversight.
-
-## Documentation
-
-- [Spanish README](./README.es.md)
-- [Spanish user and scientific-governance manual](./docs/MANUAL_USUARIO_ES.md)
-
-Planned documents:
-
-- backup and recovery procedure;
-- first-pilot protocol;
-- observation and citation codebook;
-- metric calculation specification and verification tests;
-- dataset export guide;
+- final observation and citation codebook;
+- first-pilot execution and capture protocol;
+- MongoDB and local-file backup and recovery procedure;
+- deterministic metric calculation specification and verification tests;
+- dataset export and anonymization guide;
 - `CITATION.cff`;
 - repository license;
 - security policy;
@@ -735,15 +472,15 @@ Planned documents:
 
 ## Citation
 
-A repository-level `CITATION.cff` and Zenodo workflow will be added before the first formal release.
+A repository-level `CITATION.cff` and formal archive workflow will be added before the first scholarly release.
 
-Until then, cite the public platform as:
+Until then, cite the platform as:
 
 ```text
 GSLHub — Generative Search Lab Hub. Independent scientific platform for generative search, GEO, artificial intelligence and reproducible research. https://gslhub.com
 ```
 
-Do not assign a DOI, publication date or scholarly release status to draft or synthetic test records.
+Do not assign a DOI, publication date or scholarly release status to draft or synthetic records.
 
 ## Contact
 
@@ -760,5 +497,5 @@ Do not assign a DOI, publication date or scholarly release status to draft or sy
 </p>
 
 <p align="center">
-  Last updated: 26 July 2026
+  Last updated: 31 July 2026
 </p>
