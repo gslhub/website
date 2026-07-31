@@ -1,6 +1,6 @@
 {
   "name": "gslhub-website",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "private": true,
   "description": "Official research platform for GSLHub — Generative Search Lab Hub.",
   "packageManager": "npm@10.9.2",
@@ -30,6 +30,7 @@
     "sharp": "^0.34.4"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
