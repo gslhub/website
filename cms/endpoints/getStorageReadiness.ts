@@ -26,33 +26,26 @@ export const getStorageReadinessEndpoint: Endpoint = {
     const checks = {
       databaseConfigured: isConfigured(process.env.DATABASE_URL),
       payloadSecretConfigured: isConfigured(process.env.PAYLOAD_SECRET),
-      durableArtifactStorageEnabled: storage.enabled,
-      bucketConfigured: Boolean(storage.bucket),
-      regionConfigured: Boolean(storage.region),
-      endpointValid: storage.endpointHost !== 'invalid-url',
-      artifactRoundtripVerified: storage.artifactRoundtripVerified,
-      backupRecoveryVerified: storage.backupRecoveryVerified,
+      localArtifactStorageEnabled:
+        storage.enabled && storage.provider === 'local',
+      localDirectoryConfigured: Boolean(storage.localDirectory),
     };
     const readyForPilot = Object.values(checks).every(Boolean);
-    const verificationStillRequired: string[] = [];
-
-    if (!storage.artifactRoundtripVerified) {
-      verificationStillRequired.push(
-        'Upload one restricted research artifact, download it through authenticated Payload access and confirm that both SHA-256 values match. Then set PILOT_ARTIFACT_ROUNDTRIP_VERIFIED_AT to the ISO-8601 verification timestamp.',
-      );
-    }
-
-    if (!storage.backupRecoveryVerified) {
-      verificationStillRequired.push(
-        'Create a MongoDB and object-storage backup, restore it into an isolated environment and verify record and file checksums. Then set PILOT_BACKUP_RECOVERY_VERIFIED_AT to the ISO-8601 verification timestamp.',
-      );
-    }
 
     return Response.json({
       readyForPilot,
       storage,
       checks,
-      verificationStillRequired,
+      storagePolicy: {
+        currentPhase: 'local',
+        directory: storage.localDirectory,
+        rationale:
+          'Local Payload storage is accepted for the current doctoral research phase. S3-compatible storage will be reassessed when scale, collaboration or preservation requirements increase.',
+      },
+      recommendations: [
+        'Include the local research-artifacts directory in the regular project backup.',
+        'Keep MongoDB backups synchronized with file backups so records and evidence remain recoverable together.',
+      ],
     });
   },
 };
