@@ -20,7 +20,7 @@ export const ResearchArtifacts: CollectionConfig = {
       admin: {
         readOnly: true,
         description:
-          'Automatically recorded physical-storage provenance. Local host storage is not considered durable for irreplaceable pilot evidence.',
+          'Automatically recorded storage provenance. Local Payload storage is accepted for the current doctoral research phase; durable object storage can be enabled later.',
       },
       fields: [
         {
