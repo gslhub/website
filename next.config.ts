@@ -15,10 +15,23 @@ const noStoreHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: '/admin/login',
+        destination: '/cms-login',
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {
         source: '/admin/:path*',
+        headers: noStoreHeaders,
+      },
+      {
+        source: '/cms-login',
         headers: noStoreHeaders,
       },
       {
