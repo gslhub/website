@@ -36,20 +36,19 @@ export const recordResearchArtifactStorageMetadata: CollectionBeforeChangeHook =
 
   if (!hasNewFile && previous.storageMetadata) return data;
 
-  const objectKey = researchArtifactStorageSettings.enabled
-    ? joinObjectKey(researchArtifactStorageSettings.prefix, filename)
-    : joinObjectKey('research-artifacts', filename);
+  const objectKey = joinObjectKey(
+    researchArtifactStorageSettings.prefix,
+    filename,
+  );
 
   return {
     ...incoming,
     storageMetadata: {
-      provider: researchArtifactStorageSettings.provider,
-      durabilityStatus: researchArtifactStorageSettings.enabled
-        ? 'durable-object-storage'
-        : 'local-host-storage',
-      bucket: researchArtifactStorageSettings.bucket,
-      region: researchArtifactStorageSettings.region,
-      endpoint: researchArtifactStorageSettings.endpoint,
+      provider: 'local',
+      durabilityStatus: 'local-host-storage',
+      bucket: null,
+      region: null,
+      endpoint: null,
       objectKey,
       recordedAt: new Date().toISOString(),
     },
