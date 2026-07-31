@@ -18,7 +18,7 @@ import { Publications } from './cms/collections/PublicationsWithIntegrity';
 import { ResearchArtifacts } from './cms/collections/ResearchArtifactsWithStorage';
 import { Resources } from './cms/collections/ResourcesWithIntegrity';
 import { Software } from './cms/collections/SoftwareWithIntegrity';
-import { TestDataBatches } from './cms/collections/TestDataBatchesWithStorageReadiness';
+import { TestDataBatches } from './cms/collections/TestDataBatches';
 import { Users } from './cms/collections/Users';
 import { ResearchAreas, Researchers } from './cms/collections/research';
 
