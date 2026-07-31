@@ -21,7 +21,6 @@ import { Software } from './cms/collections/SoftwareWithIntegrity';
 import { TestDataBatches } from './cms/collections/TestDataBatchesWithStorageReadiness';
 import { Users } from './cms/collections/Users';
 import { ResearchAreas, Researchers } from './cms/collections/research';
-import { researchArtifactStoragePlugin } from './cms/storage/researchArtifactStorage';
 
 const serverURL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://gslhub.com').replace(/\/+$/, '');
 const trustedOrigins = Array.from(
@@ -94,7 +93,6 @@ export default buildConfig({
     defaultLocale: 'en',
     fallback: true,
   },
-  plugins: [researchArtifactStoragePlugin],
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL,
 });
