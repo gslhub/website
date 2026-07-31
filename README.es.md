@@ -29,10 +29,11 @@
 </p>
 
 <p align="center">
-  <img alt="Estado" src="https://img.shields.io/badge/estado-preparación%20del%20piloto-2563EB" />
-  <img alt="Versión" src="https://img.shields.io/badge/plataforma-0.3.3-7C3AED" />
+  <img alt="Estado" src="https://img.shields.io/badge/estado-pre--piloto-2563EB" />
+  <img alt="Versión" src="https://img.shields.io/badge/plataforma-0.4.0-7C3AED" />
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.2.10-0B132B" />
-  <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.86.0-0B132B" />
+  <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.75.0-0B132B" />
+  <img alt="Almacenamiento" src="https://img.shields.io/badge/artefactos-local-64748B" />
   <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-Atlas-47A248" />
 </p>
 
@@ -42,44 +43,112 @@
 
 **GSLHub — Generative Search Lab Hub** es una plataforma científica independiente para estudiar cómo los sistemas de inteligencia artificial generativa descubren, recuperan, interpretan, citan, resumen y recomiendan información digital.
 
-La plataforma conecta la gestión de proyectos científicos, diseño de benchmarks, experimentos controlados, prompts versionados, perfiles de sistemas de IA, ejecuciones, observaciones, artefactos, evidencias, citas, definiciones métricas versionadas, resultados calculados, datasets, software, recursos metodológicos y publicaciones dentro de una infraestructura trazable.
+La plataforma conecta proyectos, benchmarks, experimentos, prompts versionados, perfiles de sistemas de IA, ejecuciones controladas, observaciones, artefactos, evidencias, citas, definiciones métricas, resultados calculados, datasets, software, recursos metodológicos y publicaciones dentro de una infraestructura trazable.
 
-GSLHub se desarrolla desde Barcelona con alcance internacional.
+GSLHub se desarrolla desde Barcelona con alcance internacional y actualmente sirve para preparar un piloto de investigación doctoral sobre visibilidad y selección de fuentes en sistemas de búsqueda generativa.
 
-> **Estado actual — 26 de julio de 2026:** el CMS científico, los catálogos públicos, el dashboard, la integridad de archivos, Test Data Batches y las reglas de trazabilidad están operativos. El pipeline sintético completo de 27 registros se ha generado, validado, eliminado de forma segura y repetido en producción. Las Metric Definitions están separadas de los Metric Results; AIR, CR, MCP y RCR v0.1.0 existen como drafts bilingües en revisión; los resultados heredan snapshots metodológicos inmutables; y la API del benchmark expone su registro canónico `metricDefinitions`. El siguiente hito es revisar y validar las cuatro definiciones, finalizar el codebook, verificar almacenamiento y recuperación, congelar los registros reales del piloto y ejecutar las primeras cinco repeticiones controladas.
+## Estado del proyecto — 31 de julio de 2026
 
-## Misión
+### Conclusión actual
 
-GSLHub desarrolla investigación transparente, reproducible y aplicada en:
+El administrador de producción vuelve a estar operativo después de restaurar la última combinación validada:
 
-- búsqueda generativa;
-- Generative Engine Optimization (GEO);
-- inteligencia artificial;
-- recuperación de información;
-- selección y citación de fuentes;
-- transformación digital;
-- automatización;
-- ciencia abierta y software científico.
+```text
+Payload CMS       3.75.0
+@payloadcms/next  3.75.0
+Next.js           16.2.10
+React             19.2.7
+React DOM         19.2.7
+Driver MongoDB    6.21.0
+Artefactos        Uploads locales de Payload
+```
 
-Su misión es convertir preguntas reales sobre búsqueda mediada por IA en métodos documentados, experimentos medibles, datasets reutilizables, software científico y resultados citables.
+Se han verificado en producción el login nativo de Payload, el dashboard autenticado, las listas de colecciones, los formularios de creación y los registros existentes.
 
-## Visión
+Una actualización posterior a Payload 3.86.0 provocó que el administrador renderizara una frontera vacía de React Server Components aunque la autenticación, las APIs y los datos del servidor continuaban funcionando. La regresión a Payload 3.75.0 recuperó toda la interfaz. Estas versiones quedan fijadas intencionadamente hasta que una futura actualización se pruebe de forma aislada.
 
-GSLHub aspira a convertirse en una referencia internacional independiente sobre visibilidad, recuperación, citación, recomendación y autoridad en sistemas de búsqueda generativa.
+### Matriz de estado
 
-La plataforma cubre el ciclo científico completo:
+| Área | Estado | Situación actual |
+| --- | --- | --- |
+| Hosting y despliegue | ✅ Operativo | El despliegue automático desde `main` a Hostinger funciona. |
+| Administrador nativo de Payload | ✅ Restaurado y verificado | Login, dashboard, formularios, listados y registros funcionan con Payload 3.75.0. |
+| Modelo científico | ✅ Completo para el piloto | Veinte colecciones conectadas cubren el ciclo de investigación y publicación. |
+| Acceso, ciclos e integridad | ✅ Implementados | Roles, reserva de códigos, relaciones y congelación científica están activos. |
+| Web pública y catálogos | ✅ Operativos | Investigación, benchmarks, publicaciones, software, datasets, recursos y personas están conectados. |
+| Pruebas sintéticas end-to-end | ✅ Flujo principal validado | El pipeline sintético de 27 registros se generó, revisó, eliminó de forma segura y repitió. |
+| Gobernanza métrica | 🚧 Muy avanzada | AIR, CR, MCP y RCR v0.1.0 existen como definiciones bilingües en revisión. |
+| Registros reales del piloto | 🚧 Preparados | Proyecto, benchmark, experimento, prompt y sistema existen; falta su congelación científica final. |
+| Primer piloto controlado | ⏳ No iniciado | Falta crear y ejecutar las cinco ejecuciones reales. |
+| Almacenamiento de artefactos | ✅ Estrategia local elegida | Los uploads locales son suficientes para la fase doctoral actual. Falta comprobar persistencia y recuperación. |
+| Cálculo determinista | 🚧 Parcialmente implementado | Existen escenarios administrativos; faltan calculadores finales y pruebas de producción. |
+| Dataset y publicaciones | ⏳ Planificados | Existen drafts, pero todavía no debe declararse una liberación científica formal. |
+| Flujo de ciencia abierta | ⏳ Planificado | ORCID, Zenodo, DOI, `CITATION.cff` y metadatos finales quedan para fases posteriores. |
 
-1. definir áreas y proyectos;
-2. diseñar benchmarks y experimentos;
-3. versionar prompts y documentar sistemas de IA;
-4. ejecutar condiciones controladas;
-5. conservar respuestas y archivos;
-6. codificar observaciones y citas;
-7. validar evidencias y cadena de custodia;
-8. definir, versionar y validar métricas;
-9. calcular resultados métricos desde inputs trazables;
-10. probar el flujo mediante Test Data Batches;
-11. liberar datasets, software, recursos y publicaciones.
+## Qué está terminado
+
+- aplicación Next.js en producción y persistencia en MongoDB Atlas;
+- autenticación nativa de Payload y acceso por roles;
+- campos científicos bilingües con fallback en inglés;
+- veinte colecciones y sus relaciones;
+- gobernanza de proyectos, benchmarks, experimentos, prompts y sistemas de IA;
+- ejecuciones controladas con reglas de unicidad;
+- herencia de contexto entre observaciones, artefactos, evidencias, citas y métricas;
+- espacios de nombres y códigos científicos reservados;
+- SHA-256 automático para artefactos subidos;
+- cadena de custodia append-only;
+- snapshots científicos inmutables después de validar o liberar;
+- Metric Definitions versionadas separadas de los Metric Results calculados;
+- snapshots metodológicos automáticos en Metric Results;
+- exposición canónica de `metricDefinitions` en la API del benchmark;
+- Test Data Batches solo para administradores, con rollback y limpieza;
+- catálogos públicos y dashboard inicial;
+- manual en español de usuario y gobernanza;
+- configuración de compatibilidad validada en producción.
+
+## Qué falta antes del primer piloto real
+
+1. Revisar AIR, CR, MCP y RCR v0.1.0 campo por campo.
+2. Confirmar fórmulas, rangos, inputs, agregación, datos ausentes, supuestos y limitaciones.
+3. Completar `Validated At` y `Validated By`, y pasar las definiciones aceptadas a `Validated`.
+4. Finalizar el codebook de observaciones y citas.
+5. Cerrar las reglas de inclusión, exclusión y control de calidad.
+6. Revisar y congelar proyecto, benchmark, experimento, prompt y perfil de sistema reales.
+7. Comprobar que `research-artifacts/` sobrevive a reinicios y nuevos despliegues de producción.
+8. Definir y probar un procedimiento de backup y restauración de MongoDB y `research-artifacts/`.
+9. Preparar el checklist de ejecución, captura y evidencia.
+10. Crear exactamente cinco Prompt Executions reales planificadas con códigos `GSL-EXEC-`.
+11. Ejecutar cinco sesiones aisladas bajo el protocolo congelado.
+12. Conservar respuesta y evidencia de interfaz de cada ejecución.
+13. Codificar y revisar observaciones, citas y exclusiones.
+14. Calcular AIR, CR, MCP y RCR mediante procedimientos deterministas.
+15. Revisar la ronda completa antes de preparar el primer dataset y el informe técnico.
+
+El almacenamiento compatible con S3 **no es un bloqueo para el piloto doctoral actual**. Se reconsiderará cuando aumenten el volumen de archivos, la colaboración, los requisitos de disponibilidad o las necesidades formales de preservación.
+
+## Próximo hito inmediato
+
+```text
+Project:             GSL-GEO-BENCH-01
+Benchmark:           GSL-BENCH-GEO-01 v0.1.0
+Experiment:          GSL-EXP-GEO-001
+Prompt:              GSL-PROMPT-GEO-001 v0.1.0
+AI System:           GSL-AISYS-001
+Metric Definitions:  AIR / CR / MCP / RCR v0.1.0
+Repeticiones previstas: 5
+```
+
+Orden recomendado:
+
+1. validar las cuatro Metric Definitions;
+2. terminar el codebook de observaciones y citas;
+3. verificar persistencia, backup y restauración de los artefactos locales;
+4. congelar benchmark, experimento, prompt y perfil del sistema;
+5. crear las cinco ejecuciones reales planificadas;
+6. ejecutar la ronda controlada;
+7. codificar observaciones, evidencias y citas;
+8. calcular y verificar de forma independiente las cuatro métricas;
+9. preparar el primer dataset, protocolo e informe técnico.
 
 ## Arquitectura científica
 
@@ -90,7 +159,7 @@ flowchart TD
     C --> D[Experimentos]
     C --> MD[Definiciones métricas]
 
-    D --> E[Biblioteca de prompts]
+    D --> E[Prompts]
     D --> F[Sistemas de IA]
     E --> G[Ejecuciones]
     F --> G
@@ -114,7 +183,7 @@ flowchart TD
     N --> P[Publicaciones]
     O --> P
 
-    T[Test Data Batches] -. Validación administrativa .-> MD
+    T[Test Data Batches] -. Validación controlada .-> MD
     T -.-> G
     T -.-> H
     T -.-> I
@@ -123,105 +192,32 @@ flowchart TD
     T -.-> L
 ```
 
-La arquitectura mantiene trazabilidad desde la pregunta científica y el protocolo aprobado hasta el sistema evaluado, el prompt exacto, la ejecución, el archivo, la evidencia, la observación, la cita, la definición métrica, el resultado calculado y el output liberado.
+La arquitectura conserva la trazabilidad desde la pregunta y el protocolo aprobado hasta el sistema evaluado, el prompt exacto, la ejecución, las evidencias, las observaciones codificadas, las citas, la definición métrica, el resultado calculado y el output liberado.
 
-## Estado de la plataforma
-
-### Colecciones Payload
+## Colecciones Payload
 
 La configuración de producción registra **20 colecciones**.
 
-| Colección | Función | Estado |
-| --- | --- | --- |
-| Users | Autenticación y roles. | ✅ Operativa |
-| Test Data Batches | Generación, sincronización y limpieza administrativa. | ✅ Validada |
-| Research Areas | Clasificación temática. | ✅ Operativa |
-| Researchers | Perfiles e identificadores académicos. | ✅ Operativa |
-| Projects | Objetivos, metodología y ciclo del proyecto. | ✅ Gobernanza validada |
-| Benchmarks | Protocolos, sistemas y registro de definiciones métricas. | ✅ Gobernanza validada |
-| Experiments | Preguntas, hipótesis, variables y muestra. | ✅ Gobernanza validada |
-| Prompts | Redacción exacta, versión y restricciones. | ✅ Gobernanza validada |
-| AI Systems | Proveedor, acceso, capacidades y versión visible. | ✅ Gobernanza validada |
-| Prompt Executions | Ejecuciones, entorno, respuesta y revisión. | ✅ Integridad validada |
-| Observations | Codificación estructurada. | ✅ Integridad validada |
-| Research Artifacts | Archivos privados con SHA-256. | ✅ Validada |
-| Evidence | Preservación, integridad y cadena de custodia. | ✅ Integridad validada |
-| Citations | Extracción y verificación de fuentes. | ✅ Integridad validada |
-| Metric Definitions | Fórmulas, rangos, inputs e interpretación versionados. | ✅ Operativa — en revisión |
-| Metrics | Resultados calculados y reproducibilidad. | ✅ Integridad ligada a definiciones |
-| Publications | Preprints, artículos e informes. | ✅ Gobernanza validada |
-| Software | Versiones y disponibilidad del código. | ✅ Gobernanza validada |
-| Datasets | Metodología, formatos y liberación. | ✅ Gobernanza validada |
-| Resources | Protocolos, guías y plantillas. | ✅ Gobernanza validada |
+| Grupo | Colecciones |
+| --- | --- |
+| Administración | Users, Test Data Batches |
+| Investigación | Research Areas, Researchers, Projects, Benchmarks, Publications |
+| Operaciones de investigación | Experiments, Prompts, AI Systems, Prompt Executions, Observations, Research Artifacts, Evidence, Citations, Metric Definitions, Metrics |
+| Outputs | Software, Datasets, Resources |
 
-### Capacidades validadas
-
-- campos científicos en inglés y español;
-- drafts y publicación;
-- API pública limitada a contenido publicado;
-- roles admin, editor y researcher;
-- MongoDB Atlas;
-- dashboard científico público;
-- uploads privados;
-- normalización MIME;
-- SHA-256 automático;
-- herencia de contexto científico;
-- Test Data Batches solo para administradores;
-- rollback, reintento y limpieza por propiedad;
-- eliminación física de archivos;
-- escenario sintético repetible de 27 registros;
-- unicidad de condiciones experimentales;
-- reserva de códigos científicos;
-- ciclos de vida controlados;
-- snapshots validados inmutables;
-- cadena de custodia append-only;
-- separación entre definiciones métricas y resultados;
-- herencia automática del snapshot metodológico;
-- validación de proyecto y benchmark en definiciones y resultados;
-- exposición canónica de `metricDefinitions` en la API del benchmark;
-- mensajes de error comprensibles.
+Todas las colecciones continúan en Payload 3.75.0. Los documentos de MongoDB no se migraron ni se reescribieron durante la regresión de compatibilidad.
 
 ## Regla central de gobernanza
 
-GSLHub diferencia entre un documento editable y un registro científico congelado.
+GSLHub distingue entre un documento de trabajo editable y un registro científico congelado.
 
-Antes de validar o liberar, el usuario puede corregir el contenido. Después, debe conservarse la historia.
+Antes de validar o liberar, un usuario autorizado puede corregir el contenido. Después, la historia debe conservarse. Una corrección posterior debe utilizar notas, exclusión, deprecación, una nueva versión, una nueva ejecución o un registro formal de corrección, en lugar de sobrescribir silenciosamente el historial científico.
 
-Cuando un dato congelado necesita una corrección, las opciones correctas son:
+Las reglas detalladas están en [`docs/MANUAL_USUARIO_ES.md`](./docs/MANUAL_USUARIO_ES.md).
 
-- añadir notas de revisión;
-- excluir o rechazar el registro;
-- marcarlo deprecated o archived;
-- crear una nueva versión;
-- crear una nueva ejecución, observación, cita o resultado métrico;
-- registrar una corrección formal en publicaciones.
+## Identificadores científicos
 
-Nunca debe sobrescribirse silenciosamente un registro ya utilizado por trabajo científico.
-
-La explicación completa por colección está en [`docs/MANUAL_USUARIO_ES.md`](./docs/MANUAL_USUARIO_ES.md).
-
-## Resumen de reglas por colección
-
-| Entidad | Momento de congelación | Acción correcta ante cambios |
-| --- | --- | --- |
-| Project | Active | Nueva versión del proyecto |
-| Benchmark | Pilot | Nueva versión del benchmark |
-| Experiment | Ready | Nuevo experimento o nueva versión |
-| Prompt | Validated | Nuevo prompt versionado |
-| AI System | Active o equivalente | Nuevo perfil o snapshot |
-| Prompt Execution | Running / Completed | Nueva ejecución o exclusión |
-| Observation | Validated | Nueva observación o nota de revisión |
-| Research Artifact | Tras captura y hash | Nuevo artefacto |
-| Evidence | Validated | Rechazar, archivar o nueva evidencia |
-| Citation | Validated | Nueva cita o revisión documentada |
-| Metric Definition | Validated | Nueva versión de la definición |
-| Metric Result | Validated | Nuevo resultado calculado |
-| Resource | Available | Nueva versión del recurso |
-| Dataset | Released | Nueva versión del dataset |
-| Software | Alpha o superior | Nueva versión del software |
-| Publication | Preprint o Published | Nueva versión o corrección formal |
-
-## Códigos científicos
+Ejemplos:
 
 ```text
 GSL-EXEC-GEO-0001
@@ -233,15 +229,7 @@ GSL-MDEF-AIR-0001
 GSL-MET-GEO-0001
 ```
 
-Los códigos:
-
-- se normalizan a mayúsculas;
-- deben utilizar el prefijo de su colección;
-- terminan con al menos cuatro dígitos;
-- quedan reservados al crear el registro;
-- no pueden modificarse después.
-
-Los códigos `TEST-` solo pueden ser creados por administradores mediante Test Data Batches.
+Los códigos se normalizan, son específicos de cada colección, quedan reservados al crear el registro y después son inmutables. El prefijo `TEST-` está reservado para datos sintéticos controlados por administradores.
 
 ## Unicidad de ejecuciones
 
@@ -255,203 +243,70 @@ AI System
 Repetition Number
 ```
 
-Esto evita duplicar condiciones científicas y consumir dos veces la misma repetición.
+Esto evita duplicar condiciones científicas y reutilizar una repetición por accidente.
 
-## Reglas de integridad por capa
+## Gobernanza métrica
 
-### Projects
+Una Metric Definition guarda la metodología versionada: fórmula, rango, inputs, agregación, política de datos ausentes, precisión, supuestos, limitaciones y procedimiento de validación.
 
-Un proyecto queda metodológicamente congelado al pasar a `Active`.
+Un Metric Result guarda un valor calculado y hereda automáticamente un snapshot inmutable de la definición enlazada. Los resultados reales deben usar una definición `Validated` o `Active`.
 
-Se protegen el código, slug, tipo, objetivos, metodología, fecha de inicio y áreas. Al completarse también queda sellada la fecha final.
+Definiciones actuales del piloto:
 
-### Benchmarks
-
-Un benchmark queda congelado al pasar a `Pilot`.
-
-Se protegen código, tipo, versión, alcance, protocolo, sistemas, métricas resumidas, `metricDefinitions`, fecha de inicio, proyecto y áreas.
-
-La API deriva `metricDefinitions` desde las relaciones canónicas almacenadas en Metric Definitions. Así se evita depender de un benchmark antiguo o desincronizado.
-
-### Experiments
-
-Un experimento queda congelado al pasar a `Ready`.
-
-Se protegen pregunta, hipótesis, objetivo, protocolo, muestreo, criterios, variables, repeticiones y relaciones principales.
-
-### Prompts
-
-Un prompt queda congelado al pasar a `Validated` y exige `Validated At`.
-
-El texto exacto, versión, idioma, instrucciones, placeholders y restricciones no pueden modificarse. Una palabra distinta exige una nueva versión.
-
-### AI Systems
-
-Un perfil de evaluación queda congelado al pasar a `Active`, `Limited`, `Deprecated`, `Unavailable` o `Archived`.
-
-Se protegen acceso, plan, versiones visibles, canal, capacidades, idiomas y método de identificación. Un cambio de interfaz o condición requiere un nuevo perfil o snapshot.
-
-### Prompt Executions
-
-Las condiciones reales son únicas. Cuando una ejecución comienza se sellan el prompt, contexto, repetición, fecha y entorno. Al completarse también se sellan respuesta, fuentes, tiempos y uso.
-
-Una ejecución completada no puede volver a estado planificado o en curso.
-
-### Observations
-
-Las observaciones heredan proyecto, benchmark, experimento, prompt y sistema desde la ejecución.
-
-Una observación validada no puede moverse a otra ejecución ni recodificarse silenciosamente. Las notas de revisión y exclusión siguen disponibles.
-
-### Research Artifacts
-
-Los artefactos utilizan identificadores reservados, contexto heredado y SHA-256 automático. Un archivo distinto debe representarse como un nuevo artefacto.
-
-### Evidence
-
-Una evidencia validada exige verificación de integridad, control de calidad aceptado y fecha de validación.
-
-El contenido preservado es inmutable y la cadena de custodia solo admite nuevos eventos.
-
-### Citations
-
-Una cita debe utilizar observación y evidencia de la misma ejecución y contexto científico.
-
-Tras validarse quedan sellados fuente, URL, dominio, posición, contexto, verificación y relaciones.
-
-### Metric Definitions
-
-Una Metric Definition documenta una versión de un método científico de cálculo. Incluye:
-
-- código de definición y código de métrica;
-- versión semántica;
-- categoría, dirección y unidad de análisis;
-- tipo de valor y unidad;
-- fórmula y pseudocódigo;
-- definiciones de numerador y denominador;
-- agregación y política de datos ausentes;
-- rango válido y precisión;
-- inputs requeridos;
-- supuestos, limitaciones y procedimiento de validación;
-- proyecto, benchmark, investigadores y recursos.
-
-La combinación `Metric Code + Version` debe ser única. Desde `Validated`, la fórmula y el resto del método quedan congelados. Un cambio requiere una nueva versión.
-
-### Metric Results
-
-Todo resultado real debe enlazar una definición `Validated` o `Active`.
-
-El resultado hereda automáticamente código, nombre, versión, categoría, dirección, alcance, tipo, unidad, precisión, fórmula, agregación y política de datos ausentes. Estos campos quedan como solo lectura.
-
-Los inputs deben pertenecer al proyecto, benchmark, experimento, prompt y sistema declarados. Tras validarse quedan congelados el valor, la muestra, los inputs, los desgloses y la reproducibilidad.
-
-### Resources
-
-Un recurso `Available` exige fecha de publicación y contenido o ubicación canónica.
-
-Su versión, contenido, URLs, licencia y relaciones quedan congelados.
-
-### Datasets
-
-```text
-Planned → Collecting → Cleaning → Validating → Released → Archived
-```
-
-Un dataset liberado exige fecha, disponibilidad final, formato y un número positivo de registros. Un dataset público también exige repositorio o DOI, licencia y Open Data.
-
-### Software
-
-El software sigue un ciclo desde Planned hasta Alpha, Beta, Stable, Maintenance, Deprecated y Archived.
-
-Desde Alpha quedan congelados fecha, versión, disponibilidad, repositorio, licencia, lenguajes, tecnologías y relaciones.
-
-### Publications
-
-Un preprint o publicación exige fecha, autor, DOI o URL y venue.
-
-Título, abstract, keywords, datos bibliográficos, autores y relaciones quedan congelados tras la liberación académica.
+| Métrica | Función | Versión | Estado actual |
+| --- | --- | --- | --- |
+| AIR | Tasa de inclusión o aparición en IA | 0.1.0 | Under review |
+| CR | Tasa de citación | 0.1.0 | Under review |
+| MCP | Posición media de citación | 0.1.0 | Under review |
+| RCR | Tasa de citas relevantes | 0.1.0 | Under review |
 
 ## Test Data Batches
 
-### Escenarios
+Los escenarios implementados incluyen:
 
-| Escenario | Registros | Objetivo |
-| --- | ---: | --- |
-| Pilot prompt executions | 5 | Probar ejecuciones planificadas. |
-| Full research pipeline | 27 | Probar el pipeline completo. |
-| Pilot metric definitions | 4 | Crear AIR, CR, MCP y RCR v0.1.0 bilingües en revisión. |
-| Metric definition linkage | 4 u 8 | Crear cuatro resultados y generar automáticamente las cuatro definiciones cuando no exista ninguna. |
-| Synchronize benchmark metric registry | 4 referencias | Sincronizar el benchmark sin crear ni eliminar definiciones. |
+- cinco Prompt Executions de prueba;
+- pipeline científico completo de 27 registros conectados;
+- definiciones métricas permanentes del piloto;
+- reserva de ejecuciones reales permanentes;
+- definiciones métricas desechables para revisión;
+- vinculación entre definiciones y resultados calculados;
+- sincronización del registro métrico del benchmark;
+- validación determinista de AIR;
+- validación determinista de CR;
+- validación determinista de MCP;
+- validación determinista de RCR.
 
-El escenario completo crea:
+Los registros sintéticos permanecen como draft o privados, utilizan códigos `TEST-` y nunca deben presentarse como resultados científicos.
 
-```text
-5 Prompt Executions
-5 Observations
-5 Research Artifacts
-5 Evidence records
-3 Citations
-4 Metric results
-────────────────────
-27 connected records
+## Artefactos y almacenamiento local
+
+La colección `research-artifacts` utiliza el sistema local nativo de Payload:
+
+```ts
+upload: {
+  staticDir: 'research-artifacts'
+}
 ```
 
-La vinculación métrica prueba:
+Los formatos admitidos incluyen capturas, PDF, HTML, JSON, JSON-LD, CSV, texto, logs y ZIP. El flujo puede normalizar tipos MIME, calcular SHA-256, heredar contexto y restringir el acceso.
+
+En la fase actual, los backups operativos deben incluir:
 
 ```text
-Metric Definition v0.1.0
-          ↓
-Snapshot metodológico heredado
-          ↓
-Metric Result TEST- calculado
+Base de datos MongoDB
+Directorio research-artifacts/
+Variables de entorno de producción
 ```
 
-Reglas de seguridad:
-
-- los registros científicos generados quedan como draft o privados;
-- cada registro eliminable pertenece al lote por ID y código;
-- los fallos parciales ejecutan rollback;
-- los lotes fallidos pueden reintentarse;
-- la eliminación respeta el orden inverso de dependencias;
-- se eliminan los archivos físicos de prueba;
-- las definiciones promovidas se conservan;
-- la sincronización del benchmark es permanente y no se revierte al borrar su lote administrativo;
-- los datos sintéticos nunca se presentan como resultados científicos.
-
-## Artefactos y almacenamiento
-
-GSLHub puede conservar capturas, PDF, exportaciones, HTML, JSON, JSON-LD, CSV, logs y ZIP.
-
-Para cada archivo compatible puede normalizar MIME, calcular SHA-256, guardar el checksum, heredar contexto, restringir el acceso y eliminarlo mediante la limpieza del lote propietario.
-
-El almacenamiento actual es local y privado. Debe migrarse a un archivo duradero compatible con S3 antes de recopilar evidencia irremplazable a escala.
-
-## Cadena científica preparada
-
-| Objeto | Registro actual |
-| --- | --- |
-| Área | Generative Search and GEO |
-| Investigador | Eduardo José Yauri Luna |
-| Proyecto | GSLHub Generative Search Visibility Benchmark |
-| Benchmark | GSLHub Generative Search Visibility Benchmark |
-| Experimento | Pilot Validation of the GSLHub Generative Search Visibility Protocol |
-| Prompt | Factors Influencing Source Selection in Generative Search |
-| Sistema | ChatGPT Search — authenticated web configuration |
-| Definiciones métricas | AIR, CR, MCP y RCR v0.1.0 — Under review |
-| Publicación | A Reproducible Protocol for Measuring Visibility in Generative Search Systems |
-| Software | GSLHub Generative Search Benchmark Toolkit |
-| Dataset | GSLHub Generative Search Visibility Benchmark Dataset |
-| Recurso | GSLHub Generative Search Visibility Benchmark Research Protocol |
-
-Los registros reales siguen como drafts hasta completar sus requisitos científicos y editoriales.
+Antes de recopilar evidencia irremplazable, hay que comprobar la persistencia después de reiniciar y redesplegar, y completar al menos una restauración documentada.
 
 ## Web pública
 
 | Ruta | Fuente | Estado |
 | --- | --- | --- |
 | `/research` | Áreas y proyectos | ✅ Live |
-| `/benchmarks` | Benchmarks y Metric Definitions canónicas | ✅ Live |
-| `/dashboard` | Registros publicados y métricas validadas | ✅ Live |
+| `/benchmarks` | Benchmarks y Metric Definitions | ✅ Live |
+| `/dashboard` | Registros publicados y métricas validadas | ✅ Versión inicial |
 | `/publications` | Publicaciones | ✅ Live |
 | `/software` | Software | ✅ Live |
 | `/datasets` | Datasets | ✅ Live |
@@ -460,117 +315,58 @@ Los registros reales siguen como drafts hasta completar sus requisitos científi
 
 Los drafts, artefactos privados, datos `TEST-`, definiciones en revisión y cálculos no validados se excluyen de las afirmaciones científicas públicas.
 
-## En qué punto estamos
-
-### Terminado
-
-- infraestructura y despliegue automático;
-- CMS científico;
-- web pública y dashboard inicial;
-- modelo de investigación;
-- modelo de análisis;
-- uploads y checksums;
-- Test Data Batches;
-- relaciones e inmutabilidad del pipeline;
-- códigos científicos;
-- unicidad de condiciones;
-- gobernanza de proyectos, benchmarks, experimentos, prompts y sistemas;
-- gobernanza de recursos, datasets, software y publicaciones;
-- colección de Metric Definitions versionadas;
-- separación entre metodología y resultados calculados;
-- AIR, CR, MCP y RCR v0.1.0 bilingües;
-- herencia automática del snapshot en Metric Results;
-- exposición canónica de `metricDefinitions` en la API del benchmark;
-- manual inicial de usuario y gobernanza.
-
-### Hito actual
-
-**Gobernanza métrica y preparación del piloto**:
-
-- revisar científicamente AIR, CR, MCP y RCR v0.1.0;
-- corregir textos, fórmulas, rangos, inputs y limitaciones mientras sigan `Under review`;
-- completar `Validated At` y `Validated By`;
-- pasar las definiciones aceptadas a `Validated` y congelarlas;
-- finalizar el codebook de observaciones y citas;
-- congelar benchmark, experimento, prompt y sistema reales;
-- verificar almacenamiento duradero y recuperación;
-- preparar el procedimiento exacto del piloto.
-
-### Pendiente antes del piloto real
-
-1. aprobación científica de AIR, CR, MCP y RCR;
-2. codebook definitivo de observaciones y citas;
-3. almacenamiento duradero de evidencia;
-4. prueba de backup y recuperación de MongoDB y archivos;
-5. reglas finales de inclusión y exclusión;
-6. checklist de ejecución y captura;
-7. cinco ejecuciones reales sin prefijo `TEST-`;
-8. revisión científica de observaciones y citas;
-9. calculadores deterministas y pruebas de verificación.
-
-## Próximo hito
-
-```text
-Project: GSL-GEO-BENCH-01
-Benchmark: GSL-BENCH-GEO-01 v0.1.0
-Experiment: GSL-EXP-GEO-001
-Prompt: GSL-PROMPT-GEO-001 v0.1.0
-AI System: GSL-AISYS-001
-Metric Definitions: AIR / CR / MCP / RCR v0.1.0
-Repetitions: 5
-```
-
-Secuencia recomendada:
-
-1. revisar AIR, CR, MCP y RCR campo por campo;
-2. validar y congelar las cuatro definiciones;
-3. finalizar el codebook;
-4. verificar almacenamiento y recuperación;
-5. revisar el proyecto real;
-6. pasar el benchmark a `Pilot`;
-7. pasar el experimento a `Ready`;
-8. validar el prompt;
-9. confirmar el perfil del sistema;
-10. crear cinco ejecuciones reales planificadas;
-11. ejecutar cinco sesiones aisladas;
-12. conservar respuestas y evidencias de interfaz;
-13. codificar observaciones y citas;
-14. calcular métricas mediante procedimientos deterministas;
-15. revisar y documentar exclusiones;
-16. preparar el primer dataset e informe técnico.
-
 ## Roadmap
 
 | Fase | Alcance | Estado |
 | --- | --- | --- |
-| 1. Infraestructura | Hosting, Next.js, Payload y MongoDB | ✅ Completa |
-| 2. CMS científico | Colecciones, relaciones, acceso y localización | ✅ Completa |
-| 3. Web pública | Catálogos, navegación, SEO y branding | ✅ Completa |
-| 4. Modelo de investigación | Experimentos, prompts, sistemas y ejecuciones | ✅ Completa |
-| 5. Modelo de análisis | Observaciones, evidencia, citas y métricas | ✅ Completa |
-| 6. Dashboard | Contadores y métricas publicadas | ✅ Versión inicial |
-| 7. Integridad de archivos | Uploads, MIME, herencia y SHA-256 | ✅ Validada |
-| 8. Datos de prueba | Generación, rollback, sincronización y limpieza | ✅ Validada |
-| 9. Snapshots científicos | Relaciones, estados e inmutabilidad | ✅ Validada |
-| 10. Gobernanza métrica | Definiciones, versiones, herencia y registro del benchmark | 🚧 Muy avanzada — revisión pendiente |
-| 11. Gobernanza del piloto | Registros reales, codebook, almacenamiento y checklist | 🚧 Muy avanzada |
-| 12. Primer piloto real | Cinco ejecuciones y análisis | ⏳ Siguiente hito |
-| 13. Automatización | Calculadores métricos, exports y monitorización | ⏳ Planificada |
-| 14. Publicación | Dataset, software, protocolo e informe | ⏳ Planificada |
-| 15. Ciencia abierta | ORCID, Zenodo, DOI y citación | ⏳ Planificada |
-| 16. Escalado | Múltiples sistemas, idiomas y rondas | ⏳ Planificada |
+| 1 | Infraestructura y despliegue | ✅ Completa |
+| 2 | CMS científico y acceso | ✅ Completa |
+| 3 | Web pública y catálogos | ✅ Completa |
+| 4 | Modelos de investigación y análisis | ✅ Completos |
+| 5 | Integridad, ciclos y snapshots científicos | ✅ Completa |
+| 6 | Datos sintéticos, rollback y limpieza | ✅ Validación principal completada |
+| 7 | Gobernanza métrica | 🚧 Revisión científica pendiente |
+| 8 | Persistencia y recuperación local | 🚧 Verificación pendiente |
+| 9 | Protocolo y codebook del piloto | 🚧 En curso |
+| 10 | Primeras cinco ejecuciones reales | ⏳ Próximo hito operativo |
+| 11 | Cálculo determinista y revisión | ⏳ Planificado |
+| 12 | Dataset, software e informe técnico | ⏳ Planificados |
+| 13 | ORCID, Zenodo, DOI y citación formal | ⏳ Planificados |
+| 14 | Comparación entre sistemas, idiomas y rondas | ⏳ Escalado futuro |
 
-## Stack
+## Stack tecnológico
 
 - Next.js 16.2.10;
-- React 19.2.7;
+- React y React DOM 19.2.7;
 - TypeScript 5.9;
 - Tailwind CSS 4.3.3;
-- Payload CMS 3.86.0;
+- Payload CMS 3.75.0;
 - MongoDB Atlas;
+- Node.js crypto para SHA-256;
 - GitHub;
 - Hostinger Cloud;
-- Node.js crypto para SHA-256.
+- almacenamiento local de artefactos con Payload.
+
+## Política de compatibilidad
+
+La combinación validada no debe actualizarse automáticamente:
+
+```text
+payload
+@payloadcms/next
+@payloadcms/ui
+@payloadcms/db-mongodb
+@payloadcms/richtext-lexical
+next
+react
+react-dom
+```
+
+No se debe ejecutar `npm audit fix --force` en producción sin revisar las versiones resultantes y probar el administrador completo en una rama separada.
+
+El repositorio fija las dependencias directas, pero **todavía no contiene `package-lock.json`**. Crear y subir un lockfile validado es una tarea pendiente de reproducibilidad para evitar que dependencias transitivas cambien silenciosamente entre despliegues.
+
+La incidencia y la regresión aceptada están documentadas en [`docs/COMPATIBILIDAD_PAYLOAD_NEXT_ES.md`](./docs/COMPATIBILIDAD_PAYLOAD_NEXT_ES.md).
 
 ## Estructura del repositorio
 
@@ -578,32 +374,25 @@ Secuencia recomendada:
 .
 ├── app/                         Web pública, dashboard, Payload y APIs
 ├── cms/
-│   ├── access/                  Reglas de acceso
+│   ├── access/                  Reglas de acceso científico
 │   ├── collections/             Colecciones científicas y administrativas
 │   ├── endpoints/               Acciones administrativas
-│   ├── hooks/                   Ciclos, integridad y modelos de lectura
-│   └── test-data/               Generación, sincronización y limpieza
-├── components/                  Componentes compartidos y de administración
+│   ├── hooks/                   Ciclos e integridad
+│   ├── pilot/                   Preparación controlada del piloto
+│   ├── storage/                 Metadatos del almacenamiento local
+│   └── test-data/               Generación, validación y limpieza
+├── components/                  Componentes compartidos, marca y administración
 ├── docs/                        Manuales y gobernanza
 ├── public/brand/                Identidad visual
+├── research-artifacts/          Uploads locales privados en runtime
 ├── payload.config.ts            Configuración Payload
 ├── README.md                    Documentación inglesa
 └── README.es.md                 Documentación española
 ```
 
-## Modelo de datos y acceso
-
-- investigadores y editores autenticados pueden preparar registros;
-- los administradores controlan acciones destructivas y Test Data Batches;
-- los drafts solo se ven dentro del CMS autenticado;
-- usuarios anónimos reciben únicamente contenido publicado;
-- los artefactos requieren autenticación;
-- los datos de prueba permanecen draft o privados;
-- las relaciones científicas son explícitas;
-- los campos localizados usan fallback inglés;
-- GSLHub tiene configuración propia de CORS, CSRF y autenticación.
-
 ## API REST
+
+Endpoints públicos y autenticados de Payload:
 
 ```text
 GET /api/research-areas
@@ -615,6 +404,7 @@ GET /api/prompts
 GET /api/ai-systems
 GET /api/prompt-executions
 GET /api/observations
+GET /api/research-artifacts
 GET /api/evidence
 GET /api/citations
 GET /api/metric-definitions
@@ -625,19 +415,13 @@ GET /api/datasets
 GET /api/resources
 ```
 
-La respuesta de benchmarks incluye un array derivado `metricDefinitions`, construido desde las relaciones canónicas de cada definición.
-
-Artefactos autenticados:
-
-```text
-GET /api/research-artifacts
-```
-
-Generación y sincronización administrativa:
+Generación controlada por administradores:
 
 ```text
 POST /api/test-data-batches/:id/generate
 ```
+
+El acceso anónimo se limita al contenido científico publicado. Los artefactos privados y los registros operativos en draft requieren autenticación.
 
 ## Desarrollo local
 
@@ -649,7 +433,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Variables principales:
+Variables necesarias:
 
 ```env
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
@@ -657,7 +441,7 @@ PAYLOAD_SECRET=replace-with-a-long-random-secret
 DATABASE_URL=mongodb+srv://<username>:<url-encoded-password>@<cluster-hostname>/?retryWrites=true&w=majority&appName=GSLHub
 ```
 
-Comprobaciones:
+Controles de calidad:
 
 ```bash
 npm run lint
@@ -667,70 +451,51 @@ npm run build
 
 ## Notas de despliegue
 
-- producción se despliega desde `main` en Hostinger Cloud;
-- el build sigue siendo `next build`;
-- no añadir `payload generate:importmap` sin volver a probar Node en producción;
-- evitar despliegues rápidos y solapados;
-- no ejecutar `npm audit fix --force` sin revisar compatibilidad;
-- los avisos de auditoría son independientes de errores TypeScript o build.
+- producción se despliega automáticamente desde `main` a Hostinger;
+- se utilizan `next build` y `next start`;
+- deben evitarse despliegues rápidos superpuestos;
+- hay que respaldar MongoDB y los artefactos locales antes de cambios estructurales;
+- las actualizaciones de dependencias deben probarse en una rama aislada;
+- después de cambios del framework se debe comprobar login, dashboard, listado y formulario.
 
-## Principios científicos
+## Documentación pendiente
 
-### Reproducibilidad
-
-Protocolos, prompts, sistemas, definiciones métricas, cálculos, evidencias y datasets deben permitir replicación independiente.
-
-### Transparencia
-
-Las decisiones, exclusiones, limitaciones y cambios de versión deben quedar documentados.
-
-### Versionado
-
-Los objetos científicos no deben modificarse silenciosamente después de ser utilizados.
-
-### Integridad
-
-La plataforma distingue preparación, validación sintética, captura, revisión, validación, cálculo, liberación y publicación.
-
-### Apertura responsable
-
-La ciencia abierta no justifica exponer información privada, restringida, personal o no redistribuible.
-
-### Revisión humana
-
-La automatización permanece sujeta a validación y supervisión científica.
-
-## Documentación
-
-- [README en inglés](./README.md)
-- [Manual de usuario y gobernanza científica](./docs/MANUAL_USUARIO_ES.md)
-
-Próximos documentos:
-
-- guía de backup y recuperación;
-- protocolo del primer piloto;
-- codebook de observaciones y citas;
-- especificación de cálculo métrico y pruebas de verificación;
-- guía de exportación y publicación;
+- codebook final de observaciones y citas;
+- protocolo de ejecución y captura del primer piloto;
+- procedimiento de backup y recuperación de MongoDB y archivos locales;
+- especificación de cálculo determinista y pruebas;
+- guía de exportación y anonimización del dataset;
 - `CITATION.cff`;
-- licencia;
+- licencia del repositorio;
 - política de seguridad;
-- contribución y código de conducta.
+- guía de contribución y código de conducta.
+
+## Citación
+
+Antes de la primera liberación académica se añadirá `CITATION.cff` y un flujo formal de archivo.
+
+Hasta entonces, la plataforma puede citarse como:
+
+```text
+GSLHub — Generative Search Lab Hub. Plataforma científica independiente para búsqueda generativa, GEO, inteligencia artificial e investigación reproducible. https://gslhub.com
+```
+
+No debe asignarse DOI, fecha de publicación o estado de liberación académica a registros draft o sintéticos.
 
 ## Contacto
 
 - Web: [gslhub.com](https://gslhub.com)
 - Dashboard: [gslhub.com/dashboard](https://gslhub.com/dashboard)
 - GitHub: [github.com/gslhub](https://github.com/gslhub)
-- Correo: [research@gslhub.com](mailto:research@gslhub.com)
+- Email: [research@gslhub.com](mailto:research@gslhub.com)
 - Fundador e investigador: [Eduardo José Yauri Luna](https://www.linkedin.com/in/eduardoyauriluna/)
 
 ---
 
 <p align="center">
-  <strong>Investigación · Benchmarks · Evidencia · Definiciones métricas · Resultados métricos · Software · Datasets · Ciencia abierta</strong>
+  <strong>Research · Benchmarks · Evidence · Metric Definitions · Metric Results · Software · Datasets · Open Science</strong>
 </p>
 
 <p align="center">
-  Última actualización: 26 de julio de 2026
+  Última actualización: 31 de julio de 2026
 </p>
