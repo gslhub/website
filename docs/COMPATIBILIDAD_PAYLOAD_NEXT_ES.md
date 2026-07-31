@@ -1,58 +1,40 @@
-# Compatibilidad temporal Payload 3.86 / Next.js
+# Compatibilidad Payload / Next.js
 
-## Estado
+## Estado actual
 
-GSLHub utiliza temporalmente **Next.js 15.4.11** con Payload **3.86.0**.
+GSLHub está ejecutando una **regresión controlada** con:
 
-La combinación anterior con Next.js 16.2.x producía una interfaz administrativa vacía tanto en rutas públicas como autenticadas. El servidor respondía `200`, generaba el payload RSC completo y mantenía la sesión, pero el navegador recibía una frontera Suspense completada sin contenido.
+- Payload 3.75.0
+- Next.js 16.2.10
+- React 19.2.7
+- React DOM 19.2.7
 
-La incidencia oficial de referencia es `payloadcms/payload#17545`. La reproducción de GSLHub amplía el alcance observado: en el entorno de producción también afecta al dashboard autenticado.
+Esta era la combinación activa antes de la actualización de Payload a 3.86.0, tras la cual el administrador comenzó a renderizar una frontera RSC vacía en producción.
 
-## Decisión
+## Almacenamiento
 
-Se fija Next.js 15.4.11 porque es la última versión de la rama 15 incluida explícitamente en el rango de compatibilidad de `@payloadcms/next@3.86.0` y es la combinación verificada que restaura el administrador.
+La integración S3 ha sido retirada del runtime durante esta fase. La colección `research-artifacts` utiliza el almacenamiento local nativo de Payload mediante:
 
-La pantalla `/cms-login` se conserva. Autentica mediante la API REST oficial de Payload, verifica la cookie HTTP-only y redirige a `/admin`.
+```ts
+upload: {
+  staticDir: 'research-artifacts'
+}
+```
 
-## Riesgo temporal
+Para el proyecto doctoral actual, el almacenamiento local es suficiente. El uso de S3-compatible object storage se reevaluará cuando aumenten el volumen de archivos, la colaboración, la necesidad de alta disponibilidad o los requisitos formales de preservación.
 
-Next.js 15.4.11 no contiene los parches de seguridad publicados posteriormente para las ramas 15.5 y 16.2. Este modo de compatibilidad debe considerarse temporal.
-
-En el código actual de GSLHub:
-
-- no existe middleware o proxy de autorización;
-- no existen rewrites o redirects externos con hostname controlado por parámetros;
-- no se utiliza `next/image`;
-- no se utilizan Cache Components;
-- no se implementan WebSocket upgrades.
-
-Estas ausencias reducen la exposición a varias vulnerabilidades conocidas, pero no eliminan todos los riesgos, especialmente los relacionados con React Server Components y denegación de servicio.
-
-## Controles operativos
-
-Mientras siga activo este modo:
-
-1. Mantener el origen detrás de la protección y limitación de tráfico de Hostinger.
-2. No añadir rewrites externos dinámicos, middleware de autorización ni WebSocket upgrades sin revisión de seguridad.
-3. Mantener `/admin` y las APIs científicas protegidas mediante las reglas de acceso de Payload, no solo mediante rutas o middleware.
-4. Revisar periódicamente la incidencia oficial y las nuevas versiones estables de Payload.
-
-## Criterio de salida
-
-Volver a una rama de Next.js con parches vigentes cuando se cumplan todos estos puntos:
-
-1. Payload publique una versión estable que corrija la pérdida del árbol RSC con Next.js 16 o admita una rama 15.5 segura.
-2. `npm run build` finalice sin conflictos de dependencias.
-3. Funcionen `/cms-login`, `/admin`, una lista de colección y una vista de edición.
-4. Las rutas públicas y los endpoints de readiness continúen respondiendo correctamente.
-5. Se elimine este pin temporal en un cambio explícito y revisado.
-
-## Prueba de aceptación actual
+## Prueba de aceptación
 
 Después de desplegar:
 
-1. Abrir `/admin/login` y confirmar la redirección a `/cms-login`.
+1. Abrir `/admin/login` y confirmar que se muestra el login nativo de Payload.
 2. Iniciar sesión.
 3. Confirmar que `/admin` muestra navegación y dashboard.
-4. Abrir `Metric Definitions` y un documento existente.
-5. Cerrar sesión y repetir el acceso.
+4. Abrir una lista de colección.
+5. Abrir una vista de edición.
+6. Confirmar que las páginas públicas y APIs siguen respondiendo.
+
+## Interpretación
+
+- Si el administrador funciona, la regresión queda asociada a la actualización posterior de Payload o a su combinación con el framework.
+- Si continúa vacío, la causa estará en el entorno de ejecución/streaming o en una incompatibilidad independiente de la versión de Payload, y se priorizará un panel administrativo propio.
