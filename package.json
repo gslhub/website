@@ -1,6 +1,6 @@
 {
   "name": "gslhub-website",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "private": true,
   "description": "Official research platform for GSLHub — Generative Search Lab Hub.",
   "packageManager": "npm@10.9.2",
