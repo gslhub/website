@@ -246,6 +246,6 @@ No cambiar a `Validated` hasta aprobar el codebook de posición, probar casos co
 ## Base científica
 
 - Liu, N. F., Zhang, T., & Liang, P. (2023). *Evaluating Verifiability in Generative Search Engines*. Findings of EMNLP 2023. DOI: 10.18653/v1/2023.findings-emnlp.467.
-- Ruan et al. (2025). *ALiiCE: Evaluating Positional Fine-grained Citation Generation*. NAACL 2025. DOI: 10.18653/v1/2025.naacl-long.23.
+- Xu, Y., Gao, J., Yu, X., Bi, B., Shen, H., & Cheng, X. (2025). *ALiiCE: Evaluating Positional Fine-grained Citation Generation*. NAACL 2025. DOI: 10.18653/v1/2025.naacl-long.23.
 - Kirsten, E. et al. (2026). *Characterizing Web Search in The Age of Generative AI*. Findings of ACL 2026. DOI: 10.18653/v1/2026.findings-acl.526.
 - Pfrommer, S. et al. (2024). *Ranking Manipulation for Conversational Search Engines*. EMNLP 2024. DOI: 10.18653/v1/2024.emnlp-main.534.
