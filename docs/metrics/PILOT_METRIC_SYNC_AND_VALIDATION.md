@@ -29,7 +29,7 @@ In Payload:
 3. Select:
 
 ```text
-Permanent pilot metric definitions — provision or reuse AIR, CR, MCP and RCR v0.1.0
+Permanent pilot metric definitions — create or synchronize AIR, CR, MCP and RCR v0.1.0
 ```
 
 4. Save the batch.
