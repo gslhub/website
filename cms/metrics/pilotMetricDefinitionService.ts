@@ -7,7 +7,6 @@ import {
 } from './pilotMetricDefinitionRegistry';
 
 type RecordID = string | number;
-
 type ContextCollection =
   | 'projects'
   | 'benchmarks'
@@ -22,14 +21,6 @@ type DocumentWithID = Record<string, unknown> & {
   metricCode?: unknown;
   version?: unknown;
   lifecycleStatus?: unknown;
-  _status?: unknown;
-};
-
-export type GeneratedMetricDefinitionRecord = {
-  collectionSlug: 'metric-definitions';
-  recordId: string;
-  recordCode: string;
-  label: string;
 };
 
 type MetricContext = {
@@ -46,6 +37,13 @@ type ExistingResolution = {
   existing: DocumentWithID | null;
 };
 
+export type GeneratedMetricDefinitionRecord = {
+  collectionSlug: 'metric-definitions';
+  recordId: string;
+  recordCode: string;
+  label: string;
+};
+
 const mutableLifecycleStatuses = new Set(['planned', 'under-review']);
 
 const getString = (value: unknown): string | null =>
@@ -59,55 +57,20 @@ export const requirePilotMetricAdmin = (req: PayloadRequest) => {
   }
 };
 
-const findRequiredDocument = async ({
+const findContextDocument = async ({
   payload,
   req,
   collection,
   field,
   value,
+  required,
 }: {
   payload: Payload;
   req: PayloadRequest;
   collection: ContextCollection;
   field: string;
   value: string;
-}): Promise<DocumentWithID> => {
-  const result = await payload.find({
-    collection,
-    where: { [field]: { equals: value } },
-    limit: 2,
-    depth: 0,
-    pagination: false,
-    draft: true,
-    overrideAccess: true,
-    req,
-  });
-
-  if (result.docs.length === 0) {
-    throw new Error(`Required ${collection} record not found: ${field} = ${value}`);
-  }
-
-  if (result.docs.length > 1) {
-    throw new Error(
-      `Expected one ${collection} record but found ${result.docs.length}: ${field} = ${value}`,
-    );
-  }
-
-  return result.docs[0] as DocumentWithID;
-};
-
-const findOptionalDocument = async ({
-  payload,
-  req,
-  collection,
-  field,
-  value,
-}: {
-  payload: Payload;
-  req: PayloadRequest;
-  collection: ContextCollection;
-  field: string;
-  value: string;
+  required: boolean;
 }): Promise<DocumentWithID | null> => {
   const result = await payload.find({
     collection,
@@ -126,7 +89,22 @@ const findOptionalDocument = async ({
     );
   }
 
-  return result.docs.length === 1 ? (result.docs[0] as DocumentWithID) : null;
+  if (result.docs.length === 0) {
+    if (required) {
+      throw new Error(`Required ${collection} record not found: ${field} = ${value}`);
+    }
+    return null;
+  }
+
+  return result.docs[0] as DocumentWithID;
+};
+
+const requireDocument = (
+  document: DocumentWithID | null,
+  label: string,
+): DocumentWithID => {
+  if (!document) throw new Error(`Required pilot context is missing: ${label}.`);
+  return document;
 };
 
 const resolveMetricContext = async ({
@@ -138,51 +116,64 @@ const resolveMetricContext = async ({
 }): Promise<MetricContext> => {
   const [project, benchmark, researcher, researchArea, resource, software] =
     await Promise.all([
-      findRequiredDocument({
+      findContextDocument({
         payload,
         req,
         collection: 'projects',
         field: 'projectCode',
         value: PILOT_METRIC_CONTEXT.projectCode,
+        required: true,
       }),
-      findRequiredDocument({
+      findContextDocument({
         payload,
         req,
         collection: 'benchmarks',
         field: 'benchmarkCode',
         value: PILOT_METRIC_CONTEXT.benchmarkCode,
+        required: true,
       }),
-      findRequiredDocument({
+      findContextDocument({
         payload,
         req,
         collection: 'researchers',
         field: 'slug',
         value: PILOT_METRIC_CONTEXT.researcherSlug,
+        required: true,
       }),
-      findRequiredDocument({
+      findContextDocument({
         payload,
         req,
         collection: 'research-areas',
         field: 'code',
         value: PILOT_METRIC_CONTEXT.researchAreaCode,
+        required: true,
       }),
-      findOptionalDocument({
+      findContextDocument({
         payload,
         req,
         collection: 'resources',
         field: 'slug',
         value: PILOT_METRIC_CONTEXT.resourceSlug,
+        required: false,
       }),
-      findOptionalDocument({
+      findContextDocument({
         payload,
         req,
         collection: 'software',
         field: 'slug',
         value: PILOT_METRIC_CONTEXT.softwareSlug,
+        required: false,
       }),
     ]);
 
-  return { project, benchmark, researcher, researchArea, resource, software };
+  return {
+    project: requireDocument(project, 'project'),
+    benchmark: requireDocument(benchmark, 'benchmark'),
+    researcher: requireDocument(researcher, 'researcher'),
+    researchArea: requireDocument(researchArea, 'research area'),
+    resource,
+    software,
+  };
 };
 
 const resolveExistingDefinitions = async ({
@@ -226,24 +217,21 @@ const resolveExistingDefinitions = async ({
       result.docs.length === 1 ? (result.docs[0] as DocumentWithID) : null;
 
     if (existing) {
-      const definitionCode = getString(existing.definitionCode);
-      const metricCode = getString(existing.metricCode);
-      const version = getString(existing.version);
-      const lifecycleStatus = getString(existing.lifecycleStatus) || 'planned';
+      const identityMatches =
+        getString(existing.definitionCode) === metric.definitionCode &&
+        getString(existing.metricCode) === metric.metricCode &&
+        getString(existing.version) === PILOT_METRIC_CONTEXT.version;
 
-      if (
-        definitionCode !== metric.definitionCode ||
-        metricCode !== metric.metricCode ||
-        version !== PILOT_METRIC_CONTEXT.version
-      ) {
+      if (!identityMatches) {
         throw new Error(
-          `Existing metric definition identity does not match the reviewed registry for ${metric.metricCode}. Expected ${metric.definitionCode} / ${PILOT_METRIC_CONTEXT.version}.`,
+          `Existing metric identity conflicts with ${metric.definitionCode} ${PILOT_METRIC_CONTEXT.version}. Resolve the record before synchronization.`,
         );
       }
 
+      const lifecycleStatus = getString(existing.lifecycleStatus) || 'planned';
       if (!mutableLifecycleStatuses.has(lifecycleStatus)) {
         throw new Error(
-          `${metric.definitionCode} is ${lifecycleStatus} and is scientifically frozen. Create a new semantic version instead of synchronizing reviewed 0.1.0 content over it.`,
+          `${metric.definitionCode} is ${lifecycleStatus} and is scientifically frozen. Create a new semantic version instead of overwriting v${PILOT_METRIC_CONTEXT.version}.`,
         );
       }
     }
@@ -262,17 +250,13 @@ const mapRequiredInputs = (
     sourceCollection: input.sourceCollection,
     fieldName: input.fieldName,
     required: input.required,
-    description:
-      locale === 'en' ? input.descriptionEn : input.descriptionEs,
+    description: locale === 'en' ? input.descriptionEn : input.descriptionEs,
   }));
 
-const buildSharedData = ({
-  metric,
-  context,
-}: {
-  metric: PilotMetricDefinitionSeed;
-  context: MetricContext;
-}) => ({
+const buildSharedData = (
+  metric: PilotMetricDefinitionSeed,
+  context: MetricContext,
+) => ({
   slug: metric.slug,
   definitionCode: metric.definitionCode,
   metricCode: metric.metricCode,
@@ -353,14 +337,26 @@ const createDefinition = async ({
     overrideAccess: true,
     req,
     data: {
-      ...buildSharedData({ metric, context }),
+      ...buildSharedData(metric, context),
       ...metric.en,
       requiredInputs: mapRequiredInputs(metric, 'en'),
     },
   })) as DocumentWithID;
 
-  await applySpanishLocale({ payload, req, id: created.id, metric });
-  return created;
+  try {
+    await applySpanishLocale({ payload, req, id: created.id, metric });
+    return created;
+  } catch (error) {
+    await payload
+      .delete({
+        collection: 'metric-definitions',
+        id: created.id,
+        overrideAccess: true,
+        req,
+      })
+      .catch(() => undefined);
+    throw error;
+  }
 };
 
 const updateDefinition = async ({
@@ -385,7 +381,7 @@ const updateDefinition = async ({
     overrideAccess: true,
     req,
     data: {
-      ...buildSharedData({ metric, context }),
+      ...buildSharedData(metric, context),
       ...metric.en,
       requiredInputs: mapRequiredInputs(metric, 'en'),
     },
@@ -395,15 +391,11 @@ const updateDefinition = async ({
   return updated;
 };
 
-const toGeneratedRecord = ({
-  metric,
-  document,
-  action,
-}: {
-  metric: PilotMetricDefinitionSeed;
-  document: DocumentWithID;
-  action: 'created' | 'synchronized';
-}): GeneratedMetricDefinitionRecord => ({
+const toGeneratedRecord = (
+  metric: PilotMetricDefinitionSeed,
+  document: DocumentWithID,
+  action: 'created' | 'synchronized',
+): GeneratedMetricDefinitionRecord => ({
   collectionSlug: 'metric-definitions',
   recordId: String(document.id),
   recordCode: metric.definitionCode,
@@ -445,10 +437,13 @@ export const createNewPilotMetricDefinitions = async ({
     resolveExistingDefinitions({ payload, req }),
   ]);
 
-  const existing = resolutions.filter((resolution) => resolution.existing);
-  if (existing.length > 0) {
+  const existingCodes = resolutions
+    .filter(({ existing }) => Boolean(existing))
+    .map(({ metric }) => metric.metricCode);
+
+  if (existingCodes.length > 0) {
     throw new Error(
-      `${existing.map(({ metric }) => metric.metricCode).join(', ')} ${PILOT_METRIC_CONTEXT.version} already exist. Use permanent synchronization instead of creating disposable duplicates.`,
+      `${existingCodes.join(', ')} ${PILOT_METRIC_CONTEXT.version} already exist. Use permanent synchronization instead of creating duplicate review records.`,
     );
   }
 
@@ -457,11 +452,8 @@ export const createNewPilotMetricDefinitions = async ({
   try {
     for (const { metric } of resolutions) {
       const document = await createDefinition({ payload, req, metric, context });
-      createdRecords.push(
-        toGeneratedRecord({ metric, document, action: 'created' }),
-      );
+      createdRecords.push(toGeneratedRecord(metric, document, 'created'));
     }
-
     return createdRecords;
   } catch (error) {
     await rollbackCreatedDefinitions({ payload, req, records: createdRecords });
@@ -496,19 +488,14 @@ export const synchronizePermanentPilotMetricDefinitions = async ({
           metric,
           context,
         });
-        resolvedRecords.push(
-          toGeneratedRecord({ metric, document, action: 'synchronized' }),
-        );
-      } else {
-        const document = await createDefinition({ payload, req, metric, context });
-        const record = toGeneratedRecord({
-          metric,
-          document,
-          action: 'created',
-        });
-        createdRecords.push(record);
-        resolvedRecords.push(record);
+        resolvedRecords.push(toGeneratedRecord(metric, document, 'synchronized'));
+        continue;
       }
+
+      const document = await createDefinition({ payload, req, metric, context });
+      const record = toGeneratedRecord(metric, document, 'created');
+      createdRecords.push(record);
+      resolvedRecords.push(record);
     }
 
     return resolvedRecords;
