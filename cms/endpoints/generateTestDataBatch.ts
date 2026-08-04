@@ -1,5 +1,6 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
+import { recordPilotMetricTechnicalReview } from '../metrics/recordPilotMetricTechnicalReview';
 import { provisionPermanentPilotMetricDefinitions } from '../pilot/provisionPilotMetricDefinitions';
 import { provisionVerifiedRealPilotExecutions } from '../pilot/provisionVerifiedRealPilotExecutions';
 import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
@@ -120,6 +121,15 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `Permanent pilot metric-definition preparation resolved ${records.length} scientific definitions.`,
+        );
+      } else if (scenario === 'pilot-metric-technical-review') {
+        const records = await recordPilotMetricTechnicalReview({
+          payload: req.payload,
+          req,
+        });
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `Pilot metric author technical review recorded for ${records.length} permanent definitions.`,
         );
       } else if (scenario === 'pilot-real-executions') {
         const records = await provisionVerifiedRealPilotExecutions({
