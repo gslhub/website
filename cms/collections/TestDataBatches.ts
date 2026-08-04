@@ -43,7 +43,7 @@ export const TestDataBatches: CollectionConfig = {
       'createdAt',
     ],
     description:
-      'Administrator-only controlled test generation and permanent pilot preparation. Disposable TEST records are cleaned with their batch; permanent scientific definitions and real execution reservations are preserved.',
+      'Administrator-only controlled test generation and permanent pilot preparation. Disposable TEST records are cleaned with their batch; permanent scientific definitions, technical review records and real execution reservations are preserved.',
   },
   endpoints: [generateTestDataBatchEndpoint],
   hooks: {
@@ -97,6 +97,11 @@ export const TestDataBatches: CollectionConfig = {
         },
         {
           label:
+            'Record pilot metric author technical review — AIR, CR, MCP and RCR v0.1.0',
+          value: 'pilot-metric-technical-review',
+        },
+        {
+          label:
             'Permanent real pilot executions — create or reuse GSL-EXEC-GEO-0001 to 0005 after readiness passes',
           value: 'pilot-real-executions',
         },
@@ -137,7 +142,7 @@ export const TestDataBatches: CollectionConfig = {
       ],
       admin: {
         description:
-          'Permanent actions create or synchronize scientific records and are never removed by batch cleanup. Metric synchronization updates only Planned or Under review definitions and refuses to overwrite frozen versions. The real-execution action refuses to run until every scientific and storage readiness condition passes.',
+          'Permanent actions create, synchronize or document scientific records and are never removed by batch cleanup. Metric synchronization updates only Planned or Under review definitions. Technical self-review records deterministic tests while leaving formal validation and independent review pending. The real-execution action refuses to run until every scientific and storage readiness condition passes.',
       },
     },
     {
@@ -200,7 +205,7 @@ export const TestDataBatches: CollectionConfig = {
         readOnly: true,
         condition: showGeneratedFields,
         description:
-          'Exact records generated, reused or synchronized by this action. Permanent definitions and real executions remain intact if this administrative audit record is removed.',
+          'Exact records generated, reused, synchronized or reviewed by this action. Permanent definitions, technical review records and real executions remain intact if this administrative audit record is removed.',
       },
       fields: [
         {
