@@ -38,7 +38,6 @@ const technicalReviewField: Field = {
     {
       name: 'reviewedAt',
       type: 'date',
-      index: true,
     },
     {
       name: 'reviewedBy',
