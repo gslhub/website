@@ -2,6 +2,34 @@
 
 All notable GSLHub platform changes are recorded here. Scientific result records and formal dataset releases retain their own governed version history in Payload.
 
+## 0.4.2 — 2026-08-04
+
+### Added
+
+- Dedicated `Technical Review` block for Metric Definitions.
+- Separate author self-review and independent-review fields.
+- Deterministic validation status, review dates, reviewers and bilingual review notes.
+- Permanent Administrative Batch action to record the AIR, CR, MCP and RCR author technical review.
+
+### Changed
+
+- AIR, CR, MCP and RCR can now document successful deterministic testing without using `Validated At` or `Validated By` prematurely.
+- Package version increased from 0.4.1 to 0.4.2.
+
+### Governance and safety
+
+- `Validated At` and `Validated By` must remain empty while a definition is `planned` or `under-review`.
+- Formal `Validated` status requires completed technical review and passed deterministic validation.
+- Formal validation also requires a completed independent review by a researcher different from the author self-reviewer.
+- Technical-review fields become frozen with the rest of the scientific definition after validation.
+- Removing the Administrative Batch audit record never removes the permanent technical review stored in the Metric Definitions.
+
+### Current scientific state
+
+- Author technical self-review can be recorded for Eduardo José Yauri Luna.
+- Independent review remains pending.
+- AIR, CR, MCP and RCR remain `Under review` and `Draft` until an external reviewer is registered.
+
 ## 0.4.1 — 2026-08-04
 
 ### Added
