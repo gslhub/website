@@ -11,6 +11,7 @@ type MetricDefinitionDocument = Record<string, unknown> & {
   denominatorDefinition?: unknown;
   validatedAt?: unknown;
   validatedBy?: unknown;
+  technicalReview?: unknown;
 };
 
 const hasOwn = (value: Record<string, unknown>, key: string) =>
@@ -22,8 +23,30 @@ const getString = (value: unknown): string | null =>
 const getDocumentId = (value: unknown): string | number | null =>
   typeof value === 'string' || typeof value === 'number' ? value : null;
 
+const getRecord = (value: unknown): Record<string, unknown> =>
+  value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
+
+const getRelationshipIDs = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return [];
+
+  return value.flatMap((item) => {
+    if (typeof item === 'string' || typeof item === 'number') {
+      return [String(item)];
+    }
+
+    if (item && typeof item === 'object' && !Array.isArray(item)) {
+      const id = (item as Record<string, unknown>).id;
+      return typeof id === 'string' || typeof id === 'number' ? [String(id)] : [];
+    }
+
+    return [];
+  });
+};
+
 const hasRelationships = (value: unknown): boolean =>
-  Array.isArray(value) ? value.length > 0 : Boolean(value);
+  getRelationshipIDs(value).length > 0;
 
 const hasLocalizedText = (value: unknown): boolean => {
   if (getString(value)) return true;
@@ -93,6 +116,7 @@ const frozenDefinitionFields = [
   'assumptions',
   'limitations',
   'validationProcedure',
+  'technicalReview',
   'validatedAt',
   'validatedBy',
   'project',
@@ -134,6 +158,61 @@ const validateLifecycleTransition = ({
   }
 };
 
+const validateTechnicalReview = ({
+  incoming,
+  previous,
+}: {
+  incoming: MetricDefinitionDocument;
+  previous: MetricDefinitionDocument;
+}) => {
+  const review = getRecord(incoming.technicalReview ?? previous.technicalReview);
+  const status = getString(review.status) || 'pending';
+  const deterministicStatus =
+    getString(review.deterministicValidationStatus) || 'not-run';
+  const independentStatus =
+    getString(review.independentReviewStatus) || 'pending';
+
+  if (status === 'completed') {
+    if (!review.reviewedAt) {
+      throwConflict('A completed Technical Review requires Reviewed At.');
+    }
+
+    if (!hasRelationships(review.reviewedBy)) {
+      throwConflict('A completed Technical Review requires at least one Reviewed By researcher.');
+    }
+
+    if (deterministicStatus !== 'passed') {
+      throwConflict(
+        'A completed Technical Review requires Deterministic Validation Status = Passed.',
+      );
+    }
+  }
+
+  if (independentStatus === 'completed') {
+    if (!review.independentReviewedAt) {
+      throwConflict('A completed independent review requires Independent Reviewed At.');
+    }
+
+    if (!hasRelationships(review.independentReviewedBy)) {
+      throwConflict(
+        'A completed independent review requires at least one Independent Reviewed By researcher.',
+      );
+    }
+
+    const authorReviewerIDs = new Set(getRelationshipIDs(review.reviewedBy));
+    const independentReviewerIDs = getRelationshipIDs(review.independentReviewedBy);
+    const overlap = independentReviewerIDs.filter((id) => authorReviewerIDs.has(id));
+
+    if (overlap.length > 0) {
+      throwConflict(
+        'Independent reviewers must be different researchers from the author self-reviewer.',
+      );
+    }
+  }
+
+  return { review, status, deterministicStatus, independentStatus };
+};
+
 const validateDefinitionRequirements = ({
   incoming,
   previous,
@@ -143,10 +222,19 @@ const validateDefinitionRequirements = ({
   previous: MetricDefinitionDocument;
   lifecycleStatus: string;
 }) => {
-  if (!frozenStatuses.has(lifecycleStatus)) return;
-
   const validatedAt = incoming.validatedAt ?? previous.validatedAt;
   const validatedBy = incoming.validatedBy ?? previous.validatedBy;
+  const technicalReview = validateTechnicalReview({ incoming, previous });
+
+  if (!frozenStatuses.has(lifecycleStatus)) {
+    if (validatedAt || hasRelationships(validatedBy)) {
+      throwConflict(
+        'Validated At and Validated By must remain empty until the metric definition enters the formal Validated lifecycle.',
+      );
+    }
+    return;
+  }
+
   const aggregationMethod =
     getString(incoming.aggregationMethod ?? previous.aggregationMethod) || 'custom';
   const numeratorDefinition =
@@ -163,6 +251,21 @@ const validateDefinitionRequirements = ({
   if (!hasRelationships(validatedBy)) {
     throwConflict(
       `A metric definition with lifecycle status "${lifecycleStatus}" requires at least one Validated By researcher.`,
+    );
+  }
+
+  if (
+    technicalReview.status !== 'completed' ||
+    technicalReview.deterministicStatus !== 'passed'
+  ) {
+    throwConflict(
+      'Formal validation requires a completed Technical Review with all deterministic metric tests passed.',
+    );
+  }
+
+  if (technicalReview.independentStatus !== 'completed') {
+    throwConflict(
+      'Formal validation requires a completed independent review by a researcher different from the author self-reviewer.',
     );
   }
 
