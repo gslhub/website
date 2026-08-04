@@ -60,6 +60,9 @@ const expectedResults: Record<
 const getString = (value: unknown): string | null =>
   typeof value === 'string' && value.trim().length > 0 ? value.trim() : null;
 
+const getDateString = (value: unknown): string | null =>
+  typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? value : null;
+
 const getRecord = (value: unknown): Record<string, unknown> =>
   value && typeof value === 'object' && !Array.isArray(value)
     ? (value as Record<string, unknown>)
@@ -125,7 +128,6 @@ const findDefinition = async ({
     pagination: false,
     draft: true,
     locale: 'en',
-    fallbackLocale: false,
     overrideAccess: true,
     req,
   });
@@ -164,11 +166,11 @@ const buildTechnicalReview = ({
       previousIndependentStatus === 'completed'
         ? 'mixed-review'
         : 'author-self-review',
-    reviewedAt: previous.reviewedAt || reviewedAt,
+    reviewedAt: getDateString(previous.reviewedAt) || reviewedAt,
     reviewedBy: reviewerIDs,
     deterministicValidationStatus: 'passed',
     independentReviewStatus: previousIndependentStatus,
-    independentReviewedAt: previous.independentReviewedAt || null,
+    independentReviewedAt: getDateString(previous.independentReviewedAt),
     independentReviewedBy: getRelationshipIDs(previous.independentReviewedBy),
     notes,
   };
@@ -208,7 +210,7 @@ export const recordPilotMetricTechnicalReview = async ({
       );
     }
 
-    const EnglishReview = buildTechnicalReview({
+    const englishReview = buildTechnicalReview({
       existing: definition,
       researcherID: researcher.id,
       reviewedAt,
@@ -224,7 +226,7 @@ export const recordPilotMetricTechnicalReview = async ({
       overrideAccess: true,
       req,
       data: {
-        technicalReview: EnglishReview,
+        technicalReview: englishReview,
         _status: 'draft',
       },
     });
@@ -239,7 +241,7 @@ export const recordPilotMetricTechnicalReview = async ({
       req,
       data: {
         technicalReview: {
-          ...EnglishReview,
+          ...englishReview,
           notes: `${expectedResults[metric.metricCode].es} La autorrevisión técnica fue completada por Eduardo José Yauri Luna. La definición permanece en Under review hasta que una persona investigadora independiente complete la revisión externa. Los registros sintéticos TEST fueron eliminados después de la comprobación y las definiciones permanentes se conservaron.`,
         },
         _status: 'draft',
