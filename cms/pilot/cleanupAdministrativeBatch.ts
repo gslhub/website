@@ -4,6 +4,7 @@ import { cleanupTestDataBatch } from '../test-data/testDataBatchLifecycle';
 
 const permanentScenarios = new Set([
   'pilot-permanent-metric-definitions',
+  'pilot-metric-technical-review',
   'pilot-real-executions',
 ]);
 
