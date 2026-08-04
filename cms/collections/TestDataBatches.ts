@@ -92,7 +92,7 @@ export const TestDataBatches: CollectionConfig = {
         },
         {
           label:
-            'Permanent pilot metric definitions — provision or reuse AIR, CR, MCP and RCR v0.1.0',
+            'Permanent pilot metric definitions — create or synchronize AIR, CR, MCP and RCR v0.1.0',
           value: 'pilot-permanent-metric-definitions',
         },
         {
@@ -137,7 +137,7 @@ export const TestDataBatches: CollectionConfig = {
       ],
       admin: {
         description:
-          'Permanent actions create or reuse real scientific records and are never removed by batch cleanup. The real-execution action refuses to run until every scientific and storage readiness condition passes.',
+          'Permanent actions create or synchronize scientific records and are never removed by batch cleanup. Metric synchronization updates only Planned or Under review definitions and refuses to overwrite frozen versions. The real-execution action refuses to run until every scientific and storage readiness condition passes.',
       },
     },
     {
