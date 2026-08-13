@@ -46,20 +46,28 @@ const homeDirectory = homeDirectoryValue
   ? normalizeFilesystemPath(homeDirectoryValue)
   : null;
 const siteHost = getSiteHost();
+const managedSiteRootSuffix = siteHost ? `/domains/${siteHost}` : null;
+const homeDirectoryIsManagedSiteRoot = Boolean(
+  homeDirectory &&
+    managedSiteRootSuffix &&
+    homeDirectory.endsWith(managedSiteRootSuffix),
+);
 
 // Hostinger managed Node deployments rebuild the application directory on redeploy.
-// When HOME and NEXT_PUBLIC_SITE_URL are available, keep research uploads in a
-// sibling data directory outside the release tree. An explicit env value still
-// overrides this automatic location for other production environments.
+// Depending on the runtime, HOME can point either to the account root or directly
+// to /domains/<site>. Keep uploads outside the release tree without duplicating the
+// managed-site path. An explicit env value still overrides this automatic location.
 const automaticPersistentDirectory =
   homeDirectory && siteHost
-    ? joinFilesystemPath(
-        homeDirectory,
-        'domains',
-        siteHost,
-        'gslhub-data',
-        prefix,
-      )
+    ? homeDirectoryIsManagedSiteRoot
+      ? joinFilesystemPath(homeDirectory, 'gslhub-data', prefix)
+      : joinFilesystemPath(
+          homeDirectory,
+          'domains',
+          siteHost,
+          'gslhub-data',
+          prefix,
+        )
     : null;
 
 const localDirectory = configuredLocalDirectory
