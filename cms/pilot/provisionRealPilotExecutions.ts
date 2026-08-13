@@ -212,13 +212,20 @@ const assertScientificReadiness = async ({
   }
 
   const storage = getResearchArtifactStorageReadiness();
-  if (
-    !storage.enabled ||
-    !storage.bucket ||
-    !storage.region ||
-    storage.endpointHost === 'invalid-url'
-  ) {
-    blockers.push('Durable S3-compatible research-artifact storage must be enabled and configured.');
+  if (!storage.enabled || storage.provider !== 'local' || !storage.localDirectory) {
+    blockers.push('Payload local research-artifact storage must be enabled and configured.');
+  }
+
+  if (!storage.artifactRoundtripVerified || !storage.artifactRoundtripVerifiedAt) {
+    blockers.push(
+      'Local research-artifact persistence must be verified after restart and redeploy before the real pilot.',
+    );
+  }
+
+  if (!storage.backupRecoveryVerified || !storage.backupRecoveryVerifiedAt) {
+    blockers.push(
+      'Local research-artifact backup/recovery must be verified before the real pilot.',
+    );
   }
 
   if (blockers.length > 0) {
