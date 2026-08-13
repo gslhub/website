@@ -13,18 +13,40 @@ const getVerifiedAt = (value: string | undefined): string | null => {
   return Number.isNaN(timestamp) ? null : new Date(timestamp).toISOString();
 };
 
+const getSiteHost = (): string | null => {
+  const siteURL = getString(process.env.NEXT_PUBLIC_SITE_URL);
+  if (!siteURL) return null;
+
+  try {
+    return new URL(siteURL).hostname.replace(/^www\./, '');
+  } catch {
+    return null;
+  }
+};
+
 const prefix = 'research-artifacts';
-const configuredLocalDirectory = getString(
-  process.env.RESEARCH_ARTIFACT_LOCAL_DIR,
-);
+const configuredLocalDirectory = getString(process.env.RESEARCH_ARTIFACT_LOCAL_DIR);
 const deploymentRoot = path.resolve(process.cwd());
+const homeDirectory = getString(process.env.HOME);
+const siteHost = getSiteHost();
+
+// Hostinger managed Node deployments rebuild the application directory on redeploy.
+// When HOME and NEXT_PUBLIC_SITE_URL are available, keep research uploads in a
+// sibling data directory outside the release tree. An explicit env value still
+// overrides this automatic location for other production environments.
+const automaticPersistentDirectory =
+  homeDirectory && siteHost
+    ? path.resolve(homeDirectory, 'domains', siteHost, 'gslhub-data', prefix)
+    : null;
+
 const localDirectory = configuredLocalDirectory
   ? path.resolve(configuredLocalDirectory)
-  : path.resolve(deploymentRoot, prefix);
-const localDirectoryConfigured = Boolean(configuredLocalDirectory);
-const localDirectoryIsAbsolute = configuredLocalDirectory
-  ? path.isAbsolute(configuredLocalDirectory)
-  : false;
+  : automaticPersistentDirectory || path.resolve(deploymentRoot, prefix);
+
+const localDirectoryConfigured = Boolean(
+  configuredLocalDirectory || automaticPersistentDirectory,
+);
+const localDirectoryIsAbsolute = path.isAbsolute(localDirectory);
 const localDirectoryInsideDeploymentRoot =
   localDirectory === deploymentRoot ||
   localDirectory.startsWith(`${deploymentRoot}${path.sep}`);
@@ -54,7 +76,10 @@ export const researchArtifactStorageSettings = {
   prefix,
   forcePathStyle: false,
   deploymentRoot,
+  homeDirectory,
+  siteHost,
   configuredLocalDirectory,
+  automaticPersistentDirectory,
   localDirectory,
   localDirectoryConfigured,
   localDirectoryIsAbsolute,
