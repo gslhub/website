@@ -5,6 +5,7 @@ import { cleanupTestDataBatch } from '../test-data/testDataBatchLifecycle';
 const permanentScenarios = new Set([
   'pilot-permanent-metric-definitions',
   'pilot-metric-technical-review',
+  'pilot-local-artifact-recovery-drill',
   'pilot-real-executions',
 ]);
 
@@ -24,7 +25,7 @@ export const cleanupAdministrativeBatch: CollectionBeforeDeleteHook = async (arg
 
   if (scenario && permanentScenarios.has(scenario)) {
     args.req.payload.logger.info(
-      `Administrative batch ${String(args.id)} was removed without deleting permanent scientific records from scenario ${scenario}.`,
+      `Administrative batch ${String(args.id)} was removed without deleting permanent or externally owned scientific records from scenario ${scenario}.`,
     );
     return;
   }
