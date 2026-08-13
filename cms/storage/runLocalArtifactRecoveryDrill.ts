@@ -129,7 +129,7 @@ export const runLocalArtifactRecoveryDrill = async ({
     );
   }
 
-  const recoveryRoot = path.resolve(process.cwd(), RECOVERY_DIRECTORY);
+  const recoveryRoot = path.join(artifactRoot, RECOVERY_DIRECTORY);
   await mkdir(recoveryRoot, { recursive: true });
 
   const token = `${Date.now()}-${randomUUID().slice(0, 8)}`;
@@ -175,8 +175,6 @@ export const runLocalArtifactRecoveryDrill = async ({
       },
     ];
   } catch (error) {
-    // Best-effort rollback: the untouched original copy in quarantine is preferred
-    // over the backup copy whenever the live source needs to be recovered.
     if (originalMoved) {
       await rm(sourcePath, { force: true }).catch(() => undefined);
       await rename(quarantinePath, sourcePath).catch(async () => {
