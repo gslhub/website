@@ -1,6 +1,5 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
-import { getResearchArtifactStorageReadiness } from '../storage/researchArtifactStorage';
 import { getPilotReadinessEndpoint } from './getPilotReadiness';
 
 type ReadinessCheck = {
@@ -57,9 +56,9 @@ const adminPathForCheck = (check: ReadinessCheck): string | null => {
     return '/admin/collections/test-data-batches/create';
   }
   if (
-    key === 'durable-storage' ||
-    key === 'artifact-roundtrip-verified' ||
-    key === 'backup-recovery-verified'
+    key === 'local-storage-location' ||
+    key === 'local-storage-roundtrip' ||
+    key === 'local-storage-recovery'
   ) {
     return '/admin/collections/research-artifacts';
   }
@@ -83,16 +82,16 @@ const instructionForCheck = (check: ReadinessCheck): string => {
     return 'Create an Administrative Batch using “Permanent pilot metric definitions”, run the action and review the four resulting definitions.';
   }
   if (key?.startsWith('metric-')) {
-    return 'Review the complete bilingual definition, add Validated At and Validated By, then move it to Validated.';
+    return 'Complete the independent scientific review before moving the metric definition to Validated.';
   }
-  if (key === 'durable-storage') {
-    return 'Configure private S3-compatible storage in the production environment and redeploy.';
+  if (key === 'local-storage-location') {
+    return 'Ensure research artifacts use an absolute persistent local directory outside the Node deployment release.';
   }
-  if (key === 'artifact-roundtrip-verified') {
-    return 'Upload and download a restricted artifact, compare SHA-256 values and set PILOT_ARTIFACT_ROUNDTRIP_VERIFIED_AT.';
+  if (key === 'local-storage-roundtrip') {
+    return 'Verify that a restricted TEST artifact remains downloadable with the same SHA-256 after restart and redeploy.';
   }
-  if (key === 'backup-recovery-verified') {
-    return 'Restore a verified MongoDB and object-storage backup in an isolated environment and set PILOT_BACKUP_RECOVERY_VERIFIED_AT.';
+  if (key === 'local-storage-recovery') {
+    return 'Perform and document a backup/recovery drill for the current persistent artifact directory.';
   }
 
   return `Resolve: ${getString(check.label) || key || 'unidentified readiness condition'}.`;
@@ -110,40 +109,6 @@ export const getVerifiedPilotReadinessEndpoint: Endpoint = {
 
     const data = (await baseResponse.json()) as ReadinessResponse;
     const checks = getChecks(data.checks);
-    const storage = getResearchArtifactStorageReadiness();
-
-    const durableStorageCheck = checks.find(
-      (check) => getString(check.key) === 'durable-storage',
-    );
-
-    if (durableStorageCheck) {
-      durableStorageCheck.actual = {
-        enabled: storage.enabled,
-        provider: storage.provider,
-        bucket: storage.bucket,
-        region: storage.region,
-        endpointHost: storage.endpointHost,
-        artifactRoundtripVerifiedAt: storage.artifactRoundtripVerifiedAt,
-        backupRecoveryVerifiedAt: storage.backupRecoveryVerifiedAt,
-      };
-    }
-
-    checks.push(
-      {
-        key: 'artifact-roundtrip-verified',
-        label: 'Restricted artifact upload and authenticated download preserve SHA-256',
-        passed: storage.artifactRoundtripVerified,
-        expected: 'PILOT_ARTIFACT_ROUNDTRIP_VERIFIED_AT contains a valid ISO-8601 timestamp',
-        actual: storage.artifactRoundtripVerifiedAt,
-      },
-      {
-        key: 'backup-recovery-verified',
-        label: 'MongoDB and object-storage backup has been restored and verified in isolation',
-        passed: storage.backupRecoveryVerified,
-        expected: 'PILOT_BACKUP_RECOVERY_VERIFIED_AT contains a valid ISO-8601 timestamp',
-        actual: storage.backupRecoveryVerifiedAt,
-      },
-    );
 
     const scientificAndStorageReady = checks.every((check) => check.passed === true);
     const inventory =
