@@ -43,7 +43,7 @@ export const TestDataBatches: CollectionConfig = {
       'createdAt',
     ],
     description:
-      'Administrator-only controlled test generation and permanent pilot preparation. Disposable TEST records are cleaned with their batch; permanent scientific definitions, technical review records and real execution reservations are preserved.',
+      'Administrator-only controlled test generation and permanent pilot preparation. Disposable TEST records are cleaned with their batch; permanent scientific definitions, technical review records, storage verification audits and real execution reservations are preserved.',
   },
   endpoints: [generateTestDataBatchEndpoint],
   hooks: {
@@ -102,6 +102,11 @@ export const TestDataBatches: CollectionConfig = {
         },
         {
           label:
+            'Verify local artifact backup/recovery — latest disposable TEST artifact only',
+          value: 'pilot-local-artifact-recovery-drill',
+        },
+        {
+          label:
             'Permanent real pilot executions — create or reuse GSL-EXEC-GEO-0001 to 0005 after readiness passes',
           value: 'pilot-real-executions',
         },
@@ -142,7 +147,7 @@ export const TestDataBatches: CollectionConfig = {
       ],
       admin: {
         description:
-          'Permanent actions create, synchronize or document scientific records and are never removed by batch cleanup. Metric synchronization updates only Planned or Under review definitions. Technical self-review records deterministic tests while leaving formal validation and independent review pending. The real-execution action refuses to run until every scientific and storage readiness condition passes.',
+          'Permanent actions create, synchronize, document or verify governed records and are never removed by batch cleanup. The local recovery drill operates only on an existing disposable TEST artifact and restores it in place. Metric synchronization updates only Planned or Under review definitions. Technical self-review records deterministic tests while leaving formal validation and independent review pending. The real-execution action refuses to run until every scientific and storage readiness condition passes.',
       },
     },
     {
@@ -205,7 +210,7 @@ export const TestDataBatches: CollectionConfig = {
         readOnly: true,
         condition: showGeneratedFields,
         description:
-          'Exact records generated, reused, synchronized or reviewed by this action. Permanent definitions, technical review records and real executions remain intact if this administrative audit record is removed.',
+          'Exact records generated, reused, synchronized, reviewed or verified by this action. Permanent definitions, technical review records, storage-verification references and real executions remain intact if this administrative audit record is removed.',
       },
       fields: [
         {
