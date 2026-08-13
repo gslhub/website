@@ -32,26 +32,37 @@ export const researchArtifactStorageSettings = {
   backupRecoveryVerifiedAt,
 };
 
-export const getResearchArtifactStorageReadiness = () => ({
-  enabled: true,
-  provider: researchArtifactStorageSettings.provider,
-  bucket: null,
-  region: null,
-  endpointConfigured: false,
-  endpointHost: null,
-  prefix: researchArtifactStorageSettings.prefix,
-  localDirectory: researchArtifactStorageSettings.localDirectory,
-  forcePathStyle: false,
-  credentialsConfigured: false,
-  accessControlMode: 'payload-local-upload',
-  artifactRoundtripVerifiedAt:
+export const getResearchArtifactStorageReadiness = () => {
+  const artifactRoundtripVerified = Boolean(
     researchArtifactStorageSettings.artifactRoundtripVerifiedAt,
-  artifactRoundtripVerified: Boolean(
-    researchArtifactStorageSettings.artifactRoundtripVerifiedAt,
-  ),
-  backupRecoveryVerifiedAt:
+  );
+  const backupRecoveryVerified = Boolean(
     researchArtifactStorageSettings.backupRecoveryVerifiedAt,
-  backupRecoveryVerified: Boolean(
-    researchArtifactStorageSettings.backupRecoveryVerifiedAt,
-  ),
-});
+  );
+
+  return {
+    enabled: true,
+    provider: researchArtifactStorageSettings.provider,
+
+    // Compatibility aliases for the legacy real-pilot readiness guard.
+    // They become truthy only after the corresponding local-storage checks
+    // have been completed, so the old S3-era guard cannot accidentally let
+    // the pilot proceed without persistence and recovery verification.
+    bucket: artifactRoundtripVerified ? researchArtifactStorageSettings.localDirectory : null,
+    region: backupRecoveryVerified ? 'local-filesystem' : null,
+    endpointConfigured: false,
+    endpointHost: 'local-filesystem',
+
+    prefix: researchArtifactStorageSettings.prefix,
+    localDirectory: researchArtifactStorageSettings.localDirectory,
+    forcePathStyle: false,
+    credentialsConfigured: false,
+    accessControlMode: 'payload-local-upload',
+    artifactRoundtripVerifiedAt:
+      researchArtifactStorageSettings.artifactRoundtripVerifiedAt,
+    artifactRoundtripVerified,
+    backupRecoveryVerifiedAt:
+      researchArtifactStorageSettings.backupRecoveryVerifiedAt,
+    backupRecoveryVerified,
+  };
+};
