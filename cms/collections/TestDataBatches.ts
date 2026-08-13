@@ -2,6 +2,7 @@ import type { CollectionBeforeValidateHook, CollectionConfig } from 'payload';
 
 import { adminOnly } from '../access/scientificContentAccess';
 import { generateTestDataBatchEndpoint } from '../endpoints/generateTestDataBatch';
+import { runLocalArtifactRecoveryDrillEndpoint } from '../endpoints/runLocalArtifactRecoveryDrillEndpoint';
 import { cleanupAdministrativeBatch } from '../pilot/cleanupAdministrativeBatch';
 import { cleanupPilotMetricDefinitionBatch } from '../test-data/pilotMetricDefinitionBatch';
 import { cleanupPilotMetricResultDefinitions } from '../test-data/pilotMetricResultBatchCleanup';
@@ -45,7 +46,7 @@ export const TestDataBatches: CollectionConfig = {
     description:
       'Administrator-only controlled test generation and permanent pilot preparation. Disposable TEST records are cleaned with their batch; permanent scientific definitions, technical review records, storage verification audits and real execution reservations are preserved.',
   },
-  endpoints: [generateTestDataBatchEndpoint],
+  endpoints: [generateTestDataBatchEndpoint, runLocalArtifactRecoveryDrillEndpoint],
   hooks: {
     beforeValidate: [prepareTestDataBatch, markTestDataBatchPending],
     beforeDelete: [
