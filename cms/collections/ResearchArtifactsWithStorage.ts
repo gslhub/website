@@ -1,10 +1,17 @@
 import type { CollectionConfig } from 'payload';
 
 import { recordResearchArtifactStorageMetadata } from '../hooks/researchArtifactStorageMetadata';
+import { researchArtifactStorageSettings } from '../storage/researchArtifactStorage';
 import { ResearchArtifacts as BaseResearchArtifacts } from './ResearchArtifacts';
 
 export const ResearchArtifacts: CollectionConfig = {
   ...BaseResearchArtifacts,
+  upload: {
+    ...(typeof BaseResearchArtifacts.upload === 'object'
+      ? BaseResearchArtifacts.upload
+      : {}),
+    staticDir: researchArtifactStorageSettings.localDirectory,
+  },
   hooks: {
     ...BaseResearchArtifacts.hooks,
     beforeChange: [
