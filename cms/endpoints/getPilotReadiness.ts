@@ -255,21 +255,59 @@ export const getPilotReadinessEndpoint: Endpoint = {
     }
 
     const storage = getResearchArtifactStorageReadiness();
+
     checks.push({
-      key: 'durable-storage',
-      label: 'Durable object storage is enabled and configured',
+      key: 'local-storage-location',
+      label: 'Research artifacts use a persistent local directory outside the deployment release',
       passed:
         storage.enabled &&
-        Boolean(storage.bucket) &&
-        Boolean(storage.region) &&
-        storage.endpointHost !== 'invalid-url',
-      expected: 'enabled S3-compatible private storage',
+        storage.provider === 'local' &&
+        storage.localDirectoryConfigured &&
+        storage.localDirectoryIsAbsolute &&
+        !storage.localDirectoryInsideDeploymentRoot,
+      expected: {
+        provider: 'local',
+        configured: true,
+        absolutePath: true,
+        outsideDeploymentRelease: true,
+      },
       actual: {
         enabled: storage.enabled,
         provider: storage.provider,
-        bucket: storage.bucket,
-        region: storage.region,
-        endpointHost: storage.endpointHost,
+        localDirectory: storage.localDirectory,
+        localDirectoryConfigured: storage.localDirectoryConfigured,
+        localDirectoryIsAbsolute: storage.localDirectoryIsAbsolute,
+        localDirectoryInsideDeploymentRoot: storage.localDirectoryInsideDeploymentRoot,
+      },
+    });
+
+    checks.push({
+      key: 'local-storage-roundtrip',
+      label: 'Research artifact survives restart and redeploy at the current storage path',
+      passed: storage.artifactRoundtripVerified,
+      expected: {
+        verified: true,
+        path: storage.localDirectory,
+      },
+      actual: {
+        verified: storage.artifactRoundtripVerified,
+        verifiedAt: storage.artifactRoundtripVerifiedAt,
+        verifiedPath: storage.artifactRoundtripVerifiedPath,
+      },
+    });
+
+    checks.push({
+      key: 'local-storage-recovery',
+      label: 'Backup and recovery are verified at the current storage path',
+      passed: storage.backupRecoveryVerified,
+      expected: {
+        verified: true,
+        path: storage.localDirectory,
+      },
+      actual: {
+        verified: storage.backupRecoveryVerified,
+        verifiedAt: storage.backupRecoveryVerifiedAt,
+        verifiedPath: storage.backupRecoveryVerifiedPath,
       },
     });
 
