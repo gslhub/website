@@ -1,9 +1,20 @@
-import path from 'node:path';
-
 const getString = (value: string | undefined): string | null => {
   const normalized = value?.trim();
   return normalized ? normalized : null;
 };
+
+const normalizeFilesystemPath = (value: string): string => {
+  const normalized = value
+    .replace(/\\/g, '/')
+    .replace(/\/{2,}/g, '/')
+    .trim();
+
+  if (normalized === '/') return normalized;
+  return normalized.replace(/\/+$/, '');
+};
+
+const joinFilesystemPath = (...parts: string[]): string =>
+  normalizeFilesystemPath(parts.filter(Boolean).join('/'));
 
 const getVerifiedAt = (value: string | undefined): string | null => {
   const normalized = getString(value);
@@ -26,8 +37,14 @@ const getSiteHost = (): string | null => {
 
 const prefix = 'research-artifacts';
 const configuredLocalDirectory = getString(process.env.RESEARCH_ARTIFACT_LOCAL_DIR);
-const deploymentRoot = path.resolve(process.cwd());
-const homeDirectory = getString(process.env.HOME);
+const deploymentRootValue = getString(process.env.PWD);
+const deploymentRoot = deploymentRootValue
+  ? normalizeFilesystemPath(deploymentRootValue)
+  : null;
+const homeDirectoryValue = getString(process.env.HOME);
+const homeDirectory = homeDirectoryValue
+  ? normalizeFilesystemPath(homeDirectoryValue)
+  : null;
 const siteHost = getSiteHost();
 
 // Hostinger managed Node deployments rebuild the application directory on redeploy.
@@ -36,20 +53,27 @@ const siteHost = getSiteHost();
 // overrides this automatic location for other production environments.
 const automaticPersistentDirectory =
   homeDirectory && siteHost
-    ? path.resolve(homeDirectory, 'domains', siteHost, 'gslhub-data', prefix)
+    ? joinFilesystemPath(
+        homeDirectory,
+        'domains',
+        siteHost,
+        'gslhub-data',
+        prefix,
+      )
     : null;
 
 const localDirectory = configuredLocalDirectory
-  ? path.resolve(configuredLocalDirectory)
-  : automaticPersistentDirectory || path.resolve(deploymentRoot, prefix);
+  ? normalizeFilesystemPath(configuredLocalDirectory)
+  : automaticPersistentDirectory || prefix;
 
 const localDirectoryConfigured = Boolean(
   configuredLocalDirectory || automaticPersistentDirectory,
 );
-const localDirectoryIsAbsolute = path.isAbsolute(localDirectory);
-const localDirectoryInsideDeploymentRoot =
-  localDirectory === deploymentRoot ||
-  localDirectory.startsWith(`${deploymentRoot}${path.sep}`);
+const localDirectoryIsAbsolute = localDirectory.startsWith('/');
+const localDirectoryInsideDeploymentRoot = deploymentRoot
+  ? localDirectory === deploymentRoot ||
+    localDirectory.startsWith(`${deploymentRoot}/`)
+  : !localDirectoryIsAbsolute;
 
 const artifactRoundtripVerifiedAt = getVerifiedAt(
   process.env.PILOT_ARTIFACT_ROUNDTRIP_VERIFIED_AT,
@@ -65,7 +89,9 @@ const backupRecoveryVerifiedPath = getString(
 );
 
 const pathMatches = (candidate: string | null): boolean =>
-  Boolean(candidate && path.resolve(candidate) === localDirectory);
+  Boolean(
+    candidate && normalizeFilesystemPath(candidate) === localDirectory,
+  );
 
 export const researchArtifactStorageSettings = {
   enabled: true,
