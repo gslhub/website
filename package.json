@@ -1,6 +1,6 @@
 {
   "name": "gslhub-website",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "private": true,
   "description": "Official research platform for GSLHub — Generative Search Lab Hub.",
   "packageManager": "npm@10.9.2",
@@ -13,7 +13,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "seed:pilot-executions": "payload run scripts/seed-pilot-executions.ts"
+    "seed:pilot-executions": "payload run scripts/seed-pilot-executions.ts",
+    "verify:local-artifact-recovery": "payload run scripts/verify-local-artifact-recovery.ts"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.75.0",
