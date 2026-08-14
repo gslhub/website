@@ -1,6 +1,7 @@
 import type { Payload, PayloadRequest } from 'payload';
 
 import { getResearchArtifactStorageReadiness } from '../storage/researchArtifactStorage';
+import { getPersistedStorageVerificationReadiness } from '../storage/storageVerificationAudit';
 
 type RecordID = string | number;
 type ScientificDocument = Record<string, unknown> & { id: RecordID };
@@ -212,19 +213,38 @@ const assertScientificReadiness = async ({
   }
 
   const storage = getResearchArtifactStorageReadiness();
-  if (!storage.enabled || storage.provider !== 'local' || !storage.localDirectory) {
-    blockers.push('Payload local research-artifact storage must be enabled and configured.');
-  }
+  const storageVerification = await getPersistedStorageVerificationReadiness({
+    payload,
+    req,
+  });
 
-  if (!storage.artifactRoundtripVerified || !storage.artifactRoundtripVerifiedAt) {
+  if (
+    !storage.enabled ||
+    storage.provider !== 'local' ||
+    !storage.localDirectoryConfigured ||
+    !storage.localDirectoryIsAbsolute ||
+    storage.localDirectoryInsideDeploymentRoot
+  ) {
     blockers.push(
-      'Local research-artifact persistence must be verified after restart and redeploy before the real pilot.',
+      'Payload local research-artifact storage must use an absolute persistent directory outside the deployment release.',
     );
   }
 
-  if (!storage.backupRecoveryVerified || !storage.backupRecoveryVerifiedAt) {
+  if (
+    !storageVerification.roundtrip.verified ||
+    !storageVerification.roundtrip.verifiedAt
+  ) {
     blockers.push(
-      'Local research-artifact backup/recovery must be verified before the real pilot.',
+      'Local research-artifact persistence must have a valid roundtrip audit after restart and redeploy before the real pilot.',
+    );
+  }
+
+  if (
+    !storageVerification.recovery.verified ||
+    !storageVerification.recovery.verifiedAt
+  ) {
+    blockers.push(
+      'Local research-artifact backup/recovery must have a valid recovery audit before the real pilot.',
     );
   }
 
