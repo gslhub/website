@@ -3,6 +3,7 @@ import type { Endpoint, PayloadRequest } from 'payload';
 import { recordPilotMetricTechnicalReview } from '../metrics/recordPilotMetricTechnicalReview';
 import { provisionPermanentPilotMetricDefinitions } from '../pilot/provisionPilotMetricDefinitions';
 import { provisionVerifiedRealPilotExecutions } from '../pilot/provisionVerifiedRealPilotExecutions';
+import { assertScenarioAllowedForResearchMode } from '../research/researchEnvironment';
 import { runLocalArtifactRecoveryDrill } from '../storage/runLocalArtifactRecoveryDrill';
 import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
 import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
@@ -98,6 +99,13 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         );
       }
 
+      const scenario = getString(batch.scenario);
+      await assertScenarioAllowedForResearchMode({
+        payload: req.payload,
+        req,
+        scenario,
+      });
+
       await req.payload.update({
         collection: 'test-data-batches',
         id,
@@ -111,8 +119,6 @@ export const generateTestDataBatchEndpoint: Endpoint = {
           errorMessage: null,
         },
       });
-
-      const scenario = getString(batch.scenario);
 
       if (scenario === 'pilot-permanent-metric-definitions') {
         const records = await provisionPermanentPilotMetricDefinitions({
