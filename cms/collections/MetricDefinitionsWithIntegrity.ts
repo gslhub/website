@@ -1,9 +1,11 @@
-import type { CollectionConfig, Field } from 'payload';
+import type { CollectionBeforeValidateHook, CollectionConfig, Field } from 'payload';
 
 import {
   detachMetricDefinitionBeforeDelete,
   syncBenchmarkMetricDefinitionsAfterChange,
 } from '../hooks/syncBenchmarkMetricDefinitions';
+import { protectMetricDefinition } from '../hooks/protectMetricDefinition';
+import { assertDevelopmentMode } from '../research/researchEnvironment';
 import { MetricDefinitions as BaseMetricDefinitions } from './MetricDefinitions';
 
 const technicalReviewField: Field = {
@@ -87,11 +89,28 @@ const technicalReviewField: Field = {
   ],
 };
 
+const developmentResetAwareProtection: CollectionBeforeValidateHook = async (args) => {
+  const context = args.req.context as Record<string, unknown> | undefined;
+
+  if (context?.developmentReset === true) {
+    const user = args.req.user as { role?: unknown } | null | undefined;
+    if (!user || user.role !== 'admin') {
+      throw new Error('Only an administrator can use the controlled development reset bypass.');
+    }
+
+    await assertDevelopmentMode({ payload: args.req.payload, req: args.req });
+    return args.data;
+  }
+
+  return protectMetricDefinition(args);
+};
+
 export const MetricDefinitions: CollectionConfig = {
   ...BaseMetricDefinitions,
   fields: [...BaseMetricDefinitions.fields, technicalReviewField],
   hooks: {
     ...BaseMetricDefinitions.hooks,
+    beforeValidate: [developmentResetAwareProtection],
     beforeDelete: [
       detachMetricDefinitionBeforeDelete,
       ...(BaseMetricDefinitions.hooks?.beforeDelete || []),
