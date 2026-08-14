@@ -3,10 +3,10 @@ import type { CollectionConfig } from 'payload';
 import { adminOnly } from '../access/scientificContentAccess';
 import { prepareStorageVerificationAudit } from '../storage/storageVerificationAudit';
 
-const isRoundtrip = (data: Record<string, unknown>) =>
+const isRoundtrip = (data?: Record<string, unknown>) =>
   data?.verificationType === 'roundtrip';
 
-const isRecovery = (data: Record<string, unknown>) =>
+const isRecovery = (data?: Record<string, unknown>) =>
   data?.verificationType === 'recovery';
 
 export const StorageVerifications: CollectionConfig = {
@@ -29,6 +29,7 @@ export const StorageVerifications: CollectionConfig = {
       'verificationType',
       'status',
       'artifactCode',
+      'testedAppVersion',
       'verifiedAt',
     ],
     description:
@@ -59,6 +60,16 @@ export const StorageVerifications: CollectionConfig = {
       admin: {
         description:
           'Roundtrip is manually attested after the controlled HTTP 200 → Restart → HTTP 200 → Redeploy → HTTP 200 sequence. Recovery is normally created automatically by the recovery drill.',
+      },
+    },
+    {
+      name: 'testedAppVersion',
+      type: 'text',
+      required: true,
+      admin: {
+        condition: isRoundtrip,
+        description:
+          'Exact GSLHub version used during the controlled roundtrip test. For the completed first Hostinger roundtrip, enter 0.4.8. Recovery drills populate this automatically.',
       },
     },
     {
@@ -189,9 +200,13 @@ export const StorageVerifications: CollectionConfig = {
       admin: { readOnly: true },
     },
     {
-      name: 'appVersion',
+      name: 'recordedByAppVersion',
       type: 'text',
-      admin: { readOnly: true },
+      admin: {
+        readOnly: true,
+        description:
+          'GSLHub version that wrote this immutable audit. This can differ from Tested App Version when a past completed roundtrip is being documented.',
+      },
     },
     {
       name: 'verifiedAt',
