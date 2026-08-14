@@ -46,6 +46,14 @@ const buttonStyle = {
   padding: '10px 14px',
 } as const;
 
+const fetchDoctoralReadiness = async (): Promise<DoctoralReadiness> => {
+  const response = await fetch('/api/development-reset/doctoral-readiness', {
+    credentials: 'include',
+    cache: 'no-store',
+  });
+  return (await response.json().catch(() => ({}))) as DoctoralReadiness;
+};
+
 export default function DevelopmentResetActions() {
   const [preview, setPreview] = useState<PreviewResponse | null>(null);
   const [doctoralReadiness, setDoctoralReadiness] = useState<DoctoralReadiness | null>(null);
@@ -54,17 +62,16 @@ export default function DevelopmentResetActions() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const loadDoctoralReadiness = async () => {
-    const response = await fetch('/api/development-reset/doctoral-readiness', {
-      credentials: 'include',
-      cache: 'no-store',
-    });
-    const data = (await response.json().catch(() => ({}))) as DoctoralReadiness;
-    setDoctoralReadiness(data);
-  };
-
   useEffect(() => {
-    void loadDoctoralReadiness();
+    let cancelled = false;
+
+    void fetchDoctoralReadiness().then((data) => {
+      if (!cancelled) setDoctoralReadiness(data);
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const runPreview = async (scope: ResetScope) => {
@@ -122,7 +129,7 @@ export default function DevelopmentResetActions() {
       setMessage(data.message || 'Reset completed.');
       setPreview(null);
       setConfirmation('');
-      await loadDoctoralReadiness();
+      setDoctoralReadiness(await fetchDoctoralReadiness());
       window.setTimeout(() => window.location.reload(), 900);
     } catch (resetError) {
       setError(resetError instanceof Error ? resetError.message : String(resetError));
@@ -160,7 +167,7 @@ export default function DevelopmentResetActions() {
       if (!response.ok) throw new Error(data.error || `Activation failed with ${response.status}.`);
       setMessage(data.message || 'Doctoral Research Mode activated.');
       setConfirmation('');
-      await loadDoctoralReadiness();
+      setDoctoralReadiness(await fetchDoctoralReadiness());
       window.setTimeout(() => window.location.reload(), 900);
     } catch (activationError) {
       setError(
