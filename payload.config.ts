@@ -22,6 +22,8 @@ import { StorageVerifications } from './cms/collections/StorageVerifications';
 import { TestDataBatches } from './cms/collections/TestDataBatches';
 import { Users } from './cms/collections/Users';
 import { ResearchAreas, Researchers } from './cms/collections/research';
+import { developmentResetEndpoints } from './cms/endpoints/developmentReset';
+import { ResearchEnvironment } from './cms/globals/ResearchEnvironment';
 
 const serverURL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://gslhub.com').replace(/\/+$/, '');
 const trustedOrigins = Array.from(
@@ -76,6 +78,8 @@ export default buildConfig({
     Datasets,
     Resources,
   ],
+  globals: [ResearchEnvironment],
+  endpoints: developmentResetEndpoints,
   cookiePrefix: 'gslhub',
   cors: trustedOrigins,
   csrf: trustedOrigins,
