@@ -16,6 +16,8 @@ const getString = (value: unknown): string | null =>
   typeof value === 'string' && value.trim().length > 0 ? value.trim() : null;
 
 const readBody = async (req: PayloadRequest): Promise<RequestBody> => {
+  if (typeof req.json !== 'function') return {};
+
   try {
     return (await req.json()) as RequestBody;
   } catch {
