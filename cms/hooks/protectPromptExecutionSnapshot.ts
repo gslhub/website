@@ -67,6 +67,11 @@ const terminalSnapshotFields = ['response', 'timing', 'usage'] as const;
 
 const terminalStatuses = new Set(['completed', 'failed', 'excluded']);
 const startedStatuses = new Set(['running', 'completed', 'failed', 'excluded']);
+const blankEquivalentEnvironmentFields = new Set([
+  'modelVersion',
+  'interfaceVersion',
+  'releaseChannel',
+]);
 
 const throwConflict = (message: string): never => {
   throw new APIError(message, 409);
@@ -86,6 +91,41 @@ const changedProtectedFields = ({
       hasOwn(incoming, field) &&
       !valuesMatch(incoming[field], previous[field]),
   );
+
+const normalizeEnvironmentField = (key: string, value: unknown): unknown => {
+  if (
+    blankEquivalentEnvironmentFields.has(key) &&
+    (value === undefined ||
+      value === null ||
+      (typeof value === 'string' && value.trim().length === 0))
+  ) {
+    return null;
+  }
+
+  return normalizeComparableValue(value);
+};
+
+const frozenEnvironmentMatches = ({
+  incoming,
+  previous,
+}: {
+  incoming: Record<string, unknown>;
+  previous: Record<string, unknown>;
+}) => {
+  const keys = new Set([...Object.keys(previous), ...Object.keys(incoming)]);
+  keys.delete('newSessionConfirmed');
+
+  for (const key of keys) {
+    const previousValue = normalizeEnvironmentField(key, previous[key]);
+    const incomingValue = normalizeEnvironmentField(key, incoming[key]);
+
+    if (JSON.stringify(previousValue) !== JSON.stringify(incomingValue)) {
+      return false;
+    }
+  }
+
+  return true;
+};
 
 const isAllowedPostRunSessionConfirmation = ({
   incoming,
@@ -110,16 +150,10 @@ const isAllowedPostRunSessionConfirmation = ({
     return false;
   }
 
-  const {
-    newSessionConfirmed: _previousConfirmation,
-    ...previousFrozenEnvironment
-  } = previousEnvironment;
-  const {
-    newSessionConfirmed: _incomingConfirmation,
-    ...incomingFrozenEnvironment
-  } = mergedEnvironment;
-
-  return valuesMatch(incomingFrozenEnvironment, previousFrozenEnvironment);
+  return frozenEnvironmentMatches({
+    incoming: mergedEnvironment,
+    previous: previousEnvironment,
+  });
 };
 
 const validateLifecycleTransition = ({
