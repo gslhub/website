@@ -77,21 +77,6 @@ const throwConflict = (message: string): never => {
   throw new APIError(message, 409);
 };
 
-const changedProtectedFields = ({
-  incoming,
-  previous,
-  fields,
-}: {
-  incoming: ExecutionDocument;
-  previous: ExecutionDocument;
-  fields: readonly string[];
-}) =>
-  fields.filter(
-    (field) =>
-      hasOwn(incoming, field) &&
-      !valuesMatch(incoming[field], previous[field]),
-  );
-
 const normalizeEnvironmentField = (key: string, value: unknown): unknown => {
   if (
     blankEquivalentEnvironmentFields.has(key) &&
@@ -105,19 +90,44 @@ const normalizeEnvironmentField = (key: string, value: unknown): unknown => {
   return normalizeComparableValue(value);
 };
 
-const frozenEnvironmentMatches = ({
+const executionEnvironmentMatches = ({
   incoming,
   previous,
 }: {
-  incoming: Record<string, unknown>;
-  previous: Record<string, unknown>;
+  incoming: unknown;
+  previous: unknown;
 }) => {
-  const keys = new Set([...Object.keys(previous), ...Object.keys(incoming)]);
-  keys.delete('newSessionConfirmed');
+  const previousEnvironment = getRecord(previous);
+  const incomingEnvironment = getRecord(incoming);
+  const mergedEnvironment = {
+    ...previousEnvironment,
+    ...incomingEnvironment,
+  };
+  const keys = new Set([
+    ...Object.keys(previousEnvironment),
+    ...Object.keys(mergedEnvironment),
+  ]);
 
   for (const key of keys) {
-    const previousValue = normalizeEnvironmentField(key, previous[key]);
-    const incomingValue = normalizeEnvironmentField(key, incoming[key]);
+    if (key === 'newSessionConfirmed') {
+      const previousConfirmed = previousEnvironment.newSessionConfirmed === true;
+      const incomingConfirmed = mergedEnvironment.newSessionConfirmed === true;
+
+      if (previousConfirmed === incomingConfirmed) continue;
+
+      // This confirmation is intentionally recorded only after the execution has
+      // actually taken place in a fresh isolated session. It may advance once,
+      // but can never be reverted after being asserted.
+      if (!previousConfirmed && incomingConfirmed) continue;
+
+      return false;
+    }
+
+    const previousValue = normalizeEnvironmentField(
+      key,
+      previousEnvironment[key],
+    );
+    const incomingValue = normalizeEnvironmentField(key, mergedEnvironment[key]);
 
     if (JSON.stringify(previousValue) !== JSON.stringify(incomingValue)) {
       return false;
@@ -127,34 +137,27 @@ const frozenEnvironmentMatches = ({
   return true;
 };
 
-const isAllowedPostRunSessionConfirmation = ({
+const changedProtectedFields = ({
   incoming,
   previous,
+  fields,
 }: {
   incoming: ExecutionDocument;
   previous: ExecutionDocument;
-}) => {
-  if (!hasOwn(incoming, 'executionEnvironment')) return false;
+  fields: readonly string[];
+}) =>
+  fields.filter((field) => {
+    if (!hasOwn(incoming, field)) return false;
 
-  const previousEnvironment = getRecord(previous.executionEnvironment);
-  const incomingEnvironment = getRecord(incoming.executionEnvironment);
-  const mergedEnvironment = {
-    ...previousEnvironment,
-    ...incomingEnvironment,
-  };
+    if (field === 'executionEnvironment') {
+      return !executionEnvironmentMatches({
+        incoming: incoming.executionEnvironment,
+        previous: previous.executionEnvironment,
+      });
+    }
 
-  if (
-    previousEnvironment.newSessionConfirmed === true ||
-    mergedEnvironment.newSessionConfirmed !== true
-  ) {
-    return false;
-  }
-
-  return frozenEnvironmentMatches({
-    incoming: mergedEnvironment,
-    previous: previousEnvironment,
+    return !valuesMatch(incoming[field], previous[field]);
   });
-};
 
 const validateLifecycleTransition = ({
   incomingStatus,
@@ -200,8 +203,7 @@ export const protectPromptExecutionSnapshot: CollectionBeforeValidateHook = ({
   const incoming = (data || {}) as ExecutionDocument;
   const previous = originalDoc as ExecutionDocument;
   const previousStatus = getString(previous.lifecycleStatus) || 'planned';
-  const incomingStatus =
-    getString(incoming.lifecycleStatus) || previousStatus;
+  const incomingStatus = getString(incoming.lifecycleStatus) || previousStatus;
 
   validateLifecycleTransition({ incomingStatus, previousStatus });
 
@@ -215,18 +217,11 @@ export const protectPromptExecutionSnapshot: CollectionBeforeValidateHook = ({
     protectedFields.push(...terminalSnapshotFields);
   }
 
-  let changedFields = changedProtectedFields({
+  const changedFields = changedProtectedFields({
     incoming,
     previous,
     fields: protectedFields,
   });
-
-  if (
-    changedFields.includes('executionEnvironment') &&
-    isAllowedPostRunSessionConfirmation({ incoming, previous })
-  ) {
-    changedFields = changedFields.filter((field) => field !== 'executionEnvironment');
-  }
 
   if (changedFields.length > 0) {
     throwConflict(
