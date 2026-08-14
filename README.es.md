@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="./README.md">English</a> · <strong>Español</strong> · <a href="./docs/MANUAL_USUARIO_ES.md">Manual de usuario</a>
+  <a href="./README.md">English</a> · <strong>Español</strong> · <a href="./docs/ESTADO_PROYECTO_ES.md">Estado actual del proyecto</a> · <a href="./docs/MANUAL_USUARIO_ES.md">Manual de usuario</a>
 </p>
 
 <p align="center">
@@ -20,11 +20,11 @@
 </p>
 
 <p align="center">
-  <img alt="Estado" src="https://img.shields.io/badge/estado-pre--piloto-2563EB" />
-  <img alt="Versión" src="https://img.shields.io/badge/plataforma-0.4.2-7C3AED" />
+  <img alt="Estado" src="https://img.shields.io/badge/estado-validaci%C3%B3n%20de%20desarrollo-2563EB" />
+  <img alt="Versión" src="https://img.shields.io/badge/plataforma-0.5.5-7C3AED" />
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.2.10-0B132B" />
   <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.75.0-0B132B" />
-  <img alt="Almacenamiento" src="https://img.shields.io/badge/artefactos-local-64748B" />
+  <img alt="Almacenamiento" src="https://img.shields.io/badge/artefactos-local%20persistente-16A34A" />
   <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-Atlas-47A248" />
 </p>
 
@@ -34,116 +34,138 @@
 
 **GSLHub — Generative Search Lab Hub** es una plataforma científica independiente para estudiar cómo los sistemas de IA generativa descubren, recuperan, interpretan, citan, resumen y recomiendan información digital.
 
-La plataforma conecta proyectos, benchmarks, experimentos, prompts versionados, perfiles de sistemas de IA, ejecuciones controladas, observaciones, artefactos, evidencias, citas, Metric Definitions, Metric Results, datasets, software, recursos y publicaciones dentro de una infraestructura trazable.
+La plataforma conecta proyectos, benchmarks, experimentos, prompts versionados, perfiles de sistemas de IA, ejecuciones controladas, observaciones, artefactos de investigación, evidencias, citas, Metric Definitions versionadas, Metric Results, datasets, software, recursos y publicaciones dentro de una infraestructura trazable.
 
-GSLHub se desarrolla desde Barcelona con alcance internacional y actualmente prepara un piloto doctoral sobre visibilidad y selección de fuentes en sistemas de búsqueda generativa.
+GSLHub se desarrolla desde Barcelona con alcance internacional. La plataforma se encuentra actualmente en **Development Mode**: estamos validando el flujo científico con registros sintéticos/de desarrollo antes de la transición irreversible hacia la recogida de datos doctorales reales.
 
-## Estado del proyecto — 4 de agosto de 2026
+## Estado del proyecto — 14 de agosto de 2026
 
 ### Stack validado en producción
 
 ```text
-Plataforma GSLHub  0.4.2
+Plataforma GSLHub  0.5.5
 Payload CMS        3.75.0
 @payloadcms/next   3.75.0
 Next.js            16.2.10
 React / React DOM  19.2.7
 Driver MongoDB     6.21.0
-Artefactos         Subidas locales de Payload
+Artefactos         Subidas locales persistentes fuera de los releases
+Hosting            Hostinger
+Base de datos      MongoDB Atlas
 ```
 
-El administrador nativo de Payload está operativo en producción. Payload permanece fijado intencionadamente en `3.75.0`; la actualización a `3.86.0` produjo una frontera vacía de React Server Components y fue revertida.
+Payload permanece fijado intencionadamente en `3.75.0`. Las actualizaciones de framework deben probarse en una rama aislada con el flujo completo de administración y operaciones científicas.
 
 ### Hito actual
 
 | Área | Estado | Situación actual |
 | --- | --- | --- |
 | Hosting y despliegue | ✅ Operativo | El despliegue automático desde `main` hacia Hostinger funciona. |
-| Administrador Payload | ✅ Operativo | Login, dashboard, listados y formularios funcionan. |
-| Modelo científico | ✅ Preparado para piloto | Veinte colecciones conectadas cubren el ciclo de investigación. |
-| Metodología métrica | ✅ Revisión inicial completa | AIR, CR, MCP y RCR tienen especificaciones y codebooks bilingües. |
-| Sincronización permanente | ✅ Completada | Las cuatro definiciones v0.1.0 fueron sincronizadas en ambos idiomas. |
-| Validación determinista | ✅ Completada | AIR, CR, MCP y RCR produjeron los resultados sintéticos esperados. |
-| Limpieza TEST | ✅ Completada | Se eliminaron resultados, ejecuciones, observaciones y citas descartables. |
-| Definiciones permanentes | ✅ Conservadas | AIR, CR, MCP y RCR continúan en `Under review` y `Draft`. |
-| Autorrevisión técnica | 🚧 Siguiente acción | La versión 0.4.2 incorpora una acción permanente y gobernada. |
-| Revisión científica independiente | ⏳ Pendiente | Una persona investigadora diferente debe revisar antes de validar. |
-| Piloto real | ⏳ No iniciado | Falta preparar y ejecutar cinco sesiones reales controladas. |
-| Persistencia y recuperación | 🚧 Pendiente | Faltan pruebas de reinicio, redespliegue, backup y restauración. |
+| Administrador Payload | ✅ Operativo | Autenticación, listados, formularios, drafts, versiones y flujos gobernados funcionan en producción. |
+| Modelo científico | ✅ Operativo | Está implementada la procedencia Ejecución → Artefacto → Evidencia → Observación → Cita/Métrica. |
+| Research Environment | ✅ Implementado | Development Mode, TEST reset, preview del Final Development Reset y bloqueo de activación doctoral están disponibles. |
+| Persistencia de artefactos | ✅ Verificada | Los ficheros viven fuera del árbol de despliegue y sobrevivieron a restart y redeploy con el mismo SHA-256. |
+| Backup/recovery drill | ✅ Verificado | La recuperación local controlada finalizó y generó un audit permanente en Storage Verification. |
+| Metodología métrica | ✅ Validación de desarrollo completada | AIR, CR, MCP y RCR v0.1.0 superaron pruebas deterministas y revisión de desarrollo. |
+| Gobernanza de métricas | ✅ Implementada | La autorrevisión técnica y la revisión independiente están separadas de la validación formal. |
+| Procedencia de Evidence | ✅ Implementada | Evidence puede enlazar directamente uno o varios Research Artifacts de la misma Prompt Execution. |
+| Primera ejecución end-to-end | ✅ Completada | `GSL-EXEC-GEO-0001` terminó con artefactos verificados, evidencias validadas y observación validada. |
+| Ejecuciones reservadas restantes | ⏳ Planned | `GSL-EXEC-GEO-0002` a `0005` siguen planificadas. |
+| Final Development Reset | ⏳ No ejecutado | Todavía existen registros científicos de desarrollo que deberán limpiarse antes de activar modo doctoral. |
+| Doctoral Research Mode | ⛔ No activado | La recogida de datos doctorales reales aún no ha comenzado. |
 
-## Métricas del piloto verificadas
+La fotografía operativa detallada se mantiene en [docs/ESTADO_PROYECTO_ES.md](./docs/ESTADO_PROYECTO_ES.md).
 
-| Código | Métrica | Resultado determinista | Estado |
+## Primera ejecución completa de desarrollo
+
+El primer recorrido gobernado de principio a fin se ha cerrado correctamente:
+
+```text
+GSL-EXEC-GEO-0001                  Completed / Published
+├── GSL-ART-GEO-0001               TXT de respuesta / SHA-256 verificado
+├── GSL-ART-GEO-0002               Captura / SHA-256 verificado
+├── GSL-EVD-GEO-0001               Evidence de respuesta / Validated
+├── GSL-EVD-GEO-0002               Evidence visual / Validated
+└── GSL-OBS-GEO-0001               Observación de respuesta / Validated
+```
+
+Resultado observado:
+
+```text
+Response status            Partial response
+Citas explícitas           No
+Source links               No
+Sources panel              No
+Visible citation count     0
+```
+
+Estos son **datos de validación de desarrollo**, no hallazgos doctorales.
+
+El prompt de `GSL-EXEC-GEO-0001` fue una pregunta general sobre selección de fuentes y no definía un dominio, marca o entidad objetivo. Por tanto, no se deben fabricar resultados AIR/CR/MCP para esta ejecución. RCR requiere varias ejecuciones comparables antes de estar definido.
+
+## Métricas del piloto
+
+Existen definiciones permanentes para:
+
+| Código | Métrica | Versión | Estado de desarrollo |
 | --- | --- | --- | --- |
-| AIR | Answer Inclusion Rate | `3 / 4 = 0,7500`, una exclusión informada | Under review |
-| CR | Citation Rate | `2 / 4 = 0,5000`, una exclusión informada | Under review |
-| MCP | Mean Citation Position | posiciones `1, 2, 3`; media `2,00` | Under review |
-| RCR | Response Consistency Rate | `none, low, low, high`; `3 / 4 = 0,7500` | Under review |
+| AIR | Answer Inclusion Rate | 0.1.0 | Prueba determinista y revisión de desarrollo completadas |
+| CR | Citation Rate | 0.1.0 | Prueba determinista y revisión de desarrollo completadas |
+| MCP | Mean Citation Position | 0.1.0 | Prueba determinista y revisión de desarrollo completadas |
+| RCR | Response Consistency Rate | 0.1.0 | Prueba determinista y revisión de desarrollo completadas |
 
-Estos valores son comprobaciones sintéticas de los calculadores, no hallazgos doctorales. Sus registros `TEST-` fueron eliminados después de la revisión.
+Los resultados sintéticos esperados de los calculadores se verificaron correctamente. Son evidencia de implementación, no resultados doctorales.
 
-Las cuatro definiciones permanentes conservan:
+Los calculadores target-specific aplican condiciones gobernadas. AIR y CR requieren `targetType + targetValue`; MCP requiere posiciones de cita codificables; RCR requiere varias observaciones comparables y aceptadas.
 
-```text
-Version: 0.1.0
-Lifecycle Status: Under review
-Editorial Status: Draft
-Missing Data Policy: Report separately
-Validated At: vacío
-Validated By: vacío
-```
+## Frontera de seguridad del Research Environment
 
-## Gobernanza de la revisión técnica
+GSLHub separa la validación de desarrollo de la investigación doctoral real.
 
-La versión 0.4.2 añade un bloque específico `Technical Review` a las Metric Definitions. Separa la autorrevisión técnica del autor de la validación científica formal.
+**Development Mode** permite:
 
-La autorrevisión técnica registra:
+- flujos descartables `TEST-`;
+- comprobaciones sintéticas de métricas;
+- revisores de prueba;
+- acciones de reset;
+- ejecuciones end-to-end exclusivamente de desarrollo.
 
-- persona revisora y fecha;
-- estado de validación determinista;
-- resultado observado para cada métrica;
-- notas bilingües;
-- estado de revisión independiente.
+Antes de recoger datos doctorales reales, el administrador deberá ejecutar **Final Development Reset** y comprobar que queda una baseline limpia. Solo después podrá activarse **Doctoral Research Mode**, que es deliberadamente irreversible desde la interfaz de la aplicación.
 
-La validación formal queda bloqueada hasta completar:
-
-1. Technical Review;
-2. validación determinista en estado `Passed`;
-3. revisión de una persona investigadora independiente y distinta del autor;
-4. campos formales `Validated At` y `Validated By`.
-
-Mientras una definición esté en `planned` o `under-review`, Payload rechaza completar `Validated At` o `Validated By`. Después de validar, la revisión técnica y los campos científicos protegidos quedan inmutables.
-
-## Siguiente acción inmediata
-
-Después de que la versión 0.4.2 compile y se despliegue:
-
-1. Abrir **Administration → Administrative Batches**.
-2. Crear un lote usando:
+Estado actual:
 
 ```text
-Record pilot metric author technical review — AIR, CR, MCP and RCR v0.1.0
+Research Environment       Development Mode
+Final Development Reset    No ejecutado
+Doctoral Research Mode     No activado
 ```
 
-3. Ejecutar la acción.
-4. Confirmar `Status: Completed` y `Record Count: 4`.
-5. Verificar en cada definición:
+## Artefactos de investigación persistentes
+
+Los artefactos de producción se almacenan fuera del directorio de release/despliegue de Node.js:
 
 ```text
-Technical Review Status: Completed
-Review Mode: Author self-review
-Reviewed By: Eduardo José Yauri Luna
-Deterministic Validation Status: Passed
-Independent Review Status: Pending
-Lifecycle Status: Under review
-Validated At / By: vacíos
+/home/<usuario-hostinger>/domains/gslhub.com/gslhub-data/research-artifacts
 ```
 
-Runbooks:
+La prueba controlada verificó:
 
-- [Sincronización y validación determinista](./docs/metrics/PILOT_METRIC_SYNC_AND_VALIDATION_ES.md)
-- [Autorrevisión técnica](./docs/metrics/PILOT_METRIC_TECHNICAL_REVIEW_ES.md)
-- [Runbook técnico en inglés](./docs/metrics/PILOT_METRIC_TECHNICAL_REVIEW.md)
+```text
+Upload → HTTP 200
+Node.js Restart → mismo fichero / mismo SHA-256 / HTTP 200
+Redeploy → mismo fichero / mismo SHA-256 / HTTP 200
+Recovery drill → fichero restaurado / mismo SHA-256
+```
+
+El alcance del backup operativo incluye:
+
+```text
+Base de datos MongoDB
+Directorio persistente research-artifacts
+Configuración de producción necesaria para reconstruir la aplicación
+```
+
+El almacenamiento S3-compatible queda como opción futura de escalado y no bloquea la fase actual.
 
 ## Arquitectura científica
 
@@ -155,13 +177,13 @@ flowchart TD
     C --> MD[Metric Definitions]
     D --> E[Prompts]
     D --> F[Sistemas de IA]
-    E --> G[Ejecuciones]
+    E --> G[Prompt Executions]
     F --> G
     G --> H[Observaciones]
-    G --> I[Artefactos]
-    I --> J[Evidencias]
+    G --> I[Research Artifacts]
+    I --> J[Evidence]
     H --> J
-    H --> K[Citas]
+    H --> K[Citations]
     MD --> L[Metric Results]
     G --> L
     H --> L
@@ -174,50 +196,20 @@ flowchart TD
     O --> P
 ```
 
-## Colecciones Payload
+## Lo que falta antes de recoger datos doctorales
 
-La configuración de producción registra 20 colecciones:
-
-| Grupo | Colecciones |
-| --- | --- |
-| Administración | Users, Administrative Batches |
-| Investigación | Research Areas, Researchers, Projects, Benchmarks, Publications |
-| Operaciones | Experiments, Prompts, AI Systems, Prompt Executions, Observations, Research Artifacts, Evidence, Citations, Metric Definitions, Metrics |
-| Resultados | Software, Datasets, Resources |
-
-## Artefactos de investigación
-
-La fase doctoral actual utiliza subidas locales de Payload:
-
-```text
-research-artifacts/
-```
-
-Las copias operativas deben incluir:
-
-```text
-Base de datos MongoDB
-Directorio research-artifacts/
-Variables de entorno de producción
-```
-
-S3 no es un bloqueo para esta fase y queda como opción futura de escalado.
-
-## Lo que falta antes del primer piloto real
-
-1. Desplegar y registrar la autorrevisión técnica.
-2. Obtener revisión científica independiente para AIR, CR, MCP y RCR.
-3. Completar la validación formal de las métricas.
-4. Aprobar el diccionario del objetivo de AIR y CR.
-5. Aprobar la superficie y convención de orden de MCP.
-6. Aprobar la base y reglas de variación de RCR.
-7. Verificar la persistencia local tras reinicio y redespliegue.
-8. Probar backup y restauración de MongoDB y artefactos.
-9. Congelar benchmark, experimento, prompt y perfil del sistema.
-10. Crear exactamente cinco ejecuciones reales `GSL-EXEC-`.
-11. Ejecutar cinco sesiones aisladas bajo el protocolo congelado.
-12. Preservar evidencias, codificar observaciones y citas y calcular las métricas reales.
-13. Preparar el primer dataset, protocolo e informe técnico.
+1. Terminar la validación de desarrollo necesaria para demostrar repetibilidad entre varias ejecuciones.
+2. Decidir el papel de `GSL-EXEC-GEO-0002` a `0005`: repeticiones del prompt general para probar RCR y/o sustitución por un protocolo de desarrollo explícitamente target-specific.
+3. Ejecutar al menos un flujo completo target-specific para probar AIR, CR y MCP end-to-end con registros reales de colección y no solo fixtures sintéticos.
+4. Confirmar RCR con múltiples observaciones aceptadas.
+5. Revisar el manejo de timestamps para asegurar que la hora real de ejecución se capture correctamente antes de sellar el snapshot.
+6. Verificar el preview y las reglas de preservación del Final Development Reset.
+7. Ejecutar Final Development Reset únicamente cuando el producto esté preparado para una baseline doctoral limpia.
+8. Confirmar que se eliminan ejecuciones, observaciones, citas, métricas y perfiles TEST de desarrollo y que se preservan los audits permanentes previstos.
+9. Congelar benchmark, experimento, diccionario de targets, versiones de prompts, perfiles de sistemas de IA y codebooks del protocolo doctoral.
+10. Activar Doctoral Research Mode.
+11. Crear y ejecutar el piloto doctoral real bajo el protocolo congelado.
+12. Preservar evidencias, validar observaciones/citas, calcular métricas reales y publicar el primer dataset/protocolo/informe doctoral.
 
 ## Desarrollo local
 
@@ -237,7 +229,7 @@ npm run typecheck
 npm run build
 ```
 
-Variables requeridas:
+Variables requeridas, entre otras:
 
 ```env
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
@@ -247,16 +239,17 @@ DATABASE_URL=mongodb+srv://<usuario>:<contraseña>@<cluster>/?retryWrites=true&w
 
 ## Política de compatibilidad
 
-No actualizar automáticamente Payload, Next.js o React y no ejecutar `npm audit fix --force` en producción. Las actualizaciones de framework deben probarse en una rama independiente con todo el flujo del administrador.
+No actualizar automáticamente Payload, Next.js o React y no ejecutar `npm audit fix --force` en producción. Las actualizaciones de framework deben probarse en una rama independiente con el flujo completo del administrador.
 
-El repositorio todavía necesita un `package-lock.json` validado para fijar dependencias transitivas.
+## Documentación
 
-## Historial y documentación
-
+- [Estado operativo actual del proyecto](./docs/ESTADO_PROYECTO_ES.md)
+- [Manual de usuario](./docs/MANUAL_USUARIO_ES.md)
+- [Protocolo del primer piloto](./docs/PROTOCOLO_PRIMER_PILOTO_ES.md)
+- [Codebook de observaciones y citas](./docs/CODEBOOK_OBSERVACIONES_CITAS_ES.md)
+- [Procedimiento de almacenamiento, backup y recuperación](./docs/PROCEDIMIENTO_ALMACENAMIENTO_BACKUP_RECUPERACION_ES.md)
 - [Historial en español](./CHANGELOG.es.md)
 - [Changelog en inglés](./CHANGELOG.md)
-- [Manual de usuario](./docs/MANUAL_USUARIO_ES.md)
-- [Incidencia de compatibilidad Payload/Next](./docs/COMPATIBILIDAD_PAYLOAD_NEXT_ES.md)
 
 ## Contacto
 
@@ -272,5 +265,5 @@ El repositorio todavía necesita un `package-lock.json` validado para fijar depe
 </p>
 
 <p align="center">
-  Última actualización: 4 de agosto de 2026
+  Última actualización: 14 de agosto de 2026
 </p>
