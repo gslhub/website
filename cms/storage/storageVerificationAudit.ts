@@ -37,6 +37,8 @@ export type PersistedVerificationState = {
   verificationCode: string | null;
   artifactCode: string | null;
   sha256: string | null;
+  testedAppVersion: string | null;
+  recordedByAppVersion: string | null;
   source: 'database' | 'environment' | null;
 };
 
@@ -184,7 +186,14 @@ export const prepareStorageVerificationAudit: CollectionBeforeValidateHook = asy
     throw new Error('A disposable TEST research artifact must be selected.');
   }
 
+  let testedAppVersion = getString(input.testedAppVersion);
+
   if (verificationType === 'roundtrip') {
+    if (!testedAppVersion) {
+      throw new Error(
+        'Roundtrip verification requires the exact GSLHub version that was tested.',
+      );
+    }
     requireTrueChecks({
       data: input.roundtripEvidence,
       keys: [
@@ -197,6 +206,7 @@ export const prepareStorageVerificationAudit: CollectionBeforeValidateHook = asy
       label: 'Roundtrip verification',
     });
   } else {
+    testedAppVersion = packageJson.version;
     requireTrueChecks({
       data: input.recoveryEvidence,
       keys: [
@@ -230,7 +240,8 @@ export const prepareStorageVerificationAudit: CollectionBeforeValidateHook = asy
     filename: snapshot.filename,
     sha256: snapshot.sha256,
     filesize: snapshot.filesize,
-    appVersion: packageJson.version,
+    testedAppVersion,
+    recordedByAppVersion: packageJson.version,
     verifiedAt: new Date().toISOString(),
     verifiedBy: userID,
   };
@@ -277,6 +288,8 @@ const findPersistedVerification = async ({
     verificationCode: getString(audit.verificationCode),
     artifactCode: getString(audit.artifactCode),
     sha256: getString(audit.sha256),
+    testedAppVersion: getString(audit.testedAppVersion),
+    recordedByAppVersion: getString(audit.recordedByAppVersion),
     source: 'database',
   };
 };
@@ -297,6 +310,8 @@ const environmentFallback = ({
   verificationCode: null,
   artifactCode: null,
   sha256: null,
+  testedAppVersion: null,
+  recordedByAppVersion: null,
   source: verified ? 'environment' : null,
 });
 
