@@ -1,6 +1,6 @@
 {
   "name": "gslhub-website",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "private": true,
   "description": "Official research platform for GSLHub — Generative Search Lab Hub.",
   "packageManager": "npm@10.9.2",
@@ -20,7 +20,6 @@
     "@payloadcms/db-mongodb": "3.75.0",
     "@payloadcms/next": "3.75.0",
     "@payloadcms/richtext-lexical": "3.75.0",
-    "@payloadcms/ui": "3.75.0",
     "graphql": "^16.11.0",
     "mongodb": "6.21.0",
     "next": "16.2.10",
