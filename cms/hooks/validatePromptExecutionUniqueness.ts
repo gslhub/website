@@ -48,9 +48,9 @@ export const validatePromptExecutionUniqueness: CollectionBeforeValidateHook = a
 
   const executionCode = getString(incoming.executionCode ?? previous.executionCode);
 
-  // Disposable test batches intentionally reuse the same scientific condition
-  // across independently owned batches. Their globally unique TEST execution code
-  // and batch cleanup rules provide isolation without reserving real pilot slots.
+  // Disposable TEST executions belong to an isolated development namespace.
+  // They may intentionally reuse a scientific condition and must never reserve
+  // a permanent real-pilot repetition slot.
   if (executionCode?.startsWith('TEST-')) return data;
 
   const experiment = getRelationshipId(incoming.experiment ?? previous.experiment);
@@ -88,7 +88,7 @@ export const validatePromptExecutionUniqueness: CollectionBeforeValidateHook = a
         ...(currentId !== null ? [{ id: { not_equals: currentId } }] : []),
       ],
     },
-    limit: 1,
+    limit: 100,
     depth: 0,
     pagination: false,
     draft: true,
@@ -96,9 +96,13 @@ export const validatePromptExecutionUniqueness: CollectionBeforeValidateHook = a
     req,
   });
 
-  if (matches.docs.length === 0) return data;
+  const conflictingRecord = matches.docs.find((document) => {
+    const code = getString((document as PromptExecutionData).executionCode);
+    return !code?.startsWith('TEST-');
+  }) as PromptExecutionData | undefined;
 
-  const conflictingRecord = matches.docs[0] as PromptExecutionData;
+  if (!conflictingRecord) return data;
+
   const conflictingCode =
     getString(conflictingRecord.executionCode) || 'another prompt execution';
 
