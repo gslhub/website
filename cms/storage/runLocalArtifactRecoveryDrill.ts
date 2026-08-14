@@ -4,6 +4,8 @@ import path from 'node:path';
 
 import type { Payload, PayloadRequest } from 'payload';
 
+import { researchArtifactStorageSettings } from './researchArtifactStorage';
+
 type RecordID = string | number;
 type ArtifactDocument = Record<string, unknown> & {
   id: RecordID;
@@ -13,6 +15,11 @@ type ArtifactDocument = Record<string, unknown> & {
   integrity?: unknown;
 };
 
+type VerificationDocument = Record<string, unknown> & {
+  id: RecordID;
+  verificationCode?: unknown;
+};
+
 export type LocalRecoveryDrillRecord = {
   collectionSlug: 'research-artifacts';
   recordId: string;
@@ -20,7 +27,6 @@ export type LocalRecoveryDrillRecord = {
   label: string;
 };
 
-const ARTIFACT_DIRECTORY = 'research-artifacts';
 const RECOVERY_DIRECTORY = '.gslhub-local-recovery-drill';
 
 const getString = (value: unknown): string | null =>
@@ -70,7 +76,7 @@ const findLatestTestArtifact = async ({
 
   if (!artifact) {
     throw new Error(
-      'No TEST research artifact is available. Generate a disposable full-research-pipeline batch before running the recovery drill.',
+      'No TEST research artifact is available. Create a disposable TEST artifact before running the recovery drill.',
     );
   }
 
@@ -103,10 +109,10 @@ export const runLocalArtifactRecoveryDrill = async ({
     throw new Error('Recovery drill refused an unsafe artifact filename.');
   }
 
-  const artifactRoot = path.resolve(process.cwd(), ARTIFACT_DIRECTORY);
+  const artifactRoot = path.resolve(researchArtifactStorageSettings.localDirectory);
   const sourcePath = path.resolve(artifactRoot, safeFilename);
   if (!sourcePath.startsWith(`${artifactRoot}${path.sep}`)) {
-    throw new Error('Recovery drill refused an artifact path outside the configured local directory.');
+    throw new Error('Recovery drill refused an artifact path outside the configured persistent directory.');
   }
 
   await access(sourcePath);
@@ -162,8 +168,29 @@ export const runLocalArtifactRecoveryDrill = async ({
     originalMoved = false;
     await rm(backupPath, { force: true });
 
+    const audit = (await payload.create({
+      collection: 'storage-verifications',
+      overrideAccess: true,
+      req,
+      data: {
+        verificationType: 'recovery',
+        artifact: artifact.id,
+        recoveryEvidence: {
+          backupCopyVerified: true,
+          originalQuarantined: true,
+          restoredFromBackup: true,
+          restoredHashMatched: true,
+          restoredSizeMatched: true,
+        },
+        notes:
+          'Automated local artifact backup/recovery drill. The verified backup copy replaced a temporarily quarantined original and the restored SHA-256 and filesize matched the pre-drill values.',
+      },
+    })) as VerificationDocument;
+
+    const verificationCode = getString(audit.verificationCode) || String(audit.id);
+
     payload.logger.info(
-      `Local artifact recovery drill passed for ${artifactCode}: ${originalSize} bytes, SHA-256 ${originalHash}.`,
+      `Local artifact recovery drill passed for ${artifactCode}: ${originalSize} bytes, SHA-256 ${originalHash}. Audit ${verificationCode}.`,
     );
 
     return [
@@ -171,7 +198,7 @@ export const runLocalArtifactRecoveryDrill = async ({
         collectionSlug: 'research-artifacts',
         recordId: String(artifact.id),
         recordCode: artifactCode,
-        label: `Local recovery drill passed — ${originalSize} bytes — SHA-256 ${originalHash}`,
+        label: `Local recovery drill passed — ${originalSize} bytes — SHA-256 ${originalHash} — audit ${verificationCode}`,
       },
     ];
   } catch (error) {

@@ -1,6 +1,7 @@
 import type { Endpoint, PayloadRequest } from 'payload';
 
 import { getResearchArtifactStorageReadiness } from '../storage/researchArtifactStorage';
+import { getPersistedStorageVerificationReadiness } from '../storage/storageVerificationAudit';
 
 type AdminUser = {
   role?: unknown;
@@ -23,27 +24,48 @@ export const getStorageReadinessEndpoint: Endpoint = {
     }
 
     const storage = getResearchArtifactStorageReadiness();
+    const verification = await getPersistedStorageVerificationReadiness({
+      payload: req.payload,
+      req,
+    });
+    const effectiveStorage = {
+      ...storage,
+      artifactRoundtripVerified: verification.roundtrip.verified,
+      artifactRoundtripVerifiedAt: verification.roundtrip.verifiedAt,
+      artifactRoundtripVerifiedPath: verification.roundtrip.verifiedPath,
+      artifactRoundtripVerificationSource: verification.roundtrip.source,
+      backupRecoveryVerified: verification.recovery.verified,
+      backupRecoveryVerifiedAt: verification.recovery.verifiedAt,
+      backupRecoveryVerifiedPath: verification.recovery.verifiedPath,
+      backupRecoveryVerificationSource: verification.recovery.source,
+    };
     const checks = {
       databaseConfigured: isConfigured(process.env.DATABASE_URL),
       payloadSecretConfigured: isConfigured(process.env.PAYLOAD_SECRET),
       localArtifactStorageEnabled:
         storage.enabled && storage.provider === 'local',
-      localDirectoryConfigured: Boolean(storage.localDirectory),
+      localDirectoryConfigured:
+        storage.localDirectoryConfigured &&
+        storage.localDirectoryIsAbsolute &&
+        !storage.localDirectoryInsideDeploymentRoot,
+      artifactRoundtripVerified: verification.roundtrip.verified,
+      backupRecoveryVerified: verification.recovery.verified,
     };
     const readyForPilot = Object.values(checks).every(Boolean);
 
     return Response.json({
       readyForPilot,
-      storage,
+      storage: effectiveStorage,
+      verification,
       checks,
       storagePolicy: {
         currentPhase: 'local',
         directory: storage.localDirectory,
         rationale:
-          'Local Payload storage is accepted for the current doctoral research phase. S3-compatible storage will be reassessed when scale, collaboration or preservation requirements increase.',
+          'Local Payload storage is accepted for the current doctoral research phase when restart/redeploy persistence and backup/recovery are both documented by immutable audits.',
       },
       recommendations: [
-        'Include the local research-artifacts directory in the regular project backup.',
+        'Include the persistent research-artifacts directory in the regular project backup.',
         'Keep MongoDB backups synchronized with file backups so records and evidence remain recoverable together.',
       ],
     });

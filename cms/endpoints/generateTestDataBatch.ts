@@ -3,6 +3,7 @@ import type { Endpoint, PayloadRequest } from 'payload';
 import { recordPilotMetricTechnicalReview } from '../metrics/recordPilotMetricTechnicalReview';
 import { provisionPermanentPilotMetricDefinitions } from '../pilot/provisionPilotMetricDefinitions';
 import { provisionVerifiedRealPilotExecutions } from '../pilot/provisionVerifiedRealPilotExecutions';
+import { runLocalArtifactRecoveryDrill } from '../storage/runLocalArtifactRecoveryDrill';
 import { generateAIRMetricValidationWithPrerequisites } from '../test-data/airMetricValidationWithPrerequisites';
 import { synchronizePilotBenchmarkMetricRegistry } from '../test-data/benchmarkMetricRegistryBatch';
 import { generateCRMetricValidationWithPrerequisites } from '../test-data/crMetricValidationWithPrerequisites';
@@ -130,6 +131,15 @@ export const generateTestDataBatchEndpoint: Endpoint = {
         await persistGeneratedRecords({ req, id, records });
         req.payload.logger.info(
           `Pilot metric author technical review recorded for ${records.length} permanent definitions.`,
+        );
+      } else if (scenario === 'pilot-local-artifact-recovery-drill') {
+        const records = await runLocalArtifactRecoveryDrill({
+          payload: req.payload,
+          req,
+        });
+        await persistGeneratedRecords({ req, id, records });
+        req.payload.logger.info(
+          `Persistent local artifact recovery drill resolved ${records.length} TEST artifact and recorded its immutable recovery audit.`,
         );
       } else if (scenario === 'pilot-real-executions') {
         const records = await provisionVerifiedRealPilotExecutions({

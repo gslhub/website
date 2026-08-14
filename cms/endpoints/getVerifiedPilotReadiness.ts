@@ -55,12 +55,18 @@ const adminPathForCheck = (check: ReadinessCheck): string | null => {
   if (key?.startsWith('metric-')) {
     return '/admin/collections/test-data-batches/create';
   }
-  if (
-    key === 'local-storage-location' ||
-    key === 'local-storage-roundtrip' ||
-    key === 'local-storage-recovery'
-  ) {
+  if (key === 'local-storage-location') {
     return '/admin/collections/research-artifacts';
+  }
+  if (key === 'local-storage-roundtrip') {
+    return recordId
+      ? `/admin/collections/storage-verifications/${recordId}`
+      : '/admin/collections/storage-verifications/create';
+  }
+  if (key === 'local-storage-recovery') {
+    return recordId
+      ? `/admin/collections/storage-verifications/${recordId}`
+      : '/admin/collections/test-data-batches/create';
   }
 
   return null;
@@ -88,10 +94,10 @@ const instructionForCheck = (check: ReadinessCheck): string => {
     return 'Ensure research artifacts use an absolute persistent local directory outside the Node deployment release.';
   }
   if (key === 'local-storage-roundtrip') {
-    return 'Verify that a restricted TEST artifact remains downloadable with the same SHA-256 after restart and redeploy.';
+    return 'Create the immutable roundtrip Storage Verification for the completed HTTP 200 → Restart → HTTP 200 → Redeploy → HTTP 200 test.';
   }
   if (key === 'local-storage-recovery') {
-    return 'Perform and document a backup/recovery drill for the current persistent artifact directory.';
+    return 'Create an Administrative Batch using “Verify local artifact backup/recovery” and run the controlled recovery drill; a permanent recovery audit will be created automatically.';
   }
 
   return `Resolve: ${getString(check.label) || key || 'unidentified readiness condition'}.`;

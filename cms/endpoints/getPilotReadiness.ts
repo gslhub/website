@@ -1,6 +1,7 @@
 import type { Endpoint, Payload, PayloadRequest } from 'payload';
 
 import { getResearchArtifactStorageReadiness } from '../storage/researchArtifactStorage';
+import { getPersistedStorageVerificationReadiness } from '../storage/storageVerificationAudit';
 
 type RecordID = string | number;
 type PilotCollection =
@@ -255,6 +256,10 @@ export const getPilotReadinessEndpoint: Endpoint = {
     }
 
     const storage = getResearchArtifactStorageReadiness();
+    const storageVerification = await getPersistedStorageVerificationReadiness({
+      payload: req.payload,
+      req,
+    });
 
     checks.push({
       key: 'local-storage-location',
@@ -284,31 +289,43 @@ export const getPilotReadinessEndpoint: Endpoint = {
     checks.push({
       key: 'local-storage-roundtrip',
       label: 'Research artifact survives restart and redeploy at the current storage path',
-      passed: storage.artifactRoundtripVerified,
+      passed: storageVerification.roundtrip.verified,
       expected: {
         verified: true,
         path: storage.localDirectory,
       },
       actual: {
-        verified: storage.artifactRoundtripVerified,
-        verifiedAt: storage.artifactRoundtripVerifiedAt,
-        verifiedPath: storage.artifactRoundtripVerifiedPath,
+        verified: storageVerification.roundtrip.verified,
+        verifiedAt: storageVerification.roundtrip.verifiedAt,
+        verifiedPath: storageVerification.roundtrip.verifiedPath,
+        source: storageVerification.roundtrip.source,
+        auditId: storageVerification.roundtrip.auditId,
+        verificationCode: storageVerification.roundtrip.verificationCode,
+        artifactCode: storageVerification.roundtrip.artifactCode,
+        sha256: storageVerification.roundtrip.sha256,
       },
+      recordId: storageVerification.roundtrip.auditId,
     });
 
     checks.push({
       key: 'local-storage-recovery',
       label: 'Backup and recovery are verified at the current storage path',
-      passed: storage.backupRecoveryVerified,
+      passed: storageVerification.recovery.verified,
       expected: {
         verified: true,
         path: storage.localDirectory,
       },
       actual: {
-        verified: storage.backupRecoveryVerified,
-        verifiedAt: storage.backupRecoveryVerifiedAt,
-        verifiedPath: storage.backupRecoveryVerifiedPath,
+        verified: storageVerification.recovery.verified,
+        verifiedAt: storageVerification.recovery.verifiedAt,
+        verifiedPath: storageVerification.recovery.verifiedPath,
+        source: storageVerification.recovery.source,
+        auditId: storageVerification.recovery.auditId,
+        verificationCode: storageVerification.recovery.verificationCode,
+        artifactCode: storageVerification.recovery.artifactCode,
+        sha256: storageVerification.recovery.sha256,
       },
+      recordId: storageVerification.recovery.auditId,
     });
 
     let plannedExecutions = 0;
