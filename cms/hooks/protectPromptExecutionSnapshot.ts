@@ -10,6 +10,11 @@ const hasOwn = (value: Record<string, unknown>, key: string) =>
 const getString = (value: unknown): string | null =>
   typeof value === 'string' && value.trim().length > 0 ? value.trim() : null;
 
+const getRecord = (value: unknown): Record<string, unknown> =>
+  value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
+
 const normalizeComparableValue = (value: unknown): unknown => {
   if (value === undefined || value === null) return null;
   if (value instanceof Date) return value.toISOString();
@@ -82,6 +87,41 @@ const changedProtectedFields = ({
       !valuesMatch(incoming[field], previous[field]),
   );
 
+const isAllowedPostRunSessionConfirmation = ({
+  incoming,
+  previous,
+}: {
+  incoming: ExecutionDocument;
+  previous: ExecutionDocument;
+}) => {
+  if (!hasOwn(incoming, 'executionEnvironment')) return false;
+
+  const previousEnvironment = getRecord(previous.executionEnvironment);
+  const incomingEnvironment = getRecord(incoming.executionEnvironment);
+  const mergedEnvironment = {
+    ...previousEnvironment,
+    ...incomingEnvironment,
+  };
+
+  if (
+    previousEnvironment.newSessionConfirmed === true ||
+    mergedEnvironment.newSessionConfirmed !== true
+  ) {
+    return false;
+  }
+
+  const {
+    newSessionConfirmed: _previousConfirmation,
+    ...previousFrozenEnvironment
+  } = previousEnvironment;
+  const {
+    newSessionConfirmed: _incomingConfirmation,
+    ...incomingFrozenEnvironment
+  } = mergedEnvironment;
+
+  return valuesMatch(incomingFrozenEnvironment, previousFrozenEnvironment);
+};
+
 const validateLifecycleTransition = ({
   incomingStatus,
   previousStatus,
@@ -141,11 +181,18 @@ export const protectPromptExecutionSnapshot: CollectionBeforeValidateHook = ({
     protectedFields.push(...terminalSnapshotFields);
   }
 
-  const changedFields = changedProtectedFields({
+  let changedFields = changedProtectedFields({
     incoming,
     previous,
     fields: protectedFields,
   });
+
+  if (
+    changedFields.includes('executionEnvironment') &&
+    isAllowedPostRunSessionConfirmation({ incoming, previous })
+  ) {
+    changedFields = changedFields.filter((field) => field !== 'executionEnvironment');
+  }
 
   if (changedFields.length > 0) {
     throwConflict(
