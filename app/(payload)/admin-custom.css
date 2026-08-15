@@ -1,7 +1,8 @@
-/* Keep Payload native theme styles. Only customize GSLHub brand elements. */
+/* Keep Payload native theme styles. Only customize GSLHub brand elements and safe responsive behavior. */
 
 .gslhub-admin-brand-logo {
   width: min(240px, 72vw);
+  max-width: 100%;
   color: var(--theme-text);
 }
 
@@ -11,6 +12,11 @@
 }
 
 .gslhub-admin-logout {
+  display: flex;
+  width: calc(100% - 2rem);
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
   margin: 0 1rem 1rem;
   padding: 0.625rem 0.875rem;
   border: 1px solid #dc2626;
@@ -20,6 +26,7 @@
   font: inherit;
   font-weight: 600;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 .gslhub-admin-logout:hover {
@@ -35,4 +42,41 @@
 .gslhub-admin-logout:disabled {
   cursor: wait;
   opacity: 0.65;
+}
+
+/* Payload already provides responsive navigation and list views. These rules only
+   make wide scientific tables easier to pan on tablet and mobile. */
+.collection-list .table {
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 1024px) {
+  .gslhub-admin-brand-logo {
+    width: min(210px, 68vw);
+  }
+
+  .collection-list .table {
+    overflow-x: auto;
+  }
+
+  .collection-list .table table {
+    min-width: max-content;
+  }
+}
+
+@media (max-width: 768px) {
+  .gslhub-admin-brand-logo {
+    width: min(190px, 64vw);
+  }
+
+  .gslhub-admin-brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .gslhub-admin-logout {
+    width: 100%;
+    margin-inline: 0;
+  }
 }
