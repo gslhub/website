@@ -53,7 +53,7 @@ export function SiteHeader() {
             </summary>
             <nav
               aria-label="Mobile navigation"
-              className="absolute right-0 top-13 z-50 max-h-[calc(100vh-6rem)] w-[min(20rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-[var(--border)] bg-white p-3 shadow-xl"
+              className="absolute right-0 top-[3.25rem] z-50 max-h-[calc(100vh-6rem)] w-[min(20rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-[var(--border)] bg-white p-3 shadow-xl"
             >
               <ul className="flex flex-col text-sm font-medium">
                 {navigation.map((item) => (
