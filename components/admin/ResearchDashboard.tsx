@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const steps = [
@@ -58,7 +59,7 @@ export default function ResearchDashboard() {
         <div className="gslhub-research-dashboard__status">
           <span>Research CMS</span>
           <strong>Operational</strong>
-          <a href="/admin/globals/research-environment">Open environment status →</a>
+          <Link href="/admin/globals/research-environment">Open environment status →</Link>
         </div>
       </div>
 
@@ -81,11 +82,11 @@ export default function ResearchDashboard() {
 
       <div className="gslhub-research-dashboard__links">
         {quickLinks.map((link) => (
-          <a href={link.href} key={link.href} className="gslhub-research-dashboard__card">
+          <Link href={link.href} key={link.href} className="gslhub-research-dashboard__card">
             <strong>{link.title}</strong>
             <span>{link.description}</span>
             <em>Open →</em>
-          </a>
+          </Link>
         ))}
       </div>
     </section>

@@ -49,6 +49,165 @@
   opacity: 0.65;
 }
 
+.gslhub-research-dashboard {
+  display: grid;
+  gap: 2rem;
+  padding: 0 var(--gutter-h) 3rem;
+}
+
+.gslhub-research-dashboard__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(14rem, 0.5fr);
+  gap: 1.5rem;
+  align-items: stretch;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 2rem;
+  background: var(--color-base-0);
+}
+
+.gslhub-research-dashboard__eyebrow {
+  margin: 0;
+  color: #2563eb;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.gslhub-research-dashboard__hero h1,
+.gslhub-research-dashboard__section-heading h2 {
+  margin: 0.75rem 0 0;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.gslhub-research-dashboard__hero h1 {
+  max-width: 48rem;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+.gslhub-research-dashboard__hero > div > p:last-child,
+.gslhub-research-dashboard__section-heading > p {
+  max-width: 48rem;
+  margin: 1rem 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.gslhub-research-dashboard__status {
+  display: flex;
+  min-height: 11rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: #0b132b;
+  color: white;
+}
+
+.gslhub-research-dashboard__status span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #93c5fd;
+}
+
+.gslhub-research-dashboard__status strong {
+  margin-top: 0.45rem;
+  font-size: 1.45rem;
+}
+
+.gslhub-research-dashboard__status a {
+  margin-top: 1.4rem;
+  color: white;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.gslhub-research-dashboard__flow {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-border);
+}
+
+.gslhub-research-dashboard__step {
+  min-width: 0;
+  padding: 1rem;
+  background: var(--color-base-0);
+}
+
+.gslhub-research-dashboard__step span {
+  display: block;
+  color: #2563eb;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+}
+
+.gslhub-research-dashboard__step strong {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.gslhub-research-dashboard__section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.5fr);
+  gap: 1.5rem;
+  align-items: end;
+}
+
+.gslhub-research-dashboard__section-heading h2 {
+  font-size: 2rem;
+}
+
+.gslhub-research-dashboard__links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.gslhub-research-dashboard__card {
+  display: flex;
+  min-height: 12rem;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.4rem;
+  background: var(--color-base-0);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.gslhub-research-dashboard__card:hover {
+  border-color: #93c5fd;
+  background: var(--color-base-50);
+  text-decoration: none;
+}
+
+.gslhub-research-dashboard__card strong {
+  font-size: 1.05rem;
+}
+
+.gslhub-research-dashboard__card span {
+  margin-top: 0.7rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.gslhub-research-dashboard__card em {
+  margin-top: auto;
+  padding-top: 1.2rem;
+  color: #2563eb;
+  font-style: normal;
+  font-weight: 600;
+}
+
 /* Payload already provides responsive navigation and list views. These rules only
    make wide scientific tables easier to pan on tablet and mobile. */
 .collection-list .table {
@@ -59,6 +218,19 @@
 @media (max-width: 1024px) {
   .gslhub-admin-brand-logo {
     width: min(210px, 68vw);
+  }
+
+  .gslhub-research-dashboard__hero,
+  .gslhub-research-dashboard__section-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .gslhub-research-dashboard__flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gslhub-research-dashboard__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .collection-list .table {
@@ -78,5 +250,31 @@
   .gslhub-admin-logout {
     width: 100%;
     margin-inline: 0;
+  }
+
+  .gslhub-research-dashboard {
+    gap: 1.25rem;
+    padding-bottom: 2rem;
+  }
+
+  .gslhub-research-dashboard__hero {
+    padding: 1.25rem;
+  }
+
+  .gslhub-research-dashboard__hero h1 {
+    font-size: 2rem;
+  }
+
+  .gslhub-research-dashboard__status {
+    min-height: 9rem;
+  }
+
+  .gslhub-research-dashboard__flow,
+  .gslhub-research-dashboard__links {
+    grid-template-columns: 1fr;
+  }
+
+  .gslhub-research-dashboard__card {
+    min-height: 9rem;
   }
 }
