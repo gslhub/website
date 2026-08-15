@@ -3,213 +3,218 @@
 </p>
 
 <p align="center">
-  <strong>Scientific infrastructure for Generative Search, Artificial Intelligence, GEO, benchmarks, evidence, versioned metrics and reproducible research.</strong>
+  <strong>Scientific infrastructure for Generative Search, GEO, evidence, governed metrics and reproducible AI research.</strong>
 </p>
 
 <p align="center">
-  <strong>English</strong> · <a href="./README.es.md">Español</a> · <a href="./docs/ESTADO_PROYECTO_ES.md">Current project status</a> · <a href="./docs/MANUAL_USUARIO_ES.md">Spanish user manual</a>
+  <strong>English</strong> · <a href="./README.es.md">Español</a> · <a href="./docs/ESTADO_PROYECTO_ES.md">Current project status</a>
 </p>
 
 <p align="center">
   <a href="https://gslhub.com">Website</a> ·
   <a href="https://gslhub.com/research">Research</a> ·
-  <a href="https://gslhub.com/benchmarks">Benchmarks</a> ·
+  <a href="https://gslhub.com/research-infrastructure">Research Infrastructure</a> ·
   <a href="https://gslhub.com/dashboard">Scientific Dashboard</a> ·
-  <a href="https://gslhub.com/publications">Publications</a> ·
-  <a href="https://github.com/gslhub">GitHub organization</a>
+  <a href="https://github.com/gslhub">GitHub</a>
 </p>
 
 <p align="center">
-  <img alt="Status" src="https://img.shields.io/badge/status-development%20validation-2563EB" />
-  <img alt="Version" src="https://img.shields.io/badge/platform-0.5.5-7C3AED" />
-  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.2.10-0B132B" />
+  <img alt="Status" src="https://img.shields.io/badge/status-doctoral--ready%20UI-2563EB" />
+  <img alt="Version" src="https://img.shields.io/badge/platform-0.6.0-7C3AED" />
   <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.75.0-0B132B" />
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.2.10-0B132B" />
   <img alt="Storage" src="https://img.shields.io/badge/artifacts-persistent%20local-16A34A" />
-  <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-Atlas-47A248" />
 </p>
 
 ---
 
 # GSLHub
 
-**GSLHub — Generative Search Lab Hub** is an independent scientific platform for studying how generative AI systems discover, retrieve, interpret, cite, summarize and recommend digital information.
+**GSLHub — Generative Search Lab Hub** is an independent applied-research platform for studying how generative AI systems discover, select, cite, summarize and recommend digital information.
 
-The platform connects projects, benchmarks, experiments, versioned prompts, AI-system profiles, controlled executions, observations, research artifacts, evidence, citations, versioned Metric Definitions, Metric Results, datasets, software, resources and publications inside one traceable infrastructure.
+The platform is being developed as research infrastructure for the doctoral line:
 
-GSLHub is developed from Barcelona with an international research scope. The platform is currently in **Development Mode**: the scientific workflow is being validated with synthetic/development records before the irreversible transition to doctoral data collection.
+> **From SEO to GEO (Generative Engine Optimization): development and validation of a scientific model to optimize organizational visibility in AI-based generative search engines.**
 
-## Project status — 14 August 2026
+GSLHub connects controlled experiments, prompt executions, observations, research artifacts, evidence, citations and governed metrics inside one auditable workflow.
 
-### Validated production stack
+## Current release — 0.6.0
+
+Version `0.6.0` closes the **Doctoral-ready UI** milestone.
+
+### Product layer
+
+- responsive public frontend for mobile, tablet, laptop and desktop;
+- responsive Payload administrator with safe horizontal handling for scientific tables;
+- dedicated Research Operations dashboard after CMS login;
+- bilingual EN/ES Research Operations dashboard;
+- public bilingual research-infrastructure demonstrator;
+- direct private Research CMS access from the public frontend;
+- public scientific dashboard separated from private governed operations;
+- mobile navigation and CTA contrast reviewed.
+
+### Research workflow layer
+
+The development regression has been completed successfully:
 
 ```text
-GSLHub platform    0.5.5
-Payload CMS        3.75.0
-@payloadcms/next   3.75.0
-Next.js            16.2.10
-React / React DOM  19.2.7
-MongoDB driver     6.21.0
-Artifact storage   Persistent local Payload uploads outside deployment releases
-Hosting            Hostinger
-Database           MongoDB Atlas
+Full research pipeline TEST   PASS
+├── 5 Prompt Executions
+├── 5 Observations
+├── 5 Research Artifacts
+├── 5 Evidence records
+├── 3 Citations
+└── 4 synthetic metric records
+
+Deterministic calculators
+├── AIR = 3/4 = 0.75   PASS
+├── CR  = 2/4 = 0.50   PASS
+├── MCP = 6/3 = 2.00   PASS
+└── RCR = 3/4 = 0.75   PASS
+
+TEST cleanup                PASS
 ```
 
-Payload remains intentionally pinned at `3.75.0`. Framework upgrades must be tested on an isolated branch with the complete administrator and scientific workflow.
+After cleanup, no disposable TEST batches or TEST metric records remain.
 
-### Current milestone
+## Governed development pilot
 
-| Area | Status | Current position |
-| --- | --- | --- |
-| Hosting and deployment | ✅ Operational | Automatic deployment from `main` to Hostinger works. |
-| Payload administrator | ✅ Operational | Authentication, lists, forms, drafts, versions and governed workflows work in production. |
-| Scientific data model | ✅ Operational | Execution → Artifact → Evidence → Observation → Citation/Metric provenance is implemented. |
-| Research Environment | ✅ Implemented | Development Mode, TEST reset, Final Development Reset preview and irreversible Doctoral Research Mode gate are available. |
-| Persistent artifact storage | ✅ Verified | Files are stored outside the deployment tree and survived Node.js restart and redeploy with identical SHA-256. |
-| Backup/recovery drill | ✅ Verified | Controlled local artifact recovery completed and produced a permanent Storage Verification audit. |
-| Metric methodology | ✅ Development validation complete | AIR, CR, MCP and RCR v0.1.0 passed deterministic checks and development review. |
-| Metric governance | ✅ Implemented | Author technical review and independent-review fields are separated from formal validation. |
-| Evidence provenance | ✅ Implemented | Evidence can link directly to one or more verified Research Artifacts from the same Prompt Execution. |
-| First end-to-end execution | ✅ Completed | `GSL-EXEC-GEO-0001` completed with verified raw artifacts, validated evidence and validated observation. |
-| Remaining reserved executions | ⏳ Planned | `GSL-EXEC-GEO-0002` through `0005` remain planned. |
-| Final Development Reset | ⏳ Not executed | Development scientific records still exist and must be removed before doctoral activation. |
-| Doctoral Research Mode | ⛔ Not activated | Real doctoral collection has not started. |
-
-The detailed operational checkpoint is maintained in [docs/ESTADO_PROYECTO_ES.md](./docs/ESTADO_PROYECTO_ES.md).
-
-## First end-to-end development execution
-
-The first complete governed run has been closed successfully:
+The first complete development execution remains preserved as a non-doctoral validation record:
 
 ```text
 GSL-EXEC-GEO-0001                  Completed / Published
-├── GSL-ART-GEO-0001               Raw response TXT / SHA-256 verified
+├── GSL-ART-GEO-0001               Raw response / SHA-256 verified
 ├── GSL-ART-GEO-0002               Screenshot / SHA-256 verified
-├── GSL-EVD-GEO-0001               Response-export evidence / Validated
-├── GSL-EVD-GEO-0002               Screenshot evidence / Validated
-└── GSL-OBS-GEO-0001               Response-level observation / Validated
+├── GSL-EVD-GEO-0001               Validated evidence
+├── GSL-EVD-GEO-0002               Validated evidence
+└── GSL-OBS-GEO-0001               Validated / Published observation
 ```
 
-Observed response outcome:
+Reserved executions remain untouched:
 
 ```text
-Response status            Partial response
-Explicit citations         No
-Source links               No
-Sources panel              No
-Visible citation count     0
+GSL-EXEC-GEO-0002   Planned
+GSL-EXEC-GEO-0003   Planned
+GSL-EXEC-GEO-0004   Planned
+GSL-EXEC-GEO-0005   Planned
 ```
 
-This is **development-validation data**, not a doctoral finding.
+These records are **development validation**, not doctoral findings.
 
-The prompt used in `GSL-EXEC-GEO-0001` was a general source-selection question and did not define a specific target domain, brand or entity. Therefore target-specific AIR/CR/MCP results must not be fabricated for this execution. RCR requires multiple comparable executions before it is defined.
+## Core scientific metrics
 
-## Pilot metrics
-
-Permanent definitions exist for:
-
-| Code | Metric | Version | Development state |
+| Code | Metric | Version | Unit |
 | --- | --- | --- | --- |
-| AIR | Answer Inclusion Rate | 0.1.0 | Deterministically tested and development-reviewed |
-| CR | Citation Rate | 0.1.0 | Deterministically tested and development-reviewed |
-| MCP | Mean Citation Position | 0.1.0 | Deterministically tested and development-reviewed |
-| RCR | Response Consistency Rate | 0.1.0 | Deterministically tested and development-reviewed |
+| AIR | Answer Inclusion Rate | 0.1.0 | proportion |
+| CR | Citation Rate | 0.1.0 | proportion |
+| MCP | Mean Citation Position | 0.1.0 | position |
+| RCR | Response Consistency Rate | 0.1.0 | proportion |
 
-Synthetic calculator checks produced the expected test results. These checks are implementation evidence only and must not be reported as doctoral findings.
+The calculators enforce eligibility and provenance rules. Target-specific metrics are not created when the required target or evidence does not exist.
 
-Target-specific calculators enforce governed input conditions. AIR and CR require a concrete `targetType + targetValue`; MCP requires codable citation positions; RCR requires multiple accepted comparable observations.
+## Reproducibility controls
 
-## Research Environment safety boundary
+GSLHub currently supports:
 
-GSLHub separates development validation from doctoral research.
+- versioned prompts, experiments and metric definitions;
+- controlled repeated executions;
+- immutable scientific snapshots after governed lifecycle transitions;
+- direct Evidence ↔ Research Artifact provenance;
+- persistent research-artifact storage outside deployment releases;
+- SHA-256 verification;
+- quality-control and independent-review workflows;
+- Development / Doctoral Research separation;
+- controlled Final Development Reset;
+- permanent storage-verification audits.
 
-**Development Mode** permits:
+## Research Infrastructure demonstrator
 
-- disposable `TEST-` workflows;
-- synthetic metric checks;
-- test reviewers;
-- reset actions;
-- development-only end-to-end executions.
+A five-minute public explanation of the system is available in both languages:
 
-Before real doctoral data collection, the administrator must run **Final Development Reset** and verify the clean baseline. Only then may **Doctoral Research Mode** be activated. Activation is intentionally irreversible from the application interface.
+- English: `https://gslhub.com/research-infrastructure`
+- Español: `https://gslhub.com/es/research-infrastructure`
 
-Current status:
+The demonstrator explains:
 
 ```text
-Research Environment       Development Mode
-Final Development Reset    Not executed
-Doctoral Research Mode     Not activated
+Scientific problem
+→ Hypothesis
+→ Experiment
+→ Execution
+→ Evidence
+→ Metrics
+→ Reproducibility
 ```
+
+It is designed for academic presentation without exposing private research records or restricted artifacts.
+
+## Research CMS
+
+Authorized researchers use the private Payload CMS for governed operations. The custom Research Operations dashboard provides direct access to:
+
+- Research Environment;
+- Prompt Executions;
+- Evidence;
+- Metrics;
+- the public Research Infrastructure demonstrator;
+- the public scientific dashboard.
+
+The dashboard follows the selected Payload locale in English or Spanish.
 
 ## Persistent research artifacts
 
-Production artifacts are stored outside the Node.js deployment/release directory:
+Production research artifacts are stored outside the Node.js deployment tree:
 
 ```text
 /home/<hostinger-user>/domains/gslhub.com/gslhub-data/research-artifacts
 ```
 
-The controlled persistence test verified:
+Verified sequence:
 
 ```text
 Upload → HTTP 200
-Node.js Restart → same file / same SHA-256 / HTTP 200
-Redeploy → same file / same SHA-256 / HTTP 200
+Restart → same SHA-256 / HTTP 200
+Redeploy → same SHA-256 / HTTP 200
 Recovery drill → restored file / same SHA-256
 ```
 
-Operational backup scope includes:
+## Current research boundary
 
 ```text
-MongoDB database
-persistent research-artifacts directory
-production configuration required to reconstruct the application
+Research Environment       Development Mode
+Final Development Reset    Not executed
+Doctoral Research Mode     Not activated
+Real doctoral data         0
 ```
 
-S3-compatible object storage remains a future scaling option rather than a blocker for the current phase.
+GSLHub must remain in Development Mode until the doctoral protocol is frozen and the Final Development Reset has produced a clean baseline.
 
-## Scientific architecture
+## Next phase
 
-```mermaid
-flowchart TD
-    A[Research Areas] --> B[Projects]
-    B --> C[Benchmarks]
-    C --> D[Experiments]
-    C --> MD[Metric Definitions]
-    D --> E[Prompts]
-    D --> F[AI Systems]
-    E --> G[Prompt Executions]
-    F --> G
-    G --> H[Observations]
-    G --> I[Research Artifacts]
-    I --> J[Evidence]
-    H --> J
-    H --> K[Citations]
-    MD --> L[Metric Results]
-    G --> L
-    H --> L
-    J --> L
-    K --> L
-    L --> M[Datasets]
-    M --> N[Software]
-    M --> O[Resources]
-    N --> P[Publications]
-    O --> P
+The product-development focus now moves from functional validation to doctoral preparation:
+
+1. prepare the doctoral proposal and research dossier;
+2. use the bilingual Research Infrastructure view as the academic demonstrator;
+3. freeze the scientific protocol, target dictionary, prompts, AI-system profiles and codebooks;
+4. preview and execute Final Development Reset when the protocol is ready;
+5. verify a clean baseline;
+6. activate Doctoral Research Mode;
+7. begin real doctoral data collection.
+
+## Validated production stack
+
+```text
+GSLHub platform    0.6.0
+Payload CMS        3.75.0
+Next.js            16.2.10
+React              19.2.7
+MongoDB driver     6.21.0
+Database           MongoDB Atlas
+Hosting            Hostinger
+Artifact storage   Persistent local storage outside deployment releases
 ```
 
-## What remains before doctoral data collection
-
-1. Finish the remaining development validation needed to prove repeatability across multiple executions.
-2. Decide the role of `GSL-EXEC-GEO-0002` through `0005`: repeated general-prompt runs for RCR testing and/or replacement with an explicitly target-specific development protocol.
-3. Run at least one complete target-specific development path so AIR, CR and MCP are tested end-to-end with real collection records rather than only deterministic synthetic fixtures.
-4. Confirm multi-execution RCR behavior with accepted observations.
-5. Review timestamp handling and ensure actual execution timestamps are captured correctly before snapshots seal.
-6. Verify the Final Development Reset preview and preservation rules.
-7. Execute Final Development Reset only when the product is considered ready for a clean doctoral baseline.
-8. Confirm development executions, observations, citations, metrics and TEST researcher profiles are removed while permanent infrastructure audits remain preserved as designed.
-9. Freeze the benchmark, experiment, target dictionary, prompt versions, AI-system profiles and codebooks for the doctoral protocol.
-10. Activate Doctoral Research Mode.
-11. Create and run the real doctoral pilot under the frozen protocol.
-12. Preserve evidence, validate observations/citations, calculate real metrics and release the first doctoral dataset/protocol report.
+Framework versions remain intentionally pinned until upgrades pass the complete administrator and scientific workflow on an isolated branch.
 
 ## Local development
 
@@ -221,25 +226,13 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Quality checks:
+Quality gate:
 
 ```bash
 npm run lint
 npm run typecheck
 npm run build
 ```
-
-Required environment variables include:
-
-```env
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-PAYLOAD_SECRET=replace-with-a-long-random-secret
-DATABASE_URL=mongodb+srv://<username>:<password>@<cluster-hostname>/?retryWrites=true&w=majority&appName=GSLHub
-```
-
-## Compatibility policy
-
-Do not automatically upgrade the pinned Payload, Next.js or React packages and do not run `npm audit fix --force` against production. Test framework upgrades on a separate branch with the complete administrator workflow.
 
 ## Documentation
 
@@ -256,14 +249,8 @@ Do not automatically upgrade the pinned Payload, Next.js or React packages and d
 - Website: [gslhub.com](https://gslhub.com)
 - GitHub: [github.com/gslhub](https://github.com/gslhub)
 - Research email: [research@gslhub.com](mailto:research@gslhub.com)
-- Founder and researcher: [Eduardo José Yauri Luna](https://www.linkedin.com/in/eduardoyauriluna/)
 
 ---
 
-<p align="center">
-  <strong>Research · Benchmarks · Evidence · Metric Definitions · Metric Results · Software · Datasets · Open Science</strong>
-</p>
-
-<p align="center">
-  Last updated: 14 August 2026
-</p>
+<p align="center"><strong>Research · GEO · Evidence · Metrics · Reproducibility · Open Science</strong></p>
+<p align="center">Last updated: 15 August 2026</p>
