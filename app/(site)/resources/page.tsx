@@ -76,44 +76,44 @@ export default async function ResourcesPage() {
           description="GSLHub resources turn research procedures into documented materials that can be reviewed, reused and independently replicated."
         />
 
-        <section className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+        <section className="shell py-14 sm:py-16 lg:py-20">
           {resources.length > 0 ? (
-            <div className="grid gap-6 lg:grid-cols-2">
+            <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
               {resources.map((resource) => {
                 const publicationDate = formatDate(resource.publicationDate);
 
                 return (
                   <article
                     key={resource.id}
-                    className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-7 md:p-8"
+                    className="min-w-0 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6 sm:p-7 md:p-8"
                   >
-                    <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
+                    <div className="flex flex-wrap gap-x-3 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-[var(--muted)] sm:text-xs sm:tracking-[0.12em]">
                       {resource.resourceType ? <span>{formatLabel(resource.resourceType)}</span> : null}
                       {resource.lifecycleStatus ? <span>{formatLabel(resource.lifecycleStatus)}</span> : null}
                       {resource.version ? <span>v{resource.version}</span> : null}
                       {resource.openAccess ? <span>Open access</span> : null}
                     </div>
 
-                    <h2 className="mt-8 text-3xl font-semibold tracking-tight">
+                    <h2 className="mt-7 text-2xl font-semibold tracking-tight text-balance sm:mt-8 sm:text-3xl">
                       {resource.title || 'Untitled resource'}
                     </h2>
 
                     {resource.summary ? (
-                      <p className="mt-5 leading-7 text-[var(--muted)]">{resource.summary}</p>
+                      <p className="mt-4 leading-7 text-[var(--muted)] sm:mt-5">{resource.summary}</p>
                     ) : null}
 
                     {resource.license || publicationDate ? (
-                      <div className="mt-8 flex flex-wrap gap-4 border-t border-[var(--border)] pt-5 font-mono text-xs text-[var(--muted)]">
-                        {resource.license ? <span>{resource.license}</span> : null}
+                      <div className="mt-7 flex min-w-0 flex-wrap gap-x-4 gap-y-2 border-t border-[var(--border)] pt-5 font-mono text-xs text-[var(--muted)] sm:mt-8">
+                        {resource.license ? <span className="break-words">{resource.license}</span> : null}
                         {publicationDate ? <span>Published {publicationDate}</span> : null}
                       </div>
                     ) : null}
 
                     {resource.externalUrl || resource.repositoryUrl ? (
-                      <div className="mt-6 flex flex-wrap gap-3">
+                      <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
                         {resource.externalUrl ? (
                           <a
-                            className="button button-primary"
+                            className="button button-primary w-full sm:w-auto"
                             href={resource.externalUrl}
                             target="_blank"
                             rel="noreferrer"
@@ -123,7 +123,7 @@ export default async function ResourcesPage() {
                         ) : null}
                         {resource.repositoryUrl ? (
                           <a
-                            className="button button-secondary"
+                            className="button button-secondary w-full sm:w-auto"
                             href={resource.repositoryUrl}
                             target="_blank"
                             rel="noreferrer"
@@ -138,9 +138,9 @@ export default async function ResourcesPage() {
               })}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-10 md:p-16">
+            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-7 sm:p-10 md:p-14">
               <p className="eyebrow">Resources in preparation</p>
-              <h2 className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight">
+              <h2 className="mt-5 max-w-3xl text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
                 The first GSLHub research protocol is currently being prepared.
               </h2>
               <p className="mt-5 max-w-2xl leading-7 text-[var(--muted)]">
