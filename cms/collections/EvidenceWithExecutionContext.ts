@@ -1,5 +1,6 @@
 import type { CollectionConfig, Field } from 'payload';
 
+import { autoLinkEvidenceResearchArtifacts } from '../hooks/autoLinkEvidenceResearchArtifacts';
 import { inheritEvidenceExecutionContext } from '../hooks/inheritEvidenceExecutionContext';
 import { protectEvidenceArtifactLinks } from '../hooks/protectEvidenceArtifactLinks';
 import { protectEvidenceSnapshot } from '../hooks/protectEvidenceSnapshot';
@@ -41,6 +42,7 @@ export const Evidence: CollectionConfig = {
       ...(BaseEvidence.hooks?.beforeValidate || []),
       validateEvidenceCode,
       inheritEvidenceExecutionContext,
+      autoLinkEvidenceResearchArtifacts,
       validateEvidenceResearchArtifacts,
       protectEvidenceSnapshot,
       protectEvidenceArtifactLinks,
