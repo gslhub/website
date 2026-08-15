@@ -2,6 +2,15 @@
 
 Aquí se registran los cambios relevantes de la plataforma GSLHub. Los resultados científicos y los datasets formales conservan su propio historial gobernado dentro de Payload.
 
+## 0.6.1 — 2026-08-15
+
+### Corregido
+
+- Evitado que HTML almacenado en caché siga apuntando a CSS/JS de un despliegue anterior.
+- Añadido `deploymentId` de Next.js derivado de `NEXT_DEPLOYMENT_ID`, del commit Git actual o de un fallback seguro de versión.
+- Forzada la capa documental del sitio público a renderizado dinámico para que el HTML no se reutilice entre redeploys, manteniendo el cacheado normal e inmutable de assets con hash.
+- No se modifican schemas científicos, hooks de ciclo de vida, calculadores métricos ni registros de investigación.
+
 ## 0.6.0 — 2026-08-15
 
 ### Añadido
