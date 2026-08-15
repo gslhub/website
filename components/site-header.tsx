@@ -48,14 +48,16 @@ export function SiteHeader() {
             <span className="hidden sm:inline">Research CMS</span>
           </Link>
 
-          <a
-            href="https://github.com/gslhub"
-            className="button button-secondary hidden lg:inline-flex"
-            rel="noreferrer"
-            target="_blank"
-          >
-            GitHub ↗
-          </a>
+          <div className="hidden lg:block">
+            <a
+              href="https://github.com/gslhub"
+              className="button button-secondary whitespace-nowrap"
+              rel="noreferrer"
+              target="_blank"
+            >
+              GitHub ↗
+            </a>
+          </div>
 
           <details className="relative 2xl:hidden">
             <summary className="flex min-h-11 cursor-pointer list-none items-center rounded-full border border-[var(--border)] px-4 text-sm font-semibold marker:content-none">
