@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import '../globals.css';
 
+// Keep document responses fresh across self-hosted redeploys so cached HTML
+// cannot reference CSS/JS assets from an older deployment.
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://gslhub.com'),
   title: {
