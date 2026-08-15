@@ -65,9 +65,9 @@ export default async function SoftwarePage() {
           description="GSLHub software connects methods, experiments and publications through versioned repositories, documentation and citable releases."
         />
 
-        <section className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+        <section className="shell py-14 sm:py-16 lg:py-20">
           {software.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
               {software.map((item) => {
                 const softwareType = formatLabel(item.softwareType);
                 const releaseStatus = formatLabel(item.releaseStatus);
@@ -76,15 +76,15 @@ export default async function SoftwarePage() {
                 return (
                   <article
                     key={item.id}
-                    className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-7 md:p-8"
+                    className="min-w-0 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6 sm:p-7 md:p-8"
                   >
-                    <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
+                    <div className="flex flex-wrap gap-x-3 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-[var(--muted)] sm:text-xs sm:tracking-[0.12em]">
                       {softwareType ? <span>{softwareType}</span> : null}
                       {releaseStatus ? <span>{releaseStatus}</span> : null}
                       {item.version ? <span>v{item.version}</span> : null}
                     </div>
 
-                    <h2 className="mt-8 text-2xl font-semibold tracking-tight">
+                    <h2 className="mt-7 text-xl font-semibold tracking-tight text-balance sm:mt-8 sm:text-2xl">
                       {item.title || 'Untitled software'}
                     </h2>
 
@@ -92,28 +92,28 @@ export default async function SoftwarePage() {
                       <p className="mt-4 leading-7 text-[var(--muted)]">{item.summary}</p>
                     ) : null}
 
-                    <div className="mt-8 border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
-                      <div className="flex flex-wrap gap-x-5 gap-y-2">
+                    <div className="mt-7 border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)] sm:mt-8">
+                      <div className="flex min-w-0 flex-wrap gap-x-5 gap-y-2">
                         {sourceAvailability ? <span>{sourceAvailability}</span> : null}
-                        {item.license ? <span>License: {item.license}</span> : null}
+                        {item.license ? <span className="break-words">License: {item.license}</span> : null}
                         {item.openSource ? <span>Open source</span> : null}
                       </div>
                     </div>
 
                     {item.repositoryUrl || item.documentationUrl || item.packageUrl ? (
-                      <div className="mt-6 flex flex-wrap gap-3">
+                      <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
                         {item.repositoryUrl ? (
-                          <a className="button button-secondary" href={item.repositoryUrl} target="_blank" rel="noreferrer">
+                          <a className="button button-secondary w-full sm:w-auto" href={item.repositoryUrl} target="_blank" rel="noreferrer">
                             Repository ↗
                           </a>
                         ) : null}
                         {item.documentationUrl ? (
-                          <a className="button button-secondary" href={item.documentationUrl} target="_blank" rel="noreferrer">
+                          <a className="button button-secondary w-full sm:w-auto" href={item.documentationUrl} target="_blank" rel="noreferrer">
                             Documentation ↗
                           </a>
                         ) : null}
                         {item.packageUrl ? (
-                          <a className="button button-secondary" href={item.packageUrl} target="_blank" rel="noreferrer">
+                          <a className="button button-secondary w-full sm:w-auto" href={item.packageUrl} target="_blank" rel="noreferrer">
                             Package ↗
                           </a>
                         ) : null}
@@ -124,9 +124,9 @@ export default async function SoftwarePage() {
               })}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-10 md:p-16">
+            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-7 sm:p-10 md:p-14">
               <p className="eyebrow">Software in development</p>
-              <h2 className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight">
+              <h2 className="mt-5 max-w-3xl text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
                 The first GSLHub benchmark toolkit is currently being prepared.
               </h2>
               <p className="mt-5 max-w-2xl leading-7 text-[var(--muted)]">

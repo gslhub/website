@@ -93,10 +93,10 @@ export default async function ResearchPage() {
           description="GSLHub studies how artificial intelligence changes search, organizations and society through reproducible, practice-led research."
         />
 
-        <section className="mx-auto max-w-6xl px-6 py-16 md:px-10">
-          <div className="mb-10 max-w-3xl">
+        <section className="shell py-14 sm:py-16 lg:py-20">
+          <div className="mb-8 max-w-3xl sm:mb-10">
             <p className="eyebrow">Research areas</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-balance sm:text-3xl md:text-4xl">
               Scientific domains connected to active work.
             </h2>
           </div>
@@ -108,11 +108,11 @@ export default async function ResearchPage() {
               }`}
             >
               {areas.map((area, index) => (
-                <article key={area.id} className="bg-[var(--background)] p-8 md:p-10">
+                <article key={area.id} className="min-w-0 bg-[var(--background)] p-6 sm:p-8 lg:p-10">
                   <p className="font-mono text-xs text-[var(--muted)]">
                     {area.code || String(index + 1).padStart(2, '0')}
                   </p>
-                  <h3 className="mt-10 text-2xl font-semibold tracking-tight">
+                  <h3 className="mt-8 text-xl font-semibold tracking-tight text-balance sm:mt-10 sm:text-2xl">
                     {area.title || 'Untitled research area'}
                   </h3>
                   {area.summary ? (
@@ -122,49 +122,49 @@ export default async function ResearchPage() {
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 text-[var(--muted)]">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 text-[var(--muted)] sm:p-8">
               Research areas are being prepared.
             </div>
           )}
         </section>
 
         <section className="section-border bg-[var(--surface)]">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
-            <div className="mb-10 grid gap-6 lg:grid-cols-[1fr_22rem] lg:items-end">
+          <div className="shell py-14 sm:py-16 lg:py-20">
+            <div className="mb-8 grid gap-5 sm:mb-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end lg:gap-8">
               <div>
                 <p className="eyebrow">Projects</p>
-                <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
+                <h2 className="mt-4 text-2xl font-semibold tracking-tight text-balance sm:text-3xl md:text-4xl">
                   Current research programmes and experimental work.
                 </h2>
               </div>
-              <p className="leading-7 text-[var(--muted)]">
+              <p className="max-w-2xl leading-7 text-[var(--muted)] lg:justify-self-end">
                 Each project connects its research questions with methods, software, datasets and publication outputs.
               </p>
             </div>
 
             {projects.length > 0 ? (
-              <div className="grid gap-5 md:grid-cols-2">
+              <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
                 {projects.map((project) => {
                   const startDate = formatDate(project.startDate);
 
                   return (
                     <article
                       key={project.id}
-                      className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-7 md:p-8"
+                      className="min-w-0 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6 sm:p-7 md:p-8"
                     >
-                      <div className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
-                        {project.projectCode ? <span>{project.projectCode}</span> : null}
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-[var(--muted)] sm:text-xs sm:tracking-[0.12em]">
+                        {project.projectCode ? <span className="break-all">{project.projectCode}</span> : null}
                         <span>{formatLabel(project.projectType)}</span>
                         <span>{formatLabel(project.status)}</span>
                       </div>
-                      <h3 className="mt-8 text-2xl font-semibold tracking-tight">
+                      <h3 className="mt-7 text-xl font-semibold tracking-tight text-balance sm:mt-8 sm:text-2xl">
                         {project.title || 'Untitled project'}
                       </h3>
                       {project.summary ? (
                         <p className="mt-4 leading-7 text-[var(--muted)]">{project.summary}</p>
                       ) : null}
                       {startDate ? (
-                        <p className="mt-8 border-t border-[var(--border)] pt-5 font-mono text-xs text-[var(--muted)]">
+                        <p className="mt-7 border-t border-[var(--border)] pt-5 font-mono text-xs text-[var(--muted)] sm:mt-8">
                           Started {startDate}
                         </p>
                       ) : null}
@@ -173,7 +173,7 @@ export default async function ResearchPage() {
                 })}
               </div>
             ) : (
-              <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-8 text-[var(--muted)]">
+              <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-7 text-[var(--muted)] sm:p-8">
                 Public research projects will appear here once available.
               </div>
             )}

@@ -64,26 +64,26 @@ export default async function PeoplePage() {
           description="GSLHub connects researchers, practitioners, developers and institutional partners working on generative search, AI and digital transformation."
         />
 
-        <section className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+        <section className="shell py-14 sm:py-16 lg:py-20">
           {researchers.length > 0 ? (
-            <div className="grid gap-6">
+            <div className="grid gap-4 sm:gap-6">
               {researchers.map((researcher) => (
                 <article
                   key={researcher.id}
-                  className="grid gap-8 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-8 md:grid-cols-[180px_1fr] md:p-10"
+                  className="grid min-w-0 gap-6 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6 sm:p-8 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-8 md:p-10 lg:grid-cols-[11rem_minmax(0,1fr)]"
                 >
-                  <div className="flex h-44 w-44 items-center justify-center rounded-2xl bg-[var(--foreground)] text-4xl font-semibold text-white">
+                  <div className="flex aspect-square w-24 items-center justify-center rounded-2xl bg-[var(--foreground)] text-2xl font-semibold text-white sm:w-28 md:w-full md:max-w-44 md:text-4xl">
                     {initials(researcher.name)}
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
                     {researcher.role ? (
-                      <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--brand)]">
+                      <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-[var(--brand)] sm:text-xs sm:tracking-[0.2em]">
                         {researcher.role}
                       </p>
                     ) : null}
 
-                    <h2 className="mt-4 text-3xl font-semibold tracking-tight">
+                    <h2 className="mt-3 text-2xl font-semibold tracking-tight text-balance sm:mt-4 sm:text-3xl">
                       {researcher.name || 'Unnamed researcher'}
                     </h2>
 
@@ -93,10 +93,10 @@ export default async function PeoplePage() {
                       </p>
                     ) : null}
 
-                    <div className="mt-6 flex flex-wrap gap-3 text-sm font-medium">
+                    <div className="mt-6 grid gap-2 sm:flex sm:flex-wrap sm:gap-3 text-sm font-medium">
                       {researcher.orcid ? (
                         <a
-                          className="rounded-full border border-[var(--border)] px-4 py-2"
+                          className="button button-secondary w-full sm:w-auto"
                           href={`https://orcid.org/${researcher.orcid}`}
                           target="_blank"
                           rel="noreferrer"
@@ -106,7 +106,7 @@ export default async function PeoplePage() {
                       ) : null}
                       {researcher.googleScholarUrl ? (
                         <a
-                          className="rounded-full border border-[var(--border)] px-4 py-2"
+                          className="button button-secondary w-full sm:w-auto"
                           href={researcher.googleScholarUrl}
                           target="_blank"
                           rel="noreferrer"
@@ -116,7 +116,7 @@ export default async function PeoplePage() {
                       ) : null}
                       {researcher.githubUrl ? (
                         <a
-                          className="rounded-full border border-[var(--border)] px-4 py-2"
+                          className="button button-secondary w-full sm:w-auto"
                           href={researcher.githubUrl}
                           target="_blank"
                           rel="noreferrer"
@@ -126,7 +126,7 @@ export default async function PeoplePage() {
                       ) : null}
                       {researcher.linkedinUrl ? (
                         <a
-                          className="rounded-full border border-[var(--border)] px-4 py-2"
+                          className="button button-secondary w-full sm:w-auto"
                           href={researcher.linkedinUrl}
                           target="_blank"
                           rel="noreferrer"
@@ -140,9 +140,9 @@ export default async function PeoplePage() {
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-10 md:p-16">
+            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-7 sm:p-10 md:p-14">
               <p className="eyebrow">Research team</p>
-              <h2 className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight">
+              <h2 className="mt-5 max-w-3xl text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
                 Researcher profiles are currently being prepared.
               </h2>
               <p className="mt-5 max-w-2xl leading-7 text-[var(--muted)]">
