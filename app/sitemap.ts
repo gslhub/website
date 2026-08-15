@@ -3,6 +3,8 @@ import type { MetadataRoute } from 'next';
 const routes = [
   '',
   '/research',
+  '/research-infrastructure',
+  '/es/research-infrastructure',
   '/benchmarks',
   '/dashboard',
   '/publications',
@@ -16,7 +18,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
     url: `https://gslhub.com${route}`,
     lastModified: new Date(),
-    changeFrequency: route === '' || route === '/dashboard' ? 'weekly' : 'monthly',
-    priority: route === '' ? 1 : 0.8,
+    changeFrequency:
+      route === '' || route === '/dashboard' || route.includes('research-infrastructure')
+        ? 'weekly'
+        : 'monthly',
+    priority: route === '' ? 1 : route.includes('research-infrastructure') ? 0.9 : 0.8,
   }));
 }
