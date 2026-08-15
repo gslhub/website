@@ -83,9 +83,9 @@ export default async function BenchmarksPage() {
           description="GSLHub benchmarks connect controlled prompts, repeated observations, transparent metrics and versioned datasets to make AI search visibility measurable and comparable."
         />
 
-        <section className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+        <section className="shell py-14 sm:py-16 lg:py-20">
           {benchmarks.length > 0 ? (
-            <div className="grid gap-6 lg:grid-cols-2">
+            <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
               {benchmarks.map((benchmark) => {
                 const startDate = formatDate(benchmark.startDate);
                 const lastRunDate = formatDate(benchmark.lastRunDate);
@@ -93,25 +93,25 @@ export default async function BenchmarksPage() {
                 return (
                   <article
                     key={benchmark.id}
-                    className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-7 md:p-8"
+                    className="min-w-0 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6 sm:p-7 md:p-8"
                   >
-                    <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
-                      {benchmark.benchmarkCode ? <span>{benchmark.benchmarkCode}</span> : null}
+                    <div className="flex flex-wrap gap-x-3 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-[var(--muted)] sm:text-xs sm:tracking-[0.12em]">
+                      {benchmark.benchmarkCode ? <span className="break-all">{benchmark.benchmarkCode}</span> : null}
                       {benchmark.benchmarkType ? <span>{formatLabel(benchmark.benchmarkType)}</span> : null}
                       {benchmark.lifecycleStatus ? <span>{formatLabel(benchmark.lifecycleStatus)}</span> : null}
                       {benchmark.version ? <span>v{benchmark.version}</span> : null}
                     </div>
 
-                    <h2 className="mt-8 text-3xl font-semibold tracking-tight">
+                    <h2 className="mt-7 text-2xl font-semibold tracking-tight text-balance sm:mt-8 sm:text-3xl">
                       {benchmark.title || 'Untitled benchmark'}
                     </h2>
 
                     {benchmark.summary ? (
-                      <p className="mt-5 leading-7 text-[var(--muted)]">{benchmark.summary}</p>
+                      <p className="mt-4 leading-7 text-[var(--muted)] sm:mt-5">{benchmark.summary}</p>
                     ) : null}
 
                     {benchmark.metrics && benchmark.metrics.length > 0 ? (
-                      <div className="mt-8 border-t border-[var(--border)] pt-6">
+                      <div className="mt-7 border-t border-[var(--border)] pt-6 sm:mt-8">
                         <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--brand)]">
                           Core metrics
                         </p>
@@ -119,7 +119,7 @@ export default async function BenchmarksPage() {
                           {benchmark.metrics.map((metric, index) => (
                             <span
                               key={metric.id || `${metric.code || metric.name || 'metric'}-${index}`}
-                              className="rounded-full border border-[var(--border)] px-3 py-1.5 text-sm"
+                              className="max-w-full break-words rounded-full border border-[var(--border)] px-3 py-1.5 text-sm"
                               title={metric.description || undefined}
                             >
                               {metric.code || metric.name || 'Metric'}
@@ -130,7 +130,7 @@ export default async function BenchmarksPage() {
                     ) : null}
 
                     {startDate || lastRunDate ? (
-                      <div className="mt-8 grid gap-3 border-t border-[var(--border)] pt-5 font-mono text-xs text-[var(--muted)] sm:grid-cols-2">
+                      <div className="mt-7 grid gap-2 border-t border-[var(--border)] pt-5 font-mono text-xs text-[var(--muted)] sm:mt-8 sm:grid-cols-2 sm:gap-3">
                         {startDate ? <p>Started {startDate}</p> : null}
                         {lastRunDate ? <p>Last run {lastRunDate}</p> : null}
                       </div>
@@ -140,9 +140,9 @@ export default async function BenchmarksPage() {
               })}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-10 md:p-16">
+            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-7 sm:p-10 md:p-14">
               <p className="eyebrow">Benchmarks in preparation</p>
-              <h2 className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight">
+              <h2 className="mt-5 max-w-3xl text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
                 The first GSLHub generative search benchmark is currently being prepared.
               </h2>
               <p className="mt-5 max-w-2xl leading-7 text-[var(--muted)]">
