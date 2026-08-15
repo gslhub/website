@@ -6,9 +6,14 @@
   color: var(--theme-text);
 }
 
+/* Payload renders the custom admin Icon inside a narrow breadcrumb slot.
+   Keep the mark smaller than that slot so the SVG is never clipped. */
 .gslhub-admin-brand-icon {
-  width: 42px;
-  height: 42px;
+  display: block;
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  flex: 0 0 20px;
 }
 
 .gslhub-admin-logout {
@@ -68,11 +73,6 @@
 @media (max-width: 768px) {
   .gslhub-admin-brand-logo {
     width: min(190px, 64vw);
-  }
-
-  .gslhub-admin-brand-icon {
-    width: 36px;
-    height: 36px;
   }
 
   .gslhub-admin-logout {
