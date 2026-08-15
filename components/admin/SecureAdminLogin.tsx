@@ -99,28 +99,28 @@ export default function SecureAdminLogin() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-950 px-5 py-12 text-slate-950">
-      <section className="w-full max-w-md rounded-3xl border border-white/10 bg-white p-7 shadow-2xl shadow-black/30 sm:p-9">
-        <div className="mx-auto w-full max-w-[230px] text-slate-950">
+    <main className="flex min-h-screen items-center justify-center bg-slate-950 px-4 py-8 text-slate-950 sm:px-5 sm:py-12">
+      <section className="w-full max-w-md rounded-2xl border border-white/10 bg-white p-5 shadow-2xl shadow-black/30 sm:rounded-3xl sm:p-9">
+        <div className="mx-auto w-full max-w-[190px] text-slate-950 sm:max-w-[230px]">
           <GSLHubLogo />
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-blue-600">
+        <div className="mt-7 text-center sm:mt-8">
+          <p className="font-mono text-[0.7rem] font-bold uppercase tracking-[0.16em] text-blue-600 sm:text-xs sm:tracking-[0.18em]">
             Research CMS
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight">Iniciar sesión</h1>
-          <p className="mt-3 text-sm leading-6 text-slate-600">
+          <h1 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Iniciar sesión</h1>
+          <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-slate-600">
             Acceso privado para la administración científica de GSLHub.
           </p>
         </div>
 
         {isCheckingSession ? (
-          <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center text-sm text-slate-600">
+          <div className="mt-7 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center text-sm text-slate-600 sm:mt-8 sm:p-5">
             Comprobando la sesión…
           </div>
         ) : (
-          <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+          <form className="mt-7 space-y-5 sm:mt-8" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-semibold text-slate-800" htmlFor="admin-email">
                 Correo electrónico
@@ -130,10 +130,11 @@ export default function SecureAdminLogin() {
                 name="email"
                 type="email"
                 autoComplete="username"
+                inputMode="email"
                 required
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="mt-2 min-h-12 w-full rounded-xl border border-slate-300 bg-white px-4 text-base outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-600/15"
+                className="mt-2 min-h-12 w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 text-base outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-600/15"
               />
             </div>
 
@@ -149,7 +150,7 @@ export default function SecureAdminLogin() {
                 required
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="mt-2 min-h-12 w-full rounded-xl border border-slate-300 bg-white px-4 text-base outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-600/15"
+                className="mt-2 min-h-12 w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 text-base outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-600/15"
               />
             </div>
 
@@ -157,7 +158,7 @@ export default function SecureAdminLogin() {
               <div
                 role="alert"
                 aria-live="polite"
-                className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
+                className="break-words rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
               >
                 {error}
               </div>
@@ -174,7 +175,7 @@ export default function SecureAdminLogin() {
         )}
 
         <div className="mt-7 border-t border-slate-200 pt-5 text-center text-sm text-slate-500">
-          <Link className="font-semibold text-slate-700 underline underline-offset-4" href="/">
+          <Link className="inline-flex min-h-11 items-center justify-center px-2 font-semibold text-slate-700 underline underline-offset-4" href="/">
             Volver a GSLHub
           </Link>
         </div>
