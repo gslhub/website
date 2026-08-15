@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 /* GSLHub global stylesheet. Keep this file imported only from app/layout.tsx. */
-/* Asset refresh: 2026-07-25 — forces a new production CSS bundle after deployment. */
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
@@ -13,6 +12,7 @@
   --success: #16a34a;
   --warning: #d97706;
   --danger: #dc2626;
+  --content-max: 76rem;
 }
 
 * {
@@ -25,10 +25,19 @@ html {
 
 body {
   margin: 0;
+  min-width: 0;
+  overflow-x: clip;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
 }
 
 a {
@@ -37,7 +46,8 @@ a {
 }
 
 button,
-a {
+a,
+summary {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -46,7 +56,7 @@ a {
 }
 
 .shell {
-  width: min(100% - 2rem, 76rem);
+  width: min(100% - 2rem, var(--content-max));
   margin-inline: auto;
 }
 
@@ -56,30 +66,31 @@ a {
 
 .eyebrow {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--brand);
 }
 
 .section-heading {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .section-title {
   margin-top: 1rem;
   max-width: 48rem;
-  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 9vw, 4.5rem);
   font-weight: 600;
-  line-height: 1;
+  line-height: 0.99;
   letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
 .section-intro {
   max-width: 34rem;
-  font-size: 1.05rem;
+  font-size: clamp(1rem, 2.4vw, 1.1rem);
   line-height: 1.8;
   color: var(--muted);
 }
@@ -105,6 +116,7 @@ a {
   padding: 0.72rem 1.2rem;
   font-size: 0.875rem;
   font-weight: 700;
+  line-height: 1.2;
   transition: transform 160ms ease, opacity 160ms ease, background 160ms ease;
 }
 
@@ -114,7 +126,8 @@ a {
 
 .button:focus-visible,
 .nav-link:focus-visible,
-a:focus-visible {
+a:focus-visible,
+summary:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--brand) 38%, transparent);
   outline-offset: 3px;
 }
@@ -138,9 +151,9 @@ a:focus-visible {
 }
 
 .research-card {
-  min-height: 21rem;
+  min-height: 18rem;
   background: #ffffff;
-  padding: 2rem;
+  padding: 1.5rem;
   transition: background 180ms ease;
 }
 
@@ -149,25 +162,42 @@ a:focus-visible {
 }
 
 .pillar-card {
-  min-height: 17rem;
+  min-height: 15rem;
   border: 1px solid var(--border);
   border-radius: 1.25rem;
   background: #ffffff;
   padding: 1.5rem;
 }
 
+@media (min-width: 640px) {
+  .shell {
+    width: min(100% - 3rem, var(--content-max));
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+  }
+}
+
 @media (min-width: 768px) {
   .shell {
-    width: min(100% - 4rem, 76rem);
+    width: min(100% - 4rem, var(--content-max));
   }
 
   .section-heading {
     grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.6fr);
     align-items: end;
+    gap: 2rem;
   }
 
   .research-card {
+    min-height: 21rem;
     padding: 2.5rem;
+  }
+
+  .pillar-card {
+    min-height: 17rem;
   }
 }
 
