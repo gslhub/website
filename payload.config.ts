@@ -46,6 +46,7 @@ export default buildConfig({
       ],
     },
     components: {
+      beforeDashboard: ['/components/admin/ResearchDashboard'],
       graphics: {
         Icon: '/components/admin/GSLHubAdminIcon',
         Logo: '/components/admin/GSLHubAdminLogo',
