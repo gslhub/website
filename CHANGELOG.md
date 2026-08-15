@@ -2,6 +2,63 @@
 
 All notable GSLHub platform changes are recorded here. Scientific result records and formal dataset releases retain their own governed version history in Payload.
 
+## 0.6.0 — 2026-08-15
+
+### Added
+
+- Responsive Doctoral-ready UI across the public frontend, CMS login and Payload administrator.
+- Custom Research Operations dashboard after CMS login.
+- English/Spanish localization for the custom Research Operations dashboard.
+- Public bilingual Research Infrastructure demonstrator:
+  - `/research-infrastructure`
+  - `/es/research-infrastructure`
+- Direct private Research CMS access from the public header.
+- Public/private presentation model separating scientific dissemination from governed research operations.
+
+### Changed
+
+- Public navigation, page spacing, cards, long metadata, CTA groups and dashboard layouts now adapt across mobile, tablet, laptop and desktop.
+- Payload scientific tables retain native behavior with safe horizontal panning on smaller screens.
+- Admin brand icon now fits the native Payload breadcrumb slot without clipping.
+- Mobile GitHub control moved into the menu to prevent overflow.
+- Light CTA buttons now enforce dark foreground contrast inside dark sections.
+- Package version increased to `0.6.0`.
+
+### Development regression completed
+
+- Full connected research pipeline generated and verified with 27 disposable TEST records.
+- Evidence ↔ Research Artifact auto-link verified in the current model.
+- Deterministic calculators passed:
+  - AIR = `3 / 4 = 0.75`
+  - CR = `2 / 4 = 0.50`
+  - MCP = `6 / 3 = 2.00`
+  - RCR = `3 / 4 = 0.75`
+- TEST batches and synthetic metric records were removed successfully.
+- Real development reservations remained intact:
+  - `GSL-EXEC-GEO-0001` Completed
+  - `GSL-EXEC-GEO-0002`–`0005` Planned
+
+### Research boundary
+
+- The platform remains in Development Mode.
+- Final Development Reset has not been executed.
+- Doctoral Research Mode has not been activated.
+- No real doctoral data has been collected.
+
+## 0.5.0–0.5.6 — 2026-08-13 to 2026-08-15
+
+### Added and hardened
+
+- Persistent local research-artifact storage outside deployment releases.
+- Restart, redeploy and recovery verification with SHA-256.
+- Research Environment controls for Development Mode, TEST cleanup, Final Development Reset and doctoral activation gate.
+- Governed Prompt Execution snapshot protection and safe new-session confirmation.
+- Semantic environment comparison to avoid false snapshot changes caused by optional empty values.
+- Direct Evidence ↔ Research Artifact relationships constrained to the same Prompt Execution.
+- Auto-link of Evidence to the unique Research Artifact of the same execution when safe.
+- First complete governed development execution `GSL-EXEC-GEO-0001`.
+- Validated raw-response and screenshot evidence chain.
+
 ## 0.4.2 — 2026-08-04
 
 ### Added
@@ -13,7 +70,7 @@ All notable GSLHub platform changes are recorded here. Scientific result records
 
 ### Changed
 
-- AIR, CR, MCP and RCR can now document successful deterministic testing without using `Validated At` or `Validated By` prematurely.
+- AIR, CR, MCP and RCR can document successful deterministic testing without using `Validated At` or `Validated By` prematurely.
 - Package version increased from 0.4.1 to 0.4.2.
 
 ### Governance and safety
@@ -22,13 +79,6 @@ All notable GSLHub platform changes are recorded here. Scientific result records
 - Formal `Validated` status requires completed technical review and passed deterministic validation.
 - Formal validation also requires a completed independent review by a researcher different from the author self-reviewer.
 - Technical-review fields become frozen with the rest of the scientific definition after validation.
-- Removing the Administrative Batch audit record never removes the permanent technical review stored in the Metric Definitions.
-
-### Current scientific state
-
-- Author technical self-review can be recorded for Eduardo José Yauri Luna.
-- Independent review remains pending.
-- AIR, CR, MCP and RCR remain `Under review` and `Draft` until an external reviewer is registered.
 
 ## 0.4.1 — 2026-08-04
 
@@ -37,35 +87,17 @@ All notable GSLHub platform changes are recorded here. Scientific result records
 - Central bilingual registry for AIR, CR, MCP and RCR v0.1.0.
 - Idempotent permanent Metric Definition synchronization service.
 - English and Spanish synchronization and deterministic-validation runbooks.
-- Reviewed required-input registries for all four pilot metrics.
-
-### Changed
-
-- Permanent metric provisioning now creates missing definitions and synchronizes existing `planned` or `under-review` records.
-- Missing-data policy for all four reviewed definitions is now `report-separately`.
-- Disposable metric-definition generation uses the same scientific registry as permanent provisioning.
-- Package version increased from 0.4.0 to 0.4.1.
 
 ### Safety
 
-- Definitions in `validated`, `active`, `deprecated` or `archived` state cannot be overwritten by synchronization.
+- Validated or archived definitions cannot be overwritten by synchronization.
 - Duplicate identity or code/version records stop the operation before writes.
-- A failed Spanish localization after creating an English definition removes the incomplete new record.
-- `Validated At` and `Validated By` remain untouched during synchronization.
-
-### Operational sequence
-
-1. Deploy and compile.
-2. Run the permanent pilot metric-definition synchronization batch.
-3. Verify both locales and `Under review` state.
-4. Run AIR, CR, MCP and RCR deterministic scenarios separately.
-5. Review and clean their disposable `TEST-` records.
 
 ## 0.4.0 — 2026-07-31
 
 ### Changed
 
 - Restored the validated Payload 3.75.0, Next.js 16.2.10 and React 19.2.7 compatibility set.
-- Removed the S3 runtime dependency for the current doctoral phase.
+- Removed the S3 runtime dependency for the current phase.
 - Selected local Payload uploads for research artifacts.
 - Restored the native Payload administrator in production.

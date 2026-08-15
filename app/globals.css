@@ -150,6 +150,12 @@ summary:focus-visible {
   background: var(--surface);
 }
 
+/* A light CTA can sit inside a dark parent that sets text-white.
+   Keep explicit foreground contrast instead of relying on inherited color. */
+.button.bg-white {
+  color: #0b132b;
+}
+
 .research-card {
   min-height: 18rem;
   background: #ffffff;
