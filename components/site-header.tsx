@@ -4,6 +4,7 @@ import { GSLHubLogo } from '@/components/brand/GSLHubLogo';
 
 const navigation = [
   { href: '/research', label: 'Research' },
+  { href: '/research-infrastructure', label: 'Infrastructure' },
   { href: '/benchmarks', label: 'Benchmarks' },
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/publications', label: 'Publications' },
@@ -19,13 +20,13 @@ export function SiteHeader() {
       <div className="shell flex min-h-16 items-center justify-between gap-3 sm:min-h-20 sm:gap-5">
         <Link
           href="/"
-          className="group inline-flex w-[158px] shrink-0 text-[#0b132b] transition-opacity hover:opacity-80 sm:w-[210px]"
+          className="group inline-flex w-[150px] shrink-0 text-[#0b132b] transition-opacity hover:opacity-80 sm:w-[190px] 2xl:w-[210px]"
           aria-label="GSLHub home"
         >
           <GSLHubLogo className="w-full" />
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden xl:block">
+        <nav aria-label="Primary navigation" className="hidden 2xl:block">
           <ul className="flex items-center gap-4 text-sm font-medium text-[var(--muted)]">
             {navigation.map((item) => (
               <li key={item.href}>
@@ -38,16 +39,25 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+          <Link
+            href="/cms-login"
+            className="button button-primary min-w-[3.6rem] px-3 sm:px-4"
+            aria-label="Access the private GSLHub Research CMS"
+          >
+            <span className="sm:hidden">CMS</span>
+            <span className="hidden sm:inline">Research CMS</span>
+          </Link>
+
           <a
             href="https://github.com/gslhub"
-            className="button button-secondary hidden sm:inline-flex"
+            className="button button-secondary hidden lg:inline-flex"
             rel="noreferrer"
             target="_blank"
           >
             GitHub ↗
           </a>
 
-          <details className="relative xl:hidden">
+          <details className="relative 2xl:hidden">
             <summary className="flex min-h-11 cursor-pointer list-none items-center rounded-full border border-[var(--border)] px-4 text-sm font-semibold marker:content-none">
               Menu
             </summary>
@@ -63,7 +73,7 @@ export function SiteHeader() {
                     </Link>
                   </li>
                 ))}
-                <li className="border-t border-[var(--border)] pt-2 sm:hidden">
+                <li className="border-t border-[var(--border)] pt-2 lg:hidden">
                   <a
                     className="block min-h-11 rounded-xl px-3 py-3 hover:bg-[var(--surface)]"
                     href="https://github.com/gslhub"
