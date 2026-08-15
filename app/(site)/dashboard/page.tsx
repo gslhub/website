@@ -133,26 +133,26 @@ export default async function ScientificDashboardPage() {
           description="This dashboard exposes only published scientific records. Draft experiments, executions, evidence and provisional calculations remain private until their review workflow is complete."
         />
 
-        <section className="mx-auto max-w-6xl px-6 py-16 md:px-10">
-          <div className="flex flex-col gap-5 border-b border-[var(--border)] pb-10 md:flex-row md:items-end md:justify-between">
+        <section className="shell py-14 sm:py-16">
+          <div className="flex flex-col gap-5 border-b border-[var(--border)] pb-8 sm:pb-10 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="eyebrow">Published research layer</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
                 Research pipeline overview
               </h2>
             </div>
-            <p className="font-mono text-sm text-[var(--muted)]">
+            <p className="font-mono text-xs text-[var(--muted)] sm:text-sm">
               {totalPublicRecords.toLocaleString('en')} public records
             </p>
           </div>
 
           <div className="grid gap-px overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2 lg:grid-cols-3">
             {counts.map((item) => (
-              <article key={item.label} className="bg-white p-6 md:p-8">
-                <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--muted)]">
+              <article key={item.label} className="min-w-0 bg-white p-5 sm:p-6 md:p-8">
+                <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-[var(--muted)] sm:text-xs sm:tracking-[0.14em]">
                   {item.label}
                 </p>
-                <p className="mt-5 text-4xl font-semibold tracking-tight">
+                <p className="mt-4 text-4xl font-semibold tracking-tight sm:mt-5">
                   {item.value.toLocaleString('en')}
                 </p>
               </article>
@@ -161,10 +161,10 @@ export default async function ScientificDashboardPage() {
         </section>
 
         <section className="border-t border-[var(--border)] bg-[var(--surface)]">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:px-10">
+          <div className="shell py-14 sm:py-16">
             <div className="max-w-3xl">
               <p className="eyebrow">Validated results</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
                 Latest published metrics
               </h2>
               <p className="mt-5 leading-7 text-[var(--muted)]">
@@ -173,14 +173,14 @@ export default async function ScientificDashboardPage() {
             </div>
 
             {latestMetrics.length > 0 ? (
-              <div className="mt-10 grid gap-6 lg:grid-cols-2">
+              <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-6 lg:grid-cols-2">
                 {latestMetrics.map((metric) => {
                   const calculatedAt = formatDate(metric.calculatedAt);
 
                   return (
-                    <article key={metric.id} className="rounded-2xl border border-[var(--border)] bg-white p-7 md:p-8">
+                    <article key={metric.id} className="min-w-0 rounded-2xl border border-[var(--border)] bg-white p-5 sm:p-7 md:p-8">
                       <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
+                        <div className="flex flex-wrap gap-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-[var(--muted)] sm:text-xs sm:tracking-[0.12em]">
                           {metric.metricCode ? <span>{metric.metricCode}</span> : null}
                           {metric.metricVersion ? <span>v{metric.metricVersion}</span> : null}
                           {metric.metricCategory ? <span>{formatLabel(metric.metricCategory)}</span> : null}
@@ -192,10 +192,10 @@ export default async function ScientificDashboardPage() {
                         ) : null}
                       </div>
 
-                      <h3 className="mt-7 text-2xl font-semibold tracking-tight">
+                      <h3 className="mt-6 text-xl font-semibold tracking-tight sm:mt-7 sm:text-2xl">
                         {metric.metricName || metric.metricCode || 'Metric result'}
                       </h3>
-                      <p className="mt-5 text-5xl font-semibold tracking-tight text-[var(--brand)]">
+                      <p className="mt-4 break-words text-4xl font-semibold tracking-tight text-[var(--brand)] sm:mt-5 sm:text-5xl">
                         {formatMetricValue(metric)}
                       </p>
 
@@ -204,7 +204,7 @@ export default async function ScientificDashboardPage() {
                       ) : null}
 
                       {calculatedAt || typeof metric.sampleSize === 'number' ? (
-                        <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 border-t border-[var(--border)] pt-5 font-mono text-xs text-[var(--muted)]">
+                        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-[var(--border)] pt-5 font-mono text-xs text-[var(--muted)] sm:mt-7">
                           {calculatedAt ? <span>Calculated {calculatedAt}</span> : null}
                           {typeof metric.sampleSize === 'number' ? <span>n = {metric.sampleSize}</span> : null}
                         </div>
@@ -214,9 +214,9 @@ export default async function ScientificDashboardPage() {
                 })}
               </div>
             ) : (
-              <div className="mt-10 rounded-2xl border border-dashed border-[var(--border)] bg-white p-10 md:p-14">
+              <div className="mt-8 rounded-2xl border border-dashed border-[var(--border)] bg-white p-6 sm:mt-10 sm:p-10 md:p-14">
                 <p className="eyebrow">Metrics in preparation</p>
-                <h3 className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight">
+                <h3 className="mt-5 max-w-3xl text-2xl font-semibold tracking-tight sm:text-3xl">
                   The first validated GSLHub benchmark results have not been published yet.
                 </h3>
                 <p className="mt-5 max-w-2xl leading-7 text-[var(--muted)]">
