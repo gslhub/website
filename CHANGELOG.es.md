@@ -1,6 +1,63 @@
 # Historial de cambios
 
-Aquí se registran los cambios relevantes de la plataforma GSLHub. Los resultados científicos y las publicaciones formales de datasets conservan su propio historial gobernado dentro de Payload.
+Aquí se registran los cambios relevantes de la plataforma GSLHub. Los resultados científicos y los datasets formales conservan su propio historial gobernado dentro de Payload.
+
+## 0.6.0 — 2026-08-15
+
+### Añadido
+
+- UI Doctoral-ready responsive en frontend público, login CMS y administrador Payload.
+- Dashboard propio de Research Operations después del login.
+- Localización inglés/español del dashboard interno de Research Operations.
+- Demostrador público bilingüe de Research Infrastructure:
+  - `/research-infrastructure`
+  - `/es/research-infrastructure`
+- Acceso directo al Research CMS privado desde el header público.
+- Separación clara entre difusión científica pública y operaciones gobernadas privadas.
+
+### Modificado
+
+- Navegación, espaciados, cards, metadatos largos, grupos CTA y dashboards adaptados a móvil, tablet, portátil y escritorio.
+- Las tablas científicas de Payload conservan el comportamiento nativo con desplazamiento horizontal seguro en pantallas pequeñas.
+- El icono del Admin se adapta al slot nativo del breadcrumb sin recortarse.
+- GitHub deja de mostrarse como botón independiente en móvil y queda disponible dentro del menú.
+- Los CTA claros fuerzan contraste de texto oscuro cuando se muestran sobre fondos oscuros.
+- La versión de plataforma pasa a `0.6.0`.
+
+### Regresión de desarrollo completada
+
+- Pipeline completo verificado con 27 registros TEST conectados y descartables.
+- Verificada la relación Evidence ↔ Research Artifact del modelo actual.
+- Calculadores deterministas superados:
+  - AIR = `3 / 4 = 0.75`
+  - CR = `2 / 4 = 0.50`
+  - MCP = `6 / 3 = 2.00`
+  - RCR = `3 / 4 = 0.75`
+- Todos los batches TEST y resultados métricos sintéticos se eliminaron correctamente.
+- Los registros reales de desarrollo permanecieron intactos:
+  - `GSL-EXEC-GEO-0001` Completed
+  - `GSL-EXEC-GEO-0002`–`0005` Planned
+
+### Frontera científica
+
+- La plataforma continúa en Development Mode.
+- Final Development Reset no se ha ejecutado.
+- Doctoral Research Mode no está activado.
+- Datos doctorales reales: 0.
+
+## 0.5.0–0.5.6 — 2026-08-13 a 2026-08-15
+
+### Añadido y reforzado
+
+- Almacenamiento persistente de artefactos fuera de los releases de despliegue.
+- Verificación Restart, Redeploy y Recovery con SHA-256.
+- Research Environment con Development Mode, limpieza TEST, Final Development Reset y bloqueo de activación doctoral.
+- Protección de snapshots de Prompt Execution y confirmación segura de nueva sesión.
+- Comparación semántica del entorno para evitar falsos cambios por campos opcionales vacíos.
+- Relación directa Evidence ↔ Research Artifact limitada a la misma Prompt Execution.
+- Autoenlace seguro de Evidence al único Research Artifact de la ejecución.
+- Primera ejecución gobernada completa `GSL-EXEC-GEO-0001`.
+- Cadena validada de evidencia TXT y captura.
 
 ## 0.4.2 — 2026-08-04
 
@@ -9,26 +66,12 @@ Aquí se registran los cambios relevantes de la plataforma GSLHub. Los resultado
 - Bloque específico `Technical Review` para Metric Definitions.
 - Campos separados para autorrevisión técnica y revisión independiente.
 - Estado de validación determinista, fechas, revisores y notas bilingües.
-- Acción permanente de Administrative Batch para registrar la revisión técnica de AIR, CR, MCP y RCR.
-
-### Modificado
-
-- AIR, CR, MCP y RCR pueden documentar las pruebas deterministas superadas sin utilizar prematuramente `Validated At` ni `Validated By`.
-- La versión del proyecto pasa de 0.4.1 a 0.4.2.
 
 ### Gobernanza y seguridad
 
-- `Validated At` y `Validated By` deben permanecer vacíos mientras la definición esté en `planned` o `under-review`.
-- El estado formal `Validated` exige revisión técnica completada y validación determinista superada.
-- La validación formal exige además una revisión independiente completada por una persona investigadora diferente del autorrevisor.
-- Los campos de revisión técnica quedan congelados junto con el resto de la definición científica después de la validación.
-- Eliminar el registro administrativo del lote no elimina la revisión técnica permanente guardada en las Metric Definitions.
-
-### Estado científico actual
-
-- Puede registrarse la autorrevisión técnica de Eduardo José Yauri Luna.
-- La revisión independiente permanece pendiente.
-- AIR, CR, MCP y RCR continúan en `Under review` y `Draft` hasta incorporar una persona revisora externa.
+- `Validated At` y `Validated By` permanecen vacíos mientras una definición está `planned` o `under-review`.
+- La validación formal exige technical review, prueba determinista y revisión independiente.
+- Los campos científicos quedan congelados después de la validación.
 
 ## 0.4.1 — 2026-08-04
 
@@ -36,36 +79,18 @@ Aquí se registran los cambios relevantes de la plataforma GSLHub. Los resultado
 
 - Registro bilingüe central para AIR, CR, MCP y RCR v0.1.0.
 - Servicio idempotente de sincronización de Metric Definitions permanentes.
-- Runbooks en inglés y español para sincronización y validación determinista.
-- Registros revisados de inputs requeridos para las cuatro métricas del piloto.
-
-### Modificado
-
-- El aprovisionamiento permanente crea las definiciones ausentes y sincroniza los registros existentes en `planned` o `under-review`.
-- La política de datos ausentes de las cuatro definiciones pasa a `report-separately`.
-- La generación descartable y el aprovisionamiento permanente utilizan la misma fuente científica.
-- La versión del proyecto pasa de 0.4.0 a 0.4.1.
+- Runbooks de sincronización y validación determinista.
 
 ### Seguridad
 
-- Las definiciones en estado `validated`, `active`, `deprecated` o `archived` no pueden ser sobrescritas.
-- Los duplicados de identidad o de código/versión detienen la operación antes de escribir.
-- Si falla la localización española después de crear una definición inglesa, se elimina el registro nuevo incompleto.
-- La sincronización no completa ni modifica `Validated At` o `Validated By`.
-
-### Secuencia operativa
-
-1. Desplegar y compilar.
-2. Ejecutar el lote permanente de sincronización de definiciones métricas.
-3. Verificar ambos idiomas y el estado `Under review`.
-4. Ejecutar por separado los escenarios deterministas AIR, CR, MCP y RCR.
-5. Revisar y limpiar sus registros descartables `TEST-`.
+- Las definiciones validadas o archivadas no pueden ser sobrescritas por sincronización.
+- Los duplicados detienen la operación antes de escribir.
 
 ## 0.4.0 — 2026-07-31
 
 ### Modificado
 
 - Restaurada la combinación validada Payload 3.75.0, Next.js 16.2.10 y React 19.2.7.
-- Eliminada la dependencia S3 del runtime para la fase doctoral actual.
-- Seleccionadas las subidas locales de Payload para los artefactos de investigación.
+- Eliminada la dependencia S3 del runtime para la fase actual.
+- Seleccionadas subidas locales de Payload para los artefactos de investigación.
 - Restaurado el administrador nativo de Payload en producción.
