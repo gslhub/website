@@ -2,6 +2,14 @@
 
 Aquí se registran los cambios relevantes de la plataforma GSLHub. Los resultados científicos y los datasets formales conservan su propio historial gobernado dentro de Payload.
 
+## 0.6.2 — 2026-08-16
+
+### Corregido
+
+- El dashboard Research Operations utiliza ahora tokens nativos `--theme-*` de Payload en lugar de valores estáticos `--color-*`.
+- Hero, pasos del workflow, tarjetas de acceso, bordes y textos secundarios se adaptan automáticamente a los modos claro y oscuro de Payload con contraste legible.
+- No se modifican schemas científicos, hooks de ciclo de vida, calculadores métricos ni registros de investigación.
+
 ## 0.6.1 — 2026-08-15
 
 ### Corregido
