@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-  <strong>Scientific infrastructure for Generative Search, GEO, evidence, governed metrics and reproducible AI research.</strong>
+  <strong>Scientific infrastructure for Generative Search, GEO, governed evidence, metrics and reproducible AI research.</strong>
 </p>
 
 <p align="center">
-  <strong>English</strong> · <a href="./README.es.md">Español</a> · <a href="./docs/ESTADO_PROYECTO_ES.md">Current project status</a>
+  <strong>English</strong> · <a href="./README.es.md">Español</a> · <a href="./docs/ESTADO_PROYECTO_ES.md">Project status</a> · <a href="./docs/PROJECT-MATRIX.md">Project matrix</a> · <a href="./docs/DOCTORAL-DEMO.md">Doctoral demo</a>
 </p>
 
 <p align="center">
@@ -19,8 +19,8 @@
 </p>
 
 <p align="center">
-  <img alt="Status" src="https://img.shields.io/badge/status-doctoral--ready%20UI-2563EB" />
-  <img alt="Version" src="https://img.shields.io/badge/platform-0.6.0-7C3AED" />
+  <img alt="Status" src="https://img.shields.io/badge/status-doctoral--ready%20baseline-2563EB" />
+  <img alt="Version" src="https://img.shields.io/badge/platform-0.6.2-7C3AED" />
   <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.75.0-0B132B" />
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.2.10-0B132B" />
   <img alt="Storage" src="https://img.shields.io/badge/artifacts-persistent%20local-16A34A" />
@@ -38,24 +38,88 @@ The platform is being developed as research infrastructure for the doctoral line
 
 GSLHub connects controlled experiments, prompt executions, observations, research artifacts, evidence, citations and governed metrics inside one auditable workflow.
 
-## Current release — 0.6.0
+## Current release — 0.6.2
 
-Version `0.6.0` closes the **Doctoral-ready UI** milestone.
+Version `0.6.2` is the current **Doctoral-ready product baseline**.
 
-### Product layer
+It consolidates:
 
 - responsive public frontend for mobile, tablet, laptop and desktop;
-- responsive Payload administrator with safe horizontal handling for scientific tables;
-- dedicated Research Operations dashboard after CMS login;
+- responsive Payload administrator and scientific tables;
+- custom Research Operations dashboard after CMS login;
 - bilingual EN/ES Research Operations dashboard;
-- public bilingual research-infrastructure demonstrator;
+- light/dark theme support using Payload-native theme tokens;
+- public bilingual Research Infrastructure demonstrator;
 - direct private Research CMS access from the public frontend;
-- public scientific dashboard separated from private governed operations;
-- mobile navigation and CTA contrast reviewed.
+- public/private separation between dissemination and governed operations;
+- deployment version-skew protection for Next.js assets;
+- validated Hostinger cache-purge procedure after frontend redeploys.
 
-### Research workflow layer
+No scientific schemas, metric calculators or governed research records were changed by the `0.6.x` UI hotfixes.
 
-The development regression has been completed successfully:
+## GSLHub research model
+
+GSLHub is designed around a simple scientific chain:
+
+```mermaid
+flowchart LR
+    A[Scientific problem] --> B[Hypothesis]
+    B --> C[Experiment]
+    C --> D[Execution]
+    D --> E[Evidence]
+    E --> F[Observation]
+    F --> G[Metrics]
+    F --> H[Citations]
+    G --> I[Reproducibility]
+    H --> I
+    I --> J[Public dissemination]
+```
+
+The complete operational matrix is preserved in **[docs/PROJECT-MATRIX.md](./docs/PROJECT-MATRIX.md)** so the system can be explained consistently in technical, scientific and doctoral contexts.
+
+### Project matrix — compact view
+
+| Layer | Scientific purpose | Operational output |
+| --- | --- | --- |
+| Scientific problem | Define what must be explained | Project / Benchmark scope |
+| Hypothesis | State a testable expectation | Experiment hypothesis |
+| Experiment | Define controlled method | Protocol, prompts, AI systems, repetitions |
+| Execution | Run one governed trial | Prompt Execution snapshot |
+| Evidence | Preserve the raw result | Research Artifact + Evidence |
+| Observation | Code what was actually observed | Structured analytical record |
+| Citations | Record source visibility | Source/domain and citation position |
+| Metrics | Quantify outcomes | AIR, CR, MCP, RCR |
+| Reproducibility | Prove integrity and repeatability | SHA-256, storage, recovery, lifecycle controls |
+| Dissemination | Publish only safe outputs | Public dashboard / research pages |
+
+## Five-minute academic explanation
+
+The public Research Infrastructure demonstrator and the doctoral-demo runbook explain GSLHub through the same sequence:
+
+```text
+Problem
+→ Hypothesis
+→ Experiment
+→ Execution
+→ Evidence
+→ Metrics
+→ Reproducibility
+```
+
+Public demonstrator:
+
+- English: `https://gslhub.com/research-infrastructure`
+- Español: `https://gslhub.com/es/research-infrastructure`
+
+Presentation runbook:
+
+- **[docs/DOCTORAL-DEMO.md](./docs/DOCTORAL-DEMO.md)**
+
+The public layer never needs to expose the full internal CMS schema or restricted research artifacts.
+
+## Development regression — completed
+
+The final internal regression generated and verified a complete disposable research pipeline:
 
 ```text
 Full research pipeline TEST   PASS
@@ -64,7 +128,7 @@ Full research pipeline TEST   PASS
 ├── 5 Research Artifacts
 ├── 5 Evidence records
 ├── 3 Citations
-└── 4 synthetic metric records
+└── 4 synthetic Metric records
 
 Deterministic calculators
 ├── AIR = 3/4 = 0.75   PASS
@@ -75,7 +139,7 @@ Deterministic calculators
 TEST cleanup                PASS
 ```
 
-After cleanup, no disposable TEST batches or TEST metric records remain.
+All disposable TEST batches and their generated records were removed successfully after validation.
 
 ## Governed development pilot
 
@@ -90,7 +154,7 @@ GSL-EXEC-GEO-0001                  Completed / Published
 └── GSL-OBS-GEO-0001               Validated / Published observation
 ```
 
-Reserved executions remain untouched:
+Reserved development executions remain untouched:
 
 ```text
 GSL-EXEC-GEO-0002   Planned
@@ -99,7 +163,7 @@ GSL-EXEC-GEO-0004   Planned
 GSL-EXEC-GEO-0005   Planned
 ```
 
-These records are **development validation**, not doctoral findings.
+These are **development-validation records**, not doctoral findings.
 
 ## Core scientific metrics
 
@@ -110,9 +174,9 @@ These records are **development validation**, not doctoral findings.
 | MCP | Mean Citation Position | 0.1.0 | position |
 | RCR | Response Consistency Rate | 0.1.0 | proportion |
 
-The calculators enforce eligibility and provenance rules. Target-specific metrics are not created when the required target or evidence does not exist.
+Metric calculators enforce eligibility and provenance rules. Target-specific metrics are not created when the required target or evidence does not exist.
 
-## Reproducibility controls
+## Reproducibility and governance
 
 GSLHub currently supports:
 
@@ -121,45 +185,32 @@ GSLHub currently supports:
 - immutable scientific snapshots after governed lifecycle transitions;
 - direct Evidence ↔ Research Artifact provenance;
 - persistent research-artifact storage outside deployment releases;
-- SHA-256 verification;
+- SHA-256 integrity verification;
 - quality-control and independent-review workflows;
 - Development / Doctoral Research separation;
 - controlled Final Development Reset;
-- permanent storage-verification audits.
-
-## Research Infrastructure demonstrator
-
-A five-minute public explanation of the system is available in both languages:
-
-- English: `https://gslhub.com/research-infrastructure`
-- Español: `https://gslhub.com/es/research-infrastructure`
-
-The demonstrator explains:
-
-```text
-Scientific problem
-→ Hypothesis
-→ Experiment
-→ Execution
-→ Evidence
-→ Metrics
-→ Reproducibility
-```
-
-It is designed for academic presentation without exposing private research records or restricted artifacts.
+- permanent storage-verification audits;
+- documented restart, redeploy and recovery checks.
 
 ## Research CMS
 
-Authorized researchers use the private Payload CMS for governed operations. The custom Research Operations dashboard provides direct access to:
+Authorized researchers use the private Payload CMS for governed operations. The Research Operations dashboard provides a presentation-friendly entry point while keeping full operational depth available through the underlying collections.
+
+Primary operational areas:
 
 - Research Environment;
+- Experiments and Prompts;
+- AI Systems;
 - Prompt Executions;
+- Observations;
+- Research Artifacts;
 - Evidence;
+- Citations;
+- Metric Definitions;
 - Metrics;
-- the public Research Infrastructure demonstrator;
-- the public scientific dashboard.
+- Storage Verifications.
 
-The dashboard follows the selected Payload locale in English or Spanish.
+The dashboard follows the selected Payload locale and the active Payload light/dark theme.
 
 ## Persistent research artifacts
 
@@ -178,6 +229,23 @@ Redeploy → same SHA-256 / HTTP 200
 Recovery drill → restored file / same SHA-256
 ```
 
+## Production deployment note
+
+GSLHub uses Next.js deployment versioning to reduce stale asset/version skew. Hostinger may additionally cache document responses outside the Node.js process.
+
+Operational rule after frontend/CSS changes:
+
+```text
+Deploy main
+→ build/restart succeeds
+→ purge Hostinger server cache
+→ purge Hostinger CDN cache when enabled
+→ desktop smoke test
+→ mobile smoke test
+```
+
+This procedure prevents stale cached HTML from referencing assets from a previous deployment.
+
 ## Current research boundary
 
 ```text
@@ -187,24 +255,25 @@ Doctoral Research Mode     Not activated
 Real doctoral data         0
 ```
 
-GSLHub must remain in Development Mode until the doctoral protocol is frozen and the Final Development Reset has produced a clean baseline.
+GSLHub remains in Development Mode until the doctoral protocol is frozen and the Final Development Reset produces a clean baseline.
 
 ## Next phase
 
-The product-development focus now moves from functional validation to doctoral preparation:
+The immediate focus is academic preparation rather than additional product features:
 
 1. prepare the doctoral proposal and research dossier;
-2. use the bilingual Research Infrastructure view as the academic demonstrator;
-3. freeze the scientific protocol, target dictionary, prompts, AI-system profiles and codebooks;
-4. preview and execute Final Development Reset when the protocol is ready;
-5. verify a clean baseline;
-6. activate Doctoral Research Mode;
-7. begin real doctoral data collection.
+2. prepare the research-oriented CV;
+3. use GSLHub as the working demonstrator for thesis-supervisor discussions;
+4. freeze research questions, hypotheses, target dictionary, prompts, AI-system profiles and codebooks;
+5. preview and execute Final Development Reset;
+6. verify a clean baseline;
+7. activate Doctoral Research Mode;
+8. begin real doctoral data collection.
 
 ## Validated production stack
 
 ```text
-GSLHub platform    0.6.0
+GSLHub platform    0.6.2
 Payload CMS        3.75.0
 Next.js            16.2.10
 React              19.2.7
@@ -236,7 +305,14 @@ npm run build
 
 ## Documentation
 
+### Project and presentation
+
+- [Project matrix and research architecture](./docs/PROJECT-MATRIX.md)
+- [Five-minute doctoral / supervisor demonstration](./docs/DOCTORAL-DEMO.md)
 - [Current operational project status — Spanish](./docs/ESTADO_PROYECTO_ES.md)
+
+### Scientific operations
+
 - [Spanish user manual](./docs/MANUAL_USUARIO_ES.md)
 - [First pilot protocol — Spanish](./docs/PROTOCOLO_PRIMER_PILOTO_ES.md)
 - [Observation and citation codebook — Spanish](./docs/CODEBOOK_OBSERVACIONES_CITAS_ES.md)
@@ -253,4 +329,4 @@ npm run build
 ---
 
 <p align="center"><strong>Research · GEO · Evidence · Metrics · Reproducibility · Open Science</strong></p>
-<p align="center">Last updated: 15 August 2026</p>
+<p align="center">Last updated: 16 August 2026</p>
