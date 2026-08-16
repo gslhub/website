@@ -2,6 +2,14 @@
 
 All notable GSLHub platform changes are recorded here. Scientific result records and formal dataset releases retain their own governed version history in Payload.
 
+## 0.6.2 — 2026-08-16
+
+### Fixed
+
+- Research Operations dashboard now uses Payload-native `--theme-*` color tokens instead of static `--color-*` values.
+- Hero, workflow steps, shortcut cards, borders and secondary text now adapt automatically to Payload light and dark modes with readable contrast.
+- No scientific schemas, lifecycle hooks, metric calculators or research records were changed.
+
 ## 0.6.1 — 2026-08-15
 
 ### Fixed
