@@ -140,16 +140,37 @@ export default async function BenchmarksPage() {
               })}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-7 sm:p-10 md:p-14">
-              <p className="eyebrow">Benchmarks in preparation</p>
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:p-10 md:p-14">
+              <p className="eyebrow">Public benchmark specification</p>
               <h2 className="mt-5 max-w-3xl text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-                The first GSLHub generative search benchmark is currently being prepared.
+                GSL-BENCH-GEO-01 is publicly specified and versioned on GitHub.
               </h2>
               <p className="mt-5 max-w-2xl leading-7 text-[var(--muted)]">
-                Public benchmark records will appear here after their protocol, metrics, systems, datasets and release metadata have been reviewed.
+                The public specification defines AIR, CR, MCP and RCR, includes a machine-readable benchmark definition and provides synthetic validation fixtures. Scientific results remain separate until controlled research releases are reviewed and approved.
               </p>
             </div>
           )}
+
+          <div className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6 sm:p-8">
+            <p className="eyebrow">Open specification</p>
+            <h2 className="mt-4 text-xl font-semibold tracking-tight sm:text-2xl">
+              Specification, methodology and software are maintained independently.
+            </h2>
+            <p className="mt-4 max-w-3xl leading-7 text-[var(--muted)]">
+              Benchmark definitions are maintained in the public benchmarks repository, methodological protocols and coding rules in the research repository, and the reusable deterministic metric implementation in @gslhub/metrics-core.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a className="button button-secondary" href="https://github.com/gslhub/benchmarks" target="_blank" rel="noreferrer">
+                Benchmark repository ↗
+              </a>
+              <a className="button button-secondary" href="https://github.com/gslhub/software/tree/main/packages/metrics-core" target="_blank" rel="noreferrer">
+                Metrics software ↗
+              </a>
+              <a className="button button-secondary" href="https://github.com/gslhub/research" target="_blank" rel="noreferrer">
+                Research methodology ↗
+              </a>
+            </div>
+          </div>
         </section>
       </main>
       <SiteFooter />
