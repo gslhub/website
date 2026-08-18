@@ -24,6 +24,7 @@
   <img alt="Payload CMS" src="https://img.shields.io/badge/Payload%20CMS-3.75.0-0B132B" />
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16.2.10-0B132B" />
   <img alt="Almacenamiento" src="https://img.shields.io/badge/artefactos-local%20persistente-16A34A" />
+  <img alt="Licencia" src="https://img.shields.io/badge/licencia-AGPL--3.0-0B132B" />
 </p>
 
 ---
@@ -320,6 +321,14 @@ npm run build
 - [Historial en español](./CHANGELOG.es.md)
 - [Changelog en inglés](./CHANGELOG.md)
 
+## Licencia y copyright
+
+El software de GSLHub contenido en este repositorio se distribuye bajo la **GNU Affero General Public License v3.0 (AGPL-3.0-only)**. Consulta [`LICENSE`](./LICENSE) para el texto completo de la licencia y [`NOTICE.md`](./NOTICE.md) para la información de copyright, componentes de terceros y marca.
+
+La licencia de software no concede derechos de marca sobre el nombre GSLHub ni sobre sus identificadores de marca asociados. Los resultados de investigación o materiales de terceros pueden tener condiciones independientes cuando se indiquen expresamente.
+
+Copyright © 2026 Eduardo Yauri.
+
 ## Contacto
 
 - Web: [gslhub.com](https://gslhub.com)
@@ -329,4 +338,4 @@ npm run build
 ---
 
 <p align="center"><strong>Investigación · GEO · Evidencia · Métricas · Reproducibilidad · Ciencia abierta</strong></p>
-<p align="center">Última actualización: 16 de agosto de 2026</p>
+<p align="center">Última actualización: 18 de agosto de 2026</p>
